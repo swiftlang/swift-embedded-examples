@@ -1,0 +1,26 @@
+name: STM32 Macho
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: [self-hosted, macos]
+
+    strategy:
+      fail-fast: false
+      matrix:
+        example: [stm32-blink, stm32-lcd-logo, stm32-neopixel, stm32-uart-echo]
+
+    steps:
+      - name: Install Swift
+        uses: ./.github/actions/install-swift
+
+      - name: Build ${{ matrix.example }}
+        working-directory: ${{ matrix.example }}
+        run: make
