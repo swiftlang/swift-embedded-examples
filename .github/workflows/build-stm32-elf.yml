@@ -1,4 +1,4 @@
-name: Raspberry Pi Baremetal
+name: STM32 ELF
 
 on:
   push:
@@ -15,18 +15,30 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        example: [rpi-4b-blink, rpi-5-blink]
+        example: [stm32-lvgl]
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Install apt dependencies
-        run: sudo apt-get -qq update && sudo apt-get -qq -y install make llvm
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
 
       - name: Install Swift
         uses: ./.github/actions/install-swift
 
       - name: Build ${{ matrix.example }}
         working-directory: ${{ matrix.example }}
-        run: make
+        run: |
+          if [[ -f ./fetch-dependencies.sh ]]; then
+            ./fetch-dependencies.sh
+          fi
+
+          if [[ -f Makefile ]]; then
+            make
+          fi
