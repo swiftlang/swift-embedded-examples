@@ -22,8 +22,7 @@ TARGET           := $(ARCH)-none-none-elf
 SWIFT_BUILD_ARGS := \
 	--configuration release \
 	--triple $(TARGET) \
-	--toolset $(TOOLSET) \
-	--disable-local-rpath
+	--toolset $(TOOLSET)
 BUILDROOT        := $(shell $(SWIFT_BUILD) $(SWIFT_BUILD_ARGS) --show-bin-path)
 
 .PHONY: build

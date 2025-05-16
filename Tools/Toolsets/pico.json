@@ -18,8 +18,7 @@
       "-segaddr", "__RESET", "0x20000000",
       "-segaddr", "__VECTORS", "0x20000100",
       "-seg1addr", "0x20000200",
-      "-pagezero_size", "0",
-      "-allow_dead_duplicates"
+      "-pagezero_size", "0"
     ]
   }
 }
