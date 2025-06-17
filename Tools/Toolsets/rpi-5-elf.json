@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1.0",
+  "swiftCompiler": {
+    "extraCLIOptions": [
+      "-Xfrontend", "-disable-stack-protector",
+      "-Xfrontend", "-function-sections",
+      "-enable-experimental-feature", "Embedded",
+      "-Xfrontend", "-mergeable-symbols",
+      "-Xclang-linker", "-fuse-ld=lld",
+      "-Xclang-linker", "-nostdlib"
+    ]
+  },
+  "linker": {
+    "extraCLIOptions": [
+      "-T", "Sources/Support/linkerscript.ld",
+      "--unresolved-symbols=ignore-in-object-files"
+    ]
+  }
+}

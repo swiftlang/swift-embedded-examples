@@ -14,7 +14,6 @@ $ screen /dev/cu.usbmodem<...> 115200
 - Build and upload the program to flash memory of the STM:
 ```console
 $ cd stm32-uart-echo
-$ export TOOLCHAINS='<toolchain-identifier>'
 $ make
 $ st-flash --reset write .build/release/Application.bin 0x08000000
 ```

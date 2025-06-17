@@ -1,0 +1,10 @@
+[flake8]
+
+ignore =
+    # These are needed to make our license headers pass the linting
+    E265,
+    E266,
+
+# 10% larger than the standard 80 character limit. Conforms to the black
+# standard and Bugbear's B950.
+max-line-length = 88

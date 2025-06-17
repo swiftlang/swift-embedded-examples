@@ -10,7 +10,7 @@
 //===----------------------------------------------------------------------===//
 
 struct HSV8Pixel {
-    var hue: UInt8
-    var saturation: UInt8
-    var value: UInt8
+  var hue: UInt8
+  var saturation: UInt8
+  var value: UInt8
 }

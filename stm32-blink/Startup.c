@@ -22,9 +22,16 @@ void interrupt(void) {
     while (1) {}
 }
 
-__attribute((used)) __attribute((section("__VECTORS,__text")))
+__attribute((used))
+#if defined(__ELF__)
+__attribute((section(".vectors")))
+#elif defined(__MACH__)
+__attribute((section("__VECTORS,__text")))
+#else
+#error Unknown file format
+#endif
 void *vector_table[114] = {
-    (void *)0x2000fffc, // initial SP
+    (void *)0x20001ffc, // initial SP, assume we have 8 KB of SRAM
     reset, // Reset
 
     interrupt, // NMI

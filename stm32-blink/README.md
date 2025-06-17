@@ -2,20 +2,37 @@
 
 This example shows a simple baremetal firmware for an STM32 board that blinks an LED repeatedly. The example does not use any vendor SDKs or external toolchains, the entire firmware is only built from code in this example directory.
 
-<img src="https://github.com/apple/swift-embedded-examples/assets/1186214/739e98fd-a438-4a64-a7aa-9dddee25034b">
+<img src="https://github.com/swiftlang/swift-embedded-examples/assets/1186214/739e98fd-a438-4a64-a7aa-9dddee25034b">
 
-## How to build and run this example:
+## Requirements
 
 - Connect the STM32F746G-DISCO board via the ST-LINK USB port to your Mac.
-- Make sure you have a recent nightly Swift toolchain that has Embedded Swift support.
+- Download and install a [recent nightly Swift toolchain](https://swift.org/download). Use the "Development Snapshot" from "main".
 - Install the [`stlink`](https://github.com/stlink-org/stlink) command line tools, e.g. via `brew install stlink`.
+
+## Building and running the firmware as Mach-O on macOS
+
 - Build and upload the program to flash memory of the microcontroller:
 ```console
 $ cd stm32-blink
-$ TOOLCHAINS='<toolchain-identifier>' ./build.sh
+$ export STM_BOARD=STM32F746G_DISCOVERY   # or NUCLEO_F103RB
+$ ./build-macho.sh
 $ st-flash --reset write .build/blink.bin 0x08000000
 ```
 - The green LED next to the RESET button should now be blinking in a pattern.
+
+## Building and running the firmware as ELF (on either macOS or Linux)
+
+- Build and upload the program to flash memory of the microcontroller:
+```console
+$ cd stm32-blink
+$ export STM_BOARD=STM32F746G_DISCOVERY   # or NUCLEO_F103RB
+$ ./build-elf.sh
+$ st-flash --format ihex --reset write .build/blink.hex
+```
+- The green LED next to the RESET button should now be blinking in a pattern.
+
+## Binary size
 
 The resulting size of the compiled and linked binary is very small (which shouldn't be surprising given that this toy example only blinks an LED), and demonstrates how the Embedded Swift compilation mode doesn't include unnecessary code or data in the resulting program:
 

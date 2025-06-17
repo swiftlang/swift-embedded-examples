@@ -10,7 +10,7 @@
 //===----------------------------------------------------------------------===//
 
 enum SPINeoPixelBit: UInt8 {
-    case reset = 0b0000_0000
-    case zero = 0b1100_0000
-    case one = 0b1111_1000
+  case reset = 0b0000_0000
+  case zero = 0b1100_0000
+  case one = 0b1111_1000
 }

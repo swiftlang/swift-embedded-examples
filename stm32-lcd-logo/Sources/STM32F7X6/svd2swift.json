@@ -1,0 +1,19 @@
+{
+  "peripherals": [
+    "FLASH",
+    "GPIOA",
+    "GPIOB",
+    "GPIOC",
+    "GPIOD",
+    "GPIOE",
+    "GPIOF",
+    "GPIOG",
+    "GPIOH",
+    "GPIOI",
+    "GPIOJ",
+    "GPIOK",
+    "LTDC",
+    "RCC"
+  ],
+  "access-level": "public"
+}

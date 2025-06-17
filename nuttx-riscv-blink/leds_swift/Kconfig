@@ -1,0 +1,30 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+config EXAMPLES_LEDS_SWIFT
+	tristate "\"LEDs Swift\" example"
+	default y
+	depends on USERLED
+	---help---
+		Enable the \"LEDs Swift\" example
+
+if EXAMPLES_LEDS_SWIFT
+
+config EXAMPLES_LEDS_SWIFT_PROGNAME
+	string "Program name"
+	default "leds_swift"
+	---help---
+		This is the name of the program that will be used when the NSH ELF
+		program is installed.
+
+config EXAMPLES_LEDS_SWIFT_PRIORITY
+	int "LEDs Swift task priority"
+	default 100
+
+config EXAMPLES_LEDS_SWIFT_STACKSIZE
+	int "LEDs Swift stack size"
+	default DEFAULT_TASK_STACKSIZE
+
+endif

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0",
+  "swiftCompiler": {
+    "extraCLIOptions": [
+      "-Xfrontend", "-disable-stack-protector",
+      "-enable-experimental-feature", "Embedded"
+    ]
+  },
+  "linker": {
+    "extraCLIOptions": [
+      "-arch", "armv7em",
+      "-dead_strip",
+      "-static",
+      "-e", "_reset",
+      "-no_zero_fill_sections",
+      "-segalign", "4",
+      "-segaddr", "__VECTORS", "0x00200000",
+      "-seg1addr", "0x00200200",
+      "-pagezero_size", "0",
+      "-allow_dead_duplicates"
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 # stm32-neopixel
 
-<img src="https://github.com/apple/swift-embedded-examples/assets/1186214/9c5d8f74-f8aa-4632-831e-212a3e35e75a">
+<img src="https://github.com/swiftlang/swift-embedded-examples/assets/1186214/9c5d8f74-f8aa-4632-831e-212a3e35e75a">
 
 This demo is designed to run on an STM32 microcontroller and some additional hardware, detailed below:
 
@@ -24,7 +24,6 @@ We recommend including a capacitor across the LED strip power supply.
 - Build and upload the program to flash memory of the STM:
 ```console
 $ cd stm32-neopixel
-$ export TOOLCHAINS='<toolchain-identifier>'
 $ make
 $ st-flash --reset write .build/release/Application.bin 0x08000000
 ```

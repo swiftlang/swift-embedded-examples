@@ -2,49 +2,37 @@
 ##
 ## This source file is part of the Swift open source project
 ##
-## Copyright (c) 2023 Apple Inc. and the Swift project authors.
+## Copyright (c) 2025 Apple Inc. and the Swift project authors.
 ## Licensed under Apache License v2.0 with Runtime Library Exception
 ##
 ## See https://swift.org/LICENSE.txt for license information
 ##
 ##===----------------------------------------------------------------------===##
 
-# Determine file paths
-REPOROOT := $(shell git rev-parse --show-toplevel)
-TOOLSROOT := $(REPOROOT)/Tools
-SRCROOT := $(REPOROOT)/stm32-neopixel
-BUILDROOT := $(SRCROOT)/.build/release
+# Paths
+REPOROOT         := $(shell git rev-parse --show-toplevel)
+TOOLSROOT        := $(REPOROOT)/Tools
+TOOLSET          := $(TOOLSROOT)/Toolsets/stm32f74x.json
+MACHO2BIN        := $(TOOLSROOT)/macho2bin.py
+SWIFT_BUILD      := swift build
 
-# Setup tools and build flags
-ARCH := armv7em
-TARGET := $(ARCH)-apple-none-macho
-VECTORS_ADDRESS=-0x00200000
-
-SWIFT_BUILD := $(shell xcrun -f swift-build)
-MACHO2BIN := $(SRCROOT)/../Tools/macho2bin.py
+# Flags
+ARCH             := armv7em
+TARGET           := $(ARCH)-apple-none-macho
+SWIFT_BUILD_ARGS := \
+	--configuration release \
+	--triple $(TARGET) \
+	--toolset $(TOOLSET) \
+	--disable-local-rpath
+BUILDROOT        := $(shell $(SWIFT_BUILD) $(SWIFT_BUILD_ARGS) --show-bin-path)
 
 .PHONY: build
 build:
-	@echo "compiling..."
+	@echo "building..."
 	$(SWIFT_BUILD) \
-		--configuration release \
-		--verbose \
-		--triple $(TARGET) \
-		-Xcc -D__APPLE__ -Xcc -D__MACH__ \
-		-Xswiftc -Xfrontend -Xswiftc -disable-stack-protector
-
-	@echo "linking..."
-	clang .build/release/libApplication.a -o .build/release/Application \
-		-arch $(ARCH) \
-		-dead_strip \
-		-static \
-		-Wl,-e,_reset \
-		-Wl,-map,$(BUILDROOT)/Application.mangled.map \
-		-Wl,-no_zero_fill_sections \
-		-Wl,-segalign,4 \
-		-Wl,-segaddr,__VECTORS,0x20010000 \
-		-Wl,-seg1addr,0x20010200 \
-		-Wl,-pagezero_size,0
+		$(SWIFT_BUILD_ARGS) \
+		-Xlinker -map -Xlinker $(BUILDROOT)/Application.mangled.map \
+		--verbose
 
 	@echo "demangling linker map..."
 	cat $(BUILDROOT)/Application.mangled.map \
@@ -58,7 +46,10 @@ build:
 
 	@echo "extracting binary..."
 	$(MACHO2BIN) \
-		$(BUILDROOT)/Application $(BUILDROOT)/Application.bin --base-address 0x20010000 --segments '__TEXT,__DATA,__VECTORS'
+		$(BUILDROOT)/Application \
+		$(BUILDROOT)/Application.bin \
+		--base-address 0x20010000 \
+		--segments '__TEXT,__DATA,__VECTORS'
 
 .PHONY: clean
 clean:

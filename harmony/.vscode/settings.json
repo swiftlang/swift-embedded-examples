@@ -1,0 +1,16 @@
+{
+    "swift.path": "/Users/rauhul/Library/Developer/Toolchains/swift-DEVELOPMENT-SNAPSHOT-2025-01-05-a.xctoolchain/usr/bin",
+    "swift.swiftEnvironmentVariables": {
+        "DEVELOPER_DIR": "/Applications/Xcode.app/"
+    },
+    "cmake.environment": {
+        "TOOLCHAINS": "org.swift.62202501051a",
+        "PICO_BOARD": "pico_w",
+        "PICO_PLATFORM": "rp2040",
+        "PICO_SDK_PATH": "/Volumes/Developer/org.swift/swift-embedded-examples/harmony/pico-sdk",
+        "PICO_TOOLCHAIN_PATH": "/Volumes/Developer/org.swift/swift-embedded-examples/harmony/arm-gnu-toolchain-14.2.rel1-darwin-arm64-arm-none-eabi",
+        "PICO_EXTRAS_PATH": "/Volumes/Developer/org.swift/swift-embedded-examples/harmony/pico-extras",
+    },
+    "cmake.generator": "Ninja",
+    "swift.disableAutoResolve": true
+}

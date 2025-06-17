@@ -1,6 +1,6 @@
 # stm32-lcd-logo
 
-<img src="https://github.com/apple/swift-embedded-examples/assets/1186214/9e117d81-e808-493e-a20c-7284ea630f37">
+<img src="https://github.com/swiftlang/swift-embedded-examples/assets/1186214/9e117d81-e808-493e-a20c-7284ea630f37">
 
 ## How to build and run this example:
 
@@ -10,7 +10,7 @@
 - Build and upload the program to flash memory of the STM:
 ```console
 $ cd stm32-lcd-logo
-$ TOOLCHAINS='<toolchain-identifier>' ./build.sh
+$ make
 $ st-flash --reset write .build/lcd-logo.bin 0x08000000
 ```
 - The LCD display on the board should now be showing a bouncing animating Swift logo on a fading background, and the user LED on should be blinking.

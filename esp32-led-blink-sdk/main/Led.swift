@@ -23,7 +23,7 @@ struct Led {
       fatalError("cannot reset led")
     }
   }
-  func setLed(value:Bool) {
+  func setLed(value: Bool) {
     let level: UInt32 = value ? 1 : 0
     gpio_set_level(ledPin, level)
   }

@@ -1,0 +1,77 @@
+name: Raspberry Pi Pico SDK
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-24.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        example:
+          - name: rpi-pico-blink-sdk
+            board: pico
+          - name: rpi-picow-blink-sdk
+            board: pico_w
+          - name: harmony
+            board: pico_w
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install apt dependencies
+        run: sudo apt-get -qq update && sudo apt-get -qq -y install curl ninja-build python3
+
+      - name: Install CMake 3.30.2
+        run: |
+          ARCH=`uname -m`
+          curl -sL https://github.com/Kitware/CMake/releases/download/v3.30.2/cmake-3.30.2-linux-$ARCH.tar.gz -O
+          tar xzf cmake-3.30.2-linux-$ARCH.tar.gz
+          export PATH="`pwd`/cmake-3.30.2-linux-$ARCH/bin:$PATH"
+          echo "PATH=$PATH" >> $GITHUB_ENV
+          cmake --version
+
+      - name: Install GNU ARM toolchain
+        run: |
+          ARCH=`uname -m`
+          curl -sL https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-$ARCH-arm-none-eabi.tar.xz -O
+          tar xf arm-gnu-toolchain-14.2.rel1-$ARCH-arm-none-eabi.tar.xz
+
+      - name: Install Swift
+        uses: ./.github/actions/install-swift
+
+      - name: Clone Pico SDK
+        run: |
+          git clone https://github.com/raspberrypi/pico-sdk.git
+          cd pico-sdk
+          git submodule update --init --recursive
+          cd ..
+
+      - name: Clone Pico Extras
+        run: |
+          git clone https://github.com/raspberrypi/pico-extras.git
+          cd pico-extras
+          git submodule update --init --recursive
+          cd ..
+
+      - name: Set Pico environment variables
+        run: |
+          ARCH=`uname -m`
+          echo "PICO_BOARD=${{ matrix.example.board }}" >> $GITHUB_ENV
+          echo "PICO_SDK_PATH=`pwd`/pico-sdk" >> $GITHUB_ENV
+          echo "PICO_EXTRAS_PATH=`pwd`/pico-extras" >> $GITHUB_ENV
+          echo "PICO_TOOLCHAIN_PATH=`pwd`/arm-gnu-toolchain-14.2.rel1-$ARCH-arm-none-eabi" >> $GITHUB_ENV
+
+      - name: Build ${{ matrix.example.name }}
+        working-directory: ${{ matrix.example.name }}
+        run: |
+          cmake -B build -G Ninja .
+          cmake --build build
