@@ -1,0 +1,38 @@
+name: ESP
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-24.04
+    container: espressif/idf:latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        example: [esp32-led-blink-sdk, esp32-led-strip-sdk]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install apt dependencies
+        run: apt-get -qq update && apt-get -qq -y install pkg-config
+
+      - name: Install Swift
+        uses: ./.github/actions/install-swift
+
+      - name: Build ${{ matrix.example }}
+        run: |
+          cd $IDF_PATH
+          . ./export.sh
+          cd -
+          cd ${{ matrix.example }}
+          idf.py set-target esp32c6
+          idf.py build

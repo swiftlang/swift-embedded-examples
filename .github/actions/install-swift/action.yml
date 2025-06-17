@@ -1,0 +1,72 @@
+name: Install Swift
+description: Installs the Swift specified by a .swift-version file
+
+runs:
+  using: "composite"
+  steps:
+    # - name: "Cache: Swift"
+    #   id: cache-swift
+    #   uses: actions/cache@v4
+    #   with:
+    #     path: "$HOME/.local/share/swiftly"
+    #     key: swift-${{ hashFiles('.swift-version') }}
+
+    - name: Setup Environment
+      shell: bash
+      run: |
+        export SWIFTLY_HOME_DIR="$HOME/.local/share/swiftly"
+        echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> $GITHUB_ENV
+        echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> $HOME/.bashrc
+
+        export SWIFTLY_BIN_DIR="$HOME/.local/share/swiftly/bin"
+        echo "SWIFTLY_BIN_DIR=$SWIFTLY_BIN_DIR" >> $GITHUB_ENV
+        echo "SWIFTLY_BIN_DIR=$SWIFTLY_BIN_DIR" >> $HOME/.bashrc
+
+        echo "PATH=$SWIFTLY_BIN_DIR:$PATH" >> $GITHUB_ENV
+        echo "PATH=\$SWIFTLY_BIN_DIR:\$PATH" >> $HOME/.bashrc
+
+    - name: "Restore: Swift"
+      uses: actions/cache/restore@v4
+      id: cache-swift
+      with:
+        path: "~/.local/share/swiftly"
+        key: swift-${{ hashFiles('**/.swift-version') }}
+
+    - name: Install `apt` Dependencies
+      if: steps.cache-swift.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        SUDO=$(if [[ $EUID -ne 0 ]]; then echo sudo; fi)
+        $SUDO apt-get -qq update
+        $SUDO apt-get -qq -y install curl gpg
+      env:
+        DEBIAN_FRONTEND: noninteractive
+
+    - name: Install Swiftly
+      if: steps.cache-swift.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        UNAME=$(uname -m)
+        curl -O "https://download.swift.org/swiftly/linux/swiftly-$UNAME.tar.gz"
+        tar zxf "swiftly-$UNAME.tar.gz"
+        ./swiftly init \
+          --skip-install \
+          --assume-yes \
+          --quiet-shell-followup \
+          --no-modify-profile
+
+    - name: Install Swift
+      if: steps.cache-swift.outputs.cache-hit != 'true'
+      shell: bash
+      run: swiftly install --post-install-file ./out.sh
+
+    - name: "Save: Swift"
+      if: steps.cache-swift.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: "~/.local/share/swiftly"
+        key: swift-${{ hashFiles('**/.swift-version') }}
+
+    - name: Print Swift Version
+      shell: bash
+      run: swift --version

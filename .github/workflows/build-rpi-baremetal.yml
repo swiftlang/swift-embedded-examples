@@ -1,0 +1,32 @@
+name: Raspberry Pi Baremetal
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-24.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        example: [rpi-4b-blink, rpi-5-blink]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install apt dependencies
+        run: sudo apt-get -qq update && sudo apt-get -qq -y install make llvm
+
+      - name: Install Swift
+        uses: ./.github/actions/install-swift
+
+      - name: Build ${{ matrix.example }}
+        working-directory: ${{ matrix.example }}
+        run: make

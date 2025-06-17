@@ -1,0 +1,14 @@
+{
+  "peripherals": [
+    "DMA1",
+    "DMA2",
+    "GPIOA",
+    "GPIOB",
+    "GPIOI",
+    "RCC",
+    "SPI1",
+    "SPI2",
+    "USART1"
+  ],
+  "access-level": "public"
+}

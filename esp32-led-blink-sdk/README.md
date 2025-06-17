@@ -17,10 +17,9 @@ This example demonstrates how to integrate with the ESP-IDF SDK via CMake and ho
 
 - Make sure you have a recent nightly Swift toolchain that has Embedded Swift support.
 - If needed, run export.sh to get access to the idf.py script from ESP-IDF.
-- Specify the nightly toolchain to be used via the `TOOLCHAINS` environment variable and the target board type by using `idf.py set-target`.
+- Specify the target board type by using `idf.py set-target`.
 ``` console
 $ cd esp32-led-blink-sdk
-$ export TOOLCHAINS=...
 $ . <path-to-esp-idf>/export.sh
 $ idf.py set-target esp32c6
 $ idf.py build

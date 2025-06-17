@@ -1,8 +1,0 @@
-{
-  "swiftPM": {
-    "configuration": "release",
-    "triple": "armv7em-apple-none-macho",
-    "swiftCompilerFlags": ["-Xfrontend", "-disable-stack-protector"],
-    "cCompilerFlags": ["-D__APPLE__", "-D__MACH__"]
-  }
-}

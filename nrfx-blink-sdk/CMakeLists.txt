@@ -28,12 +28,23 @@ add_compile_options(
     # Disable PIC
     "$<$<COMPILE_LANGUAGE:Swift>:SHELL:-Xcc -fno-pic>"
 
-    # Assortment of defines for Zephyr
-    "$<$<COMPILE_LANGUAGE:Swift>:SHELL:-Xcc -DKERNEL -Xcc -DNRF52840_XXAA -Xcc -DPICOLIBC_INTEGER_PRINTF_SCANF -Xcc -D_FORTIFY_SOURCE=1 -Xcc -D_POSIX_C_SOURCE=200809 -Xcc -D__LINUX_ERRNO_EXTENSIONS__ -Xcc -D__PROGRAM_START -Xcc -D__ZEPHYR__=1>"
-
     # Add Libc include paths
     "$<$<COMPILE_LANGUAGE:Swift>:SHELL:-Xcc -I -Xcc ${ZEPHYR_SDK_INSTALL_DIR}/arm-zephyr-eabi/picolibc/include>"
 )
+
+# Add definitions from Zephyr to -Xcc flags
+get_target_property(ZEPHYR_DEFINES zephyr_interface INTERFACE_COMPILE_DEFINITIONS)
+if(ZEPHYR_DEFINES)
+    foreach(flag ${ZEPHYR_DEFINES})
+        # Ignore expressions like "$<SOMETHING>"
+        string(FIND "${flag}" "$<" start_of_expression)
+        if(NOT start_of_expression EQUAL -1)
+            continue()
+        endif()
+
+        add_compile_options("$<$<COMPILE_LANGUAGE:Swift>:SHELL:-Xcc -D${flag}>")
+    endforeach()
+endif()
 
 target_sources(app PRIVATE Stubs.c)
 

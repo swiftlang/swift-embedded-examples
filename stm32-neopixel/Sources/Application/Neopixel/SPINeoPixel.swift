@@ -9,6 +9,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+import STM32F7X6
+
 class PixelBuffer {
   let buffer: UnsafeMutableBufferPointer<SPINeoPixelGRB64Pixel>
 
@@ -64,101 +66,112 @@ extension SPINeoPixel {
 
   @inline(never)
   mutating func draw() {
+    // swift-format-ignore: NeverForceUnwrap
     let memory = UInt32(UInt(bitPattern: self.pixels.buffer.baseAddress!))
     let peripheral = UInt32(spi.dr.unsafeAddress)
-    let count = UInt32(self.pixels.buffer.count * MemoryLayout<SPINeoPixelGRB64Pixel>.size)
+    let count = UInt32(
+      self.pixels.buffer.count * MemoryLayout<SPINeoPixelGRB64Pixel>.size)
 
-    self.dma.s4cr.modify { rw in
-      rw.raw.chsel = 0     // Set the DMA channel to 0 (spi tx).
-      rw.raw.pfctrl = 0    // Set the DMA as the flow controller.
-      rw.raw.pl = 0b11     // Set the stream priority to Very High.
-      rw.raw.dir = 0b01    // Set memory to peripheral transfer direction.
-      rw.raw.pinc = 0      // Set peripheral to fixed (no-increment) mode.
-      rw.raw.minc = 1      // Set memory to incremented mode.
-      rw.raw.pburst = 0b00 // Set peripheral to single transaction mode.
-      rw.raw.mburst = 0b00 // Set memory to single transaction mode.
-      rw.raw.psize = 0b00  // Set peripheral data width to 8 bit.
+    let index = 4
+    self.dma.st[index].cr.modify { rw in
+      rw.raw.chsel = 0  // Set the DMA channel to 0 (spi tx).
+      rw.raw.mburst = 0b00  // Set memory to single transaction mode.
+      rw.pburst = .Single  // Set peripheral to single transaction mode.
+      // ct
+      rw.dbm = .Disabled  // Disable double buffer mode.
+      rw.pl = .VeryHigh  // Set the stream priority to very high.
+      // pincos
       rw.raw.msize = 0b00  // Set memory data width to 8 bit.
-      rw.raw.circ = 0      // Disable circular mode.
-      rw.raw.dbm = 0       // Disable double buffer mode.
-      rw.raw.tcie = 1      // Enable transfer complete interrupt.
-      rw.raw.htie = 1      // Enable half transfer interrupt.
-      rw.raw.teie = 1      // Enable transfer error interrupt.
-      rw.raw.dmeie = 1     // Enable direct mode error interrupt.
+      rw.psize = .Bits8  // Set peripheral data width to 8 bit.
+      rw.raw.minc = 1  // Set memory to incremented mode.
+      rw.pinc = .Fixed  // Set peripheral to fixed (no-increment) mode.
+      rw.circ = .Disabled  // Disable circular mode.
+      rw.dir = .MemoryToPeripheral  // Set transfer direction.
+      rw.pfctrl = .DMA  // Set the DMA as the flow controller.
+      rw.tcie = .Enabled  // Enable transfer complete interrupt.
+      rw.htie = .Enabled  // Enable half transfer interrupt.
+      rw.teie = .Enabled  // Enable transfer error interrupt.
+      rw.dmeie = .Enabled  // Enable direct mode error interrupt.
     }
 
     // Set the total number of data items to the buffer size.
-    self.dma.s4ndtr.modify { $0.raw.ndt = UInt32(count) }
+    self.dma.st[index].ndtr.modify { $0.raw.ndt = UInt32(count) }
 
     // Set the destination peripheral port address to the spi data port.
-    self.dma.s4par.modify { $0.raw.pa = peripheral }
+    self.dma.st[index].par.modify { $0.raw.pa = peripheral }
 
     // Set the source memory address to the buffer's base.
-    self.dma.s4m0ar.modify { $0.raw.m0a = memory }
+    self.dma.st[index].m0ar.modify { $0.raw.m0a = memory }
 
     // Clear the second memory address as double buffering mode is disabled.
-    self.dma.s4m1ar.modify { $0.raw.m1a = 0 }
+    self.dma.st[index].m1ar.modify { $0.raw.m1a = 0 }
 
-    self.dma.s4fcr.modify { _, w in
-      w.raw.feie = 1     // Enable FIFO error interrupt.
-      w.raw.dmdis = 0    // Enable direct mode (double negative).
-      w.raw.fth = 0b00   // Reset FIFO threshold (no effect in direct mode).
+    self.dma.st[index].fcr.modify { _, w in
+      w.feie = .Enabled  // Enable FIFO error interrupt.
+      w.dmdis = .Disabled  // Enable direct mode (double negative).
+      w.fth = .Quarter  // Reset FIFO threshold (no effect in direct mode).
     }
 
-    self.dma.hifcr.modify { rw in
-      rw.raw.ctcif4 = 1   // Clear transfer complete interrupt flag.
-      rw.raw.chtif4 = 1   // Clear half transfer interrupt flag.
-      rw.raw.cteif4 = 1   // Clear transfer error interrupt flag.
-      rw.raw.cdmeif4 = 1  // Clear direct mode error interrupt flag.
-      rw.raw.cfeif4 = 1   // Clear FIFO error interrupt flag.
+    self.dma.hifcr.modify { _, w in
+      w.raw.ctcif4 = 1  // Clear transfer complete interrupt flag.
+      w.raw.chtif4 = 1  // Clear half transfer interrupt flag.
+      w.raw.cteif4 = 1  // Clear transfer error interrupt flag.
+      w.raw.cdmeif4 = 1  // Clear direct mode error interrupt flag.
+      w.raw.cfeif4 = 1  // Clear FIFO error interrupt flag.
     }
 
     self.spi.cr1.modify { rw in
-      rw.raw.bidimode = 0 // Set full duplex.
-      rw.raw.bidioe = 0
-      rw.raw.crcen = 0    // Disable hardware crc.
-      rw.raw.crcnext = 0
-      rw.raw.crcl = 0
-      rw.raw.rxonly = 0   // Set full duplex.
-      rw.raw.ssm = 1      // FIXME: understand this Disable software slave management and select.
-      rw.raw.ssi = 1
-      rw.raw.lsbfirst = 0 // Set data MSB first.
-      rw.raw.br = 0b000   // Set Baud Rate as Fpclk/2.
-      rw.raw.mstr = 1     // Set Master mode.
-      rw.raw.cpol = 0     // Set active high logic.
-      rw.raw.cpha = 1     // FIXME: understand this Set trailing edge logic.
+      rw.bidimode = .Unidirectional  // Set full duplex.
+      rw.bidioe = .OutputDisabled
+      rw.crcen = .Disabled  // Disable hardware crc.
+      rw.crcnext = .TxBuffer
+      rw.crcl = .EightBit
+      rw.rxonly = .FullDuplex  // Set full duplex.
+      // FIXME: understand this Disable software slave management and select.
+      rw.ssm = .Enabled
+      rw.ssi = .SlaveNotSelected
+      rw.lsbfirst = .MSBFirst  // Set data MSB first.
+      // spe
+      rw.br = .Div2  // Set Baud Rate as Fpclk/2.
+      rw.mstr = .Master  // Set Master mode.
+      rw.cpol = .IdleLow  // Set active high logic.
+      // FIXME: understand this Set trailing edge logic.
+      rw.cpha = .SecondEdge
     }
 
     // Write to SPI_CR2 register:
     // a) Configure the DS[3:0] bits to select the data length for the transfer.
     // b) Configure SSOE (Notes: 1 & 2 & 3).
-    // c) Set the FRF bit if the TI protocol is required (keep NSSP bit cleared in TI mode).
-    // d) Set the NSSP bit if the NSS pulse mode between two data units is required (keep
-    // CHPA and TI bits cleared in NSSP mode).
-    // e) Configure the FRXTH bit. The RXFIFO threshold must be aligned to the read
-    // access size for the SPIx_DR register.
+    // c) Set the FRF bit if the TI protocol is required (keep NSSP bit cleared
+    // in TI mode).
+    // d) Set the NSSP bit if the NSS pulse mode between two data units is
+    // required (keep CHPA and TI bits cleared in NSSP mode).
+    // e) Configure the FRXTH bit. The RXFIFO threshold must be aligned to the
+    // read access size for the SPIx_DR register.
     // f) Initialize LDMA_TX and LDMA_RX bits if DMA is used in packed mode.
 
     self.spi.cr2.modify { rw in
-      rw.raw.ldma_tx = 0 // Reset dma transmission length.
-      rw.raw.ldma_rx = 0 // Reset dma reception length.
-      rw.raw.frxth = 1   // Set RXNE if FIFO <8 bits.
-      rw.raw.ds = 0b0111 // Set Data size to 8 bit.
-      rw.raw.txeie = 1   // Enable tx buffer empty interrupt.
-      rw.raw.rxneie = 1  // Enable rx not buffer empty interrupt.
-      rw.raw.errie = 1   // Enable error interrupt.
-      rw.raw.frf = 0     // Reset frame format (i2s).
-      // rw.raw.nssp = 0    // FIXME: understand this Disable NSS pulse management.
-      // rw.raw.ssoe = 0    // FIXME: understand this Disable slave select.
-      rw.raw.txdmaen = 1 // Enable tx dma.
-      rw.raw.rxdmaen = 0 // Disable rx dma.
+      rw.rxdmaen = .Disabled  // Disable rx dma.
+      rw.txdmaen = .Enabled  // Enable tx dma.
+      // FIXME: understand this Disable slave select.
+      // rw.ssoe = 0
+      // FIXME: understand this Disable NSS pulse management.
+      // rw.nssp = 0
+      rw.frf = .Motorola  // Reset frame format (i2s).
+      rw.errie = .NotMasked  // Enable error interrupt.
+      rw.rxneie = .NotMasked  // Enable rx not buffer empty interrupt.
+      rw.txeie = .NotMasked  // Enable tx buffer empty interrupt.
+      rw.ds = .EightBit  // Set Data size to 8 bit.
+      rw.frxth = .Quarter  // Set RXNE if FIFO <8 bits.
+      rw.ldma_rx = .Even  // Reset dma reception length.
+      rw.ldma_tx = .Even  // Reset dma transmission length.
     }
 
     // Activate the stream.
-    self.dma.s4cr.modify { $0.raw.en = 1 }
+    self.dma.st[index].cr.modify { $0.en = .Enabled }
 
     // Activate the SPI peripheral
-    self.spi.cr1.modify { $0.raw.spe = 1 }
+    self.spi.cr1.modify { $0.spe = .Enabled }
 
     func wait() -> Bool {
       while true {
@@ -173,19 +186,19 @@ extension SPINeoPixel {
     _ = wait()
 
     // Wait until no more data to transmit.
-    while self.spi.sr.read().raw.ftlvl != 0b00 { }
+    while self.spi.sr.read().raw.ftlvl != 0b00 {}
     // Wait until the last data frame is processed.
-    while self.spi.sr.read().raw.bsy != 0 { }
+    while self.spi.sr.read().raw.bsy != 0 {}
     // Disable the SPI peripheral.
-    self.spi.cr1.modify { $0.raw.spe = 0 }
+    self.spi.cr1.modify { $0.spe = .Disabled }
     // Don't wait until the read data is received since the NeoPixel is not
     // a real SPI device. This will lead to overrun errors but they can be
     // safely ignored.
     // while self.spi.sr.read().raw.frlvl != 0b00 { }
 
     // Disable any existing DMA transfer on stream 0.
-    self.dma.s4cr.modify { $0.raw.en = 0 }
+    self.dma.st[index].cr.modify { $0.en = .Disabled }
     // Wait for the DMA stream to actually shutdown.
-    while self.dma.s4cr.read().raw.en != 0 { }
+    while self.dma.st[index].cr.read().en != .Disabled {}
   }
 }

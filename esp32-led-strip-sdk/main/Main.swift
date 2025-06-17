@@ -10,7 +10,7 @@
 //===----------------------------------------------------------------------===//
 
 @_cdecl("app_main")
-func app_main() {
+func main() {
   print("Hello from Swift on ESP32-C6!")
 
   let n = 8
@@ -22,11 +22,11 @@ func app_main() {
     colors.removeLast()
     colors.insert(.lightRandom, at: 0)
 
-    for index in 0 ..< n {
+    for index in 0..<n {
       ledStrip.setPixel(index: index, color: colors[index])
     }
     ledStrip.refresh()
-    
+
     let blinkDelayMs: UInt32 = 500
     vTaskDelay(blinkDelayMs / (1000 / UInt32(configTICK_RATE_HZ)))
   }

@@ -1,0 +1,34 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cmake",
+			"label": "CMake: build",
+			"command": "build",
+			"targets": [
+				"all"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+                "clear": true
+            }
+		},
+		{
+			"label": "deploy",
+			"type": "shell",
+			"command": "cp build/app.uf2 /Volumes/RPI-RP2/",
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"presentation": {
+                "clear": true,
+				"reveal": "always",
+				"panel": "shared"
+			}
+		}
+	]
+}

@@ -1,0 +1,58 @@
+name: NuttX
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-24.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        example: [nuttx-riscv-blink]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install apt dependencies
+        run: |
+          sudo apt-get -qq update && sudo apt-get -qq -y install \
+            bison flex gettext texinfo libncurses5-dev libncursesw5-dev \
+            gperf automake libtool pkg-config build-essential gperf genromfs \
+            libgmp-dev libmpc-dev libmpfr-dev libisl-dev binutils-dev libelf-dev \
+            libexpat-dev gcc-multilib g++-multilib u-boot-tools util-linux \
+            kconfig-frontends ninja-build
+
+      - name: Install CMake 3.30.2
+        run: |
+          ARCH=`uname -m`
+          curl -sL https://github.com/Kitware/CMake/releases/download/v3.30.2/cmake-3.30.2-linux-$ARCH.tar.gz -O
+          tar xzf cmake-3.30.2-linux-$ARCH.tar.gz
+          export PATH="`pwd`/cmake-3.30.2-linux-$ARCH/bin:$PATH"
+          echo "PATH=$PATH" >> $GITHUB_ENV
+          cmake --version
+
+      - name: Install RISC-V toolchain
+        run: |
+          mkdir -p riscv-none-elf-gcc && \
+          curl -s -L "https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v13.2.0-2/xpack-riscv-none-elf-gcc-13.2.0-2-linux-x64.tar.gz" \
+            | tar -C riscv-none-elf-gcc --strip-components 1 -xz
+          export PATH="$PATH:`pwd`/riscv-none-elf-gcc/bin/"
+          echo "PATH=$PATH" >> $GITHUB_ENV
+          riscv-none-elf-gcc --version
+
+      - name: Install Swift
+        uses: ./.github/actions/install-swift
+
+      - name: Build ${{ matrix.example }}
+        working-directory: ${{ matrix.example }}
+        run: |
+          cmake -B build -GNinja -DBOARD_CONFIG=rv-virt:leds_swift -DENABLE_NUTTX_TRACE=ON
+          cmake --build build

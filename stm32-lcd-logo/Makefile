@@ -9,53 +9,50 @@
 ##
 ##===----------------------------------------------------------------------===##
 
-# Determine file paths
-REPOROOT := $(shell git rev-parse --show-toplevel)
-TOOLSROOT := $(REPOROOT)/Tools
-SRCROOT := $(REPOROOT)/stm32-lcd-logo
-BUILDROOT := $(SRCROOT)/.build
+# Paths
+REPOROOT         := $(shell git rev-parse --show-toplevel)
+TOOLSROOT        := $(REPOROOT)/Tools
+TOOLSET          := $(TOOLSROOT)/Toolsets/stm32f74x-lcd.json
+MACHO2BIN        := $(TOOLSROOT)/macho2bin.py
+SWIFT_BUILD      := swift build
 
-# Setup tools and build flags
-TARGET := armv7-apple-none-macho
-BASEADDRESS := 0x00200000
+# Flags
+ARCH             := armv7em
+TARGET           := $(ARCH)-apple-none-macho
+SWIFT_BUILD_ARGS := \
+	--configuration release \
+	--triple $(TARGET) \
+	--toolset $(TOOLSET) \
+	--disable-local-rpath
+BUILDROOT        := $(shell $(SWIFT_BUILD) $(SWIFT_BUILD_ARGS) --show-bin-path)
 
-SWIFT_EXEC := $(shell xcrun -f swiftc)
-SWIFT_FLAGS := -target $(TARGET) -Osize -import-bridging-header $(SRCROOT)/Support/BridgingHeader.h -wmo -enable-experimental-feature Embedded -Xcc -D__APPLE__ -Xcc -D__MACH__ -Xcc -ffreestanding
+.PHONY: build
+build:
+	@echo "building..."
+	$(SWIFT_BUILD) \
+		$(SWIFT_BUILD_ARGS) \
+		-Xlinker -map -Xlinker $(BUILDROOT)/Application.mangled.map \
+		--verbose
 
-CLANG_EXEC := $(shell xcrun -f clang)
-CLANG_FLAGS := -target $(TARGET) -Oz
+	@echo "demangling linker map..."
+	cat $(BUILDROOT)/Application.mangled.map \
+		| c++filt | swift demangle > $(BUILDROOT)/Application.map
 
-LD_EXEC := $(CLANG_EXEC)
-LD_FLAGS := -target $(TARGET) -static -Wl,-e,_reset -dead_strip -Wl,-no_zero_fill_sections -Wl,-segalign,4 -Wl,-segaddr,__VECTORS,0x00200000 -Wl,-seg1addr,0x00200200 -Wl,-pagezero_size,0
+	@echo "disassembling..."
+	otool \
+		-arch $(ARCH) -v -V -d -t \
+		$(BUILDROOT)/Application \
+		| c++filt | swift demangle > $(BUILDROOT)/Application.disassembly
 
-PYTHON_EXEC := $(shell xcrun -f python3)
-MACHO2BIN := $(TOOLSROOT)/macho2bin.py
+	@echo "extracting binary..."
+	$(MACHO2BIN) \
+		$(BUILDROOT)/Application \
+		$(BUILDROOT)/Application.bin \
+		--base-address 0x00200000 \
+		--segments '__TEXT,__DATA,__VECTORS'
 
-.PHONY: all
-all: $(BUILDROOT)/lcd-logo.bin
-
-$(BUILDROOT):
-	# Create build directory
-	mkdir -p $(BUILDROOT)
-
-$(BUILDROOT)/lcd-logo.o: $(SRCROOT)/Main.swift $(SRCROOT)/Support/*.swift | $(BUILDROOT)
-	# Build Swift sources
-	$(SWIFT_EXEC) $(SWIFT_FLAGS) -c $^ -o $@
-
-$(BUILDROOT)/Startup.o: $(SRCROOT)/Support/Startup.c | $(BUILDROOT)
-	# Build C sources
-	$(CLANG_EXEC) $(CLANG_FLAGS) -c $^ -o $@
-
-$(BUILDROOT)/PixelData.o: $(SRCROOT)/Support/PixelData.c | $(BUILDROOT)
-	# Build C sources
-	$(CLANG_EXEC) $(CLANG_FLAGS) -c $^ -o $@
-
-$(BUILDROOT)/lcd-logo: $(BUILDROOT)/lcd-logo.o $(BUILDROOT)/Startup.o $(BUILDROOT)/PixelData.o
-	# Link objects into executable
-	$(LD_EXEC) $(LD_FLAGS) $^ -o $@
-
-$(BUILDROOT)/lcd-logo.bin: $(BUILDROOT)/lcd-logo
-	# Extract sections from executable into flashable binary
-	$(PYTHON_EXEC) $(MACHO2BIN) $^ $@ --base-address 0x00200000 --segments '__TEXT,__DATA,__VECTORS'	
-	# Echo final binary path
-	ls -al $(BUILDROOT)/lcd-logo.bin
+.PHONY: clean
+clean:
+	@echo "cleaning..."
+	@swift package clean
+	@rm -rf .build

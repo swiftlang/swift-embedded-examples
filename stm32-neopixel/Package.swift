@@ -1,27 +1,34 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 6.0
 
 import PackageDescription
 
 let package = Package(
   name: "stm32-neopixel",
-  platforms: [
-    .macOS(.v10_15),
-  ],
   products: [
-      .library(name: "Application", type: .static, targets: ["Application"]),
+    .executable(name: "Application", targets: ["Application"])
   ],
   dependencies: [
-    .package(url: "https://github.com/apple/swift-mmio", branch: "swift-embedded-examples"),
+    .package(url: "https://github.com/apple/swift-mmio", branch: "main")
   ],
   targets: [
-    .target(
+    .executableTarget(
       name: "Application",
+      dependencies: ["STM32F7X6", "Support"]),
+    // SVD2Swift \
+    // --input Sources/STM32F7X6/stm32f7x6.patched.svd \
+    // --output Sources/STM32F7X6 \
+    // --access-level public \
+    // --indentation-width 2 \
+    // --peripherals DMA1 DMA2 GPIOA GPIOB GPIOI RCC SPI1 SPI2 USART1
+    .target(
+      name: "STM32F7X6",
       dependencies: [
-        .product(name: "MMIO", package: "swift-mmio"),
-        "Support",
+        .product(name: "MMIO", package: "swift-mmio")
       ],
-      swiftSettings: [
-        .enableExperimentalFeature("Embedded"),
+      plugins: [
+        // Plugin disabled because SwiftPM is slow.
+        // .plugin(name: "SVD2SwiftPlugin", package: "swift-mmio")
       ]),
     .target(name: "Support"),
-  ])
+  ],
+  swiftLanguageModes: [.v5])
