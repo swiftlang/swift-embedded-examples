@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: [self-hosted, macos]
+    runs-on: [self-hosted, macos, sequoia, ARM64]
 
     strategy:
       fail-fast: false
