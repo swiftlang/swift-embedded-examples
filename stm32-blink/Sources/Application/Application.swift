@@ -9,8 +9,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Support
 import STM32F7X6
+import Support
 
 // I1 pin aka "Arduino D13" pin on STM32F746 Discovery Board
 // https://www.st.com/resource/en/schematic_pack/mb1191-f746ngh6-c01_schematic.pdf
