@@ -21,10 +21,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Fixup for running locally in act
-        if: ${{ env.ACT }}
-        run: echo /opt/acttoolcache/node/18.20.8/x64/bin >> $GITHUB_PATH
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
