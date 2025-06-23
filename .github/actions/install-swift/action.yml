@@ -59,7 +59,6 @@ runs:
       shell: bash
       run: |
         SWIFTLY_VERSION=1.0.1
-        UNAME=$(uname -m)
         SWIFTLY_PKG=swiftly-$SWIFTLY_VERSION.pkg
         curl -O "https://download.swift.org/swiftly/darwin/$SWIFTLY_PKG"
         installer -pkg $SWIFTLY_PKG -target CurrentUserHomeDirectory
