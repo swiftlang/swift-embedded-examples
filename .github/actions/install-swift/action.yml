@@ -27,7 +27,7 @@ runs:
       id: cache-swift
       with:
         path: "~/.local/share/swiftly"
-        key: swift-${{ hashFiles('**/.swift-version', '.github/actions/install-swift/action.yml') }}
+        key: swift-${{ runner.os }}-${{ hashFiles('**/.swift-version', '.github/actions/install-swift/action.yml') }}
 
     - name: Install `apt` Dependencies
       if: steps.cache-swift.outputs.cache-hit != 'true'
@@ -64,7 +64,7 @@ runs:
       uses: actions/cache/save@v4
       with:
         path: "~/.local/share/swiftly"
-        key: swift-${{ hashFiles('**/.swift-version', '.github/actions/install-swift/action.yml') }}
+        key: swift-${{ runner.os }}-${{ hashFiles('**/.swift-version', '.github/actions/install-swift/action.yml') }}
 
     - name: Print Swift Version
       shell: bash
