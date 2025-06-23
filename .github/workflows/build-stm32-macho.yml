@@ -26,8 +26,12 @@ jobs:
 
       - name: Validate Swiftly Paths
         run: |
-          set -ex
-          set +x
+          set -x
+          set +e
+
+          env
+
+          cat $HOME/.bashrc
 
           echo "Swiftly Path: $SWIFTLY_HOME_DIR"
           echo "Swiftly Bin Path: $SWIFTLY_BIN_DIR"
