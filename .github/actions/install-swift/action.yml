@@ -61,7 +61,6 @@ runs:
         SWIFTLY_VERSION=1.0.1
         SWIFTLY_PKG=swiftly-$SWIFTLY_VERSION.pkg
         curl -O "https://download.swift.org/swiftly/darwin/$SWIFTLY_PKG"
-        installer -pkg $SWIFTLY_PKG -target CurrentUserHomeDirectory -verbose
         pkgutil --check-signature $SWIFTLY_PKG
         pkgutil --verbose --expand $SWIFTLY_PKG $SWIFTLY_HOME_DIR
         tar -C $SWIFTLY_HOME_DIR -xvf $SWIFTLY_HOME_DIR/swiftly-*/Payload
