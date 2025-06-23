@@ -18,6 +18,9 @@ jobs:
         example: [stm32-blink, stm32-lcd-logo, stm32-neopixel, stm32-uart-echo]
 
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
       - name: Install Swift
         uses: ./.github/actions/install-swift
 
