@@ -30,7 +30,7 @@ runs:
         key: swift-${{ runner.os }}-${{ hashFiles('**/.swift-version', '.github/actions/install-swift/action.yml') }}
 
     - name: Install `apt` Dependencies
-      if: steps.cache-swift.outputs.cache-hit != 'true'
+      if: runner.os == 'Linux' && steps.cache-swift.outputs.cache-hit != 'true'
       shell: bash
       run: |
         SUDO=$(if [[ $EUID -ne 0 ]]; then echo sudo; fi)
@@ -40,7 +40,7 @@ runs:
         DEBIAN_FRONTEND: noninteractive
 
     - name: Install Swiftly
-      if: steps.cache-swift.outputs.cache-hit != 'true'
+      if: runner.os == 'Linux' && steps.cache-swift.outputs.cache-hit != 'true'
       shell: bash
       run: |
         SWIFTLY_VERSION=1.0.1
@@ -48,6 +48,21 @@ runs:
         SWIFTLY_TGZ=swiftly-$SWIFTLY_VERSION-$UNAME.tar.gz
         curl -O "https://download.swift.org/swiftly/linux/$SWIFTLY_TGZ"
         tar zxf "$SWIFTLY_TGZ"
+        ./swiftly init \
+          --skip-install \
+          --assume-yes \
+          --quiet-shell-followup \
+          --no-modify-profile
+
+    - name: Install Swiftly
+      if: runner.os == 'macOS' && steps.cache-swift.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        SWIFTLY_VERSION=1.0.1
+        UNAME=$(uname -m)
+        SWIFTLY_PKG=swiftly-$SWIFTLY_VERSION.pkg
+        curl -O "https://download.swift.org/swiftly/darwin/$SWIFTLY_PKG"
+        installer -pkg $SWIFTLY_PKG -target CurrentUserHomeDirectory
         ./swiftly init \
           --skip-install \
           --assume-yes \
