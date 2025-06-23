@@ -73,6 +73,4 @@ It's very common to integrate with existing SDKs in embedded development. This t
 2. **Creating a bridging header** that exposes the C functions and types from the SDK to Swift.
 3. **Configuring the build system** to compile Swift code with the right flags and link it with the SDK's libraries.
 
-Most embedded SDKs provide a build system integration, commonly with CMake, Make, or their own custom build scripts. At the most basic level, it's always possible to manually call the compiler (`swiftc`) as described above from any build system. This will produce a .o file for the entire Swift module, and then a .o file can typically be directly used in the build system.
-
-For details and concrete examples of how to integrate with more common platforms, SDKs and build systems, see <doc:IntegratingWithPlatforms>.
+Most embedded SDKs provide a build system integration, commonly with CMake, Make, or their own custom build scripts. For details and concrete examples of how to integrate with more common platforms, SDKs and build systems, see <doc:IntegratingWithPlatforms>.

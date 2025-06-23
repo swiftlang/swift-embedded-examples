@@ -37,9 +37,12 @@ Using a bridging header is discouraged when building an entire set of Swift libr
 
 Most embedded platforms use one of these build systems:
 
-1. **CMake** - See <doc:IntegrateWithCMake> for details
-2. **Make** - See <doc:IntegrateWithMake> for more information
-3. **Platform-specific build tools** - These usually allow integration of custom build steps, and you can always manually invoke the Swift compiler (`swiftc`) with the right flags to produce a .o file that can be further used in the build. Follow the <doc:Basics> article for details.
+1. **CMake**.
+2. **Make**.
+3. **Platform-specific build tools** - These usually allow integration of custom build steps.
+
+For (1) and (2), articles will be added to this documentation in the future.
+For (3), it is always possible to manually invoke the Swift compiler (`swiftc`) with the right flags to produce a .o file that can be further used in the build system. Follow the <doc:Basics> article for details.
 
 ### Matching platform's ISA and ABI
 
@@ -66,7 +69,9 @@ For detailed instructions on integrating with the Raspberry Pi Pico SDK, see <do
 
 ### ESP32
 
-For ESP microcontrollers using the ESP-IDF framework, see <doc:IntegrateWithESP>. Note that only chips based on RISC-V architecture (e.g. ESP32-C3, ESP32-C6, ESP32-P4) are supported with Embedded Swift. The Xtensa ISA (used in e.g. ESP8266 or ESP32-S2 and ESP32-S3) is not supported.
+Note that only chips based on RISC-V architecture (e.g. ESP32-C3, ESP32-C6, ESP32-P4) are supported with Embedded Swift. The Xtensa ISA (used in e.g. ESP8266 or ESP32-S2 and ESP32-S3) is not supported.
+
+For ESP microcontrollers using the ESP-IDF framework, an article will be added to this documentation in the future.
 
 ### STM32
 
