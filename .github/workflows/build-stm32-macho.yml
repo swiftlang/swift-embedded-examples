@@ -24,6 +24,18 @@ jobs:
       - name: Install Swift
         uses: ./.github/actions/install-swift
 
+      - name: Validate Swiftly Paths
+        run: |
+          echo "Swiftly Path: $SWIFTLY_HOME_DIR"
+          echo "Swiftly Bin Path: $SWIFTLY_BIN_DIR"
+          echo "Swiftly Lib Path: $SWIFTLY_TOOLCHAINS_DIR"
+
+          ls -asl $SWIFTLY_HOME_DIR
+          ls -asl $SWIFTLY_BIN_DIR
+          ls -asl $SWIFTLY_TOOLCHAINS_DIR
+
+          ls -asl $HOME/.local/share/swiftly
+
       - name: Build ${{ matrix.example }}
         working-directory: ${{ matrix.example }}
         run: make
