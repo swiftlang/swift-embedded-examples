@@ -8,14 +8,17 @@ runs:
       shell: bash
       run: |
         export SWIFTLY_HOME_DIR="$HOME/.local/share/swiftly"
+        mkdir -p "$SWIFTLY_HOME_DIR"
         echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> $GITHUB_ENV
         echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> $HOME/.bashrc
 
         export SWIFTLY_BIN_DIR="$HOME/.local/share/swiftly/bin"
+        mkdir -p "$SWIFTLY_BIN_DIR"
         echo "SWIFTLY_BIN_DIR=$SWIFTLY_BIN_DIR" >> $GITHUB_ENV
         echo "SWIFTLY_BIN_DIR=$SWIFTLY_BIN_DIR" >> $HOME/.bashrc
 
         export SWIFTLY_TOOLCHAINS_DIR="$HOME/.local/share/swiftly/toolchains"
+        mkdir -p "$SWIFTLY_TOOLCHAINS_DIR"
         echo "SWIFTLY_TOOLCHAINS_DIR=$SWIFTLY_TOOLCHAINS_DIR" >> $GITHUB_ENV
         echo "SWIFTLY_TOOLCHAINS_DIR=$SWIFTLY_TOOLCHAINS_DIR" >> $HOME/.bashrc
 
