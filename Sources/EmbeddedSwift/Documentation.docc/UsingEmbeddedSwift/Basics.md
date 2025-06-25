@@ -52,6 +52,8 @@ $ swiftc -target armv7-none-none-eabi -enable-experimental-feature Embedded -wmo
   input1.swift input2.swift ... -c -o output.o
 ```
 
+> Note: Passing only a single `.swift` file to swiftc results in the generation of a `_main` symbol. During linking, this symbol could potentially clash with other objects that also define one. To avoid this, compile multiple Swift files together or use the `-parse-as-library` flag.
+
 Additionally, you probably want to specify additional Clang and/or LLVM flags to get the compiler to produce code for the exact ISA and ABI you need for your target.
 
 For example, a Raspberry Pi Pico / Pico W should target the ARMv6-M architecture via the `armv6m-*` target triple, but the `-mfloat-abi=soft` Clang option should also be used, and if you want to match ABI with libraries built with the GNU toolchain, you might also need `-fshort-enums`. To pass those to Swift, use the `-Xcc` prefix:
