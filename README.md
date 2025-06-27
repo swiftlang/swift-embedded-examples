@@ -20,6 +20,8 @@ Each example in this repository contains build and deployment instructions, howe
 
 | Name | Platform | SDK | Description | Photo |
 | ---- | -------- | --- | ----------- | ----- |
+| [arduino-esp32-led-blink-sdk](./arduino-esp32-led-blink-sdk) | ESP32-C6-DevKitC-1 | ESP-IDF SDK | Blink an LED repeatedly with Swift, the ESP-IDF and the Arduino libraries. | |
+| [arduino-esp32-wifi-scan-sdk](./arduino-esp32-wifi-scan-sdk) | ESP32-C6-DevKitC-1 | ESP-IDF SDK | Scan for WiFi networks using Swift, the ESP-IDF and the Arduino libraries. | |
 | [esp32-led-blink-sdk](./esp32-led-blink-sdk) | ESP32-C6-Bug | ESP-IDF SDK | Blink an LED repeatedly with Swift & the ESP-IDF. | <img width="300" src="esp32-led-blink-sdk/assets/images/ledon.jpg"> |
 | [esp32-led-strip-sdk](./esp32-led-strip-sdk) | ESP32-C6-DevKitC-1 | ESP-IDF SDK | Control NeoPixel LEDs with Swift & the ESP-IDF. | <img width="300" src="https://github.com/swiftlang/swift-embedded-examples/assets/1186214/15f8a3e0-953e-426d-ad2d-3902baf859be"> |
 | [harmony](./harmony) | Raspberry Pi Pico W | Pico SDK | A bluetooth speaker and ferrofluidic music visualizer. Firmware, Electrical, and Mechanical designs fully available. | <img width="300" src="harmony/assets/hero.jpg"> |
