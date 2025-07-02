@@ -52,7 +52,7 @@ $ swiftc -target armv7-none-none-eabi -enable-experimental-feature Embedded -wmo
   input1.swift input2.swift ... -c -o output.o
 ```
 
-> Note: Passing only a single `.swift` file to swiftc results in the generation of a `_main` symbol. During linking, this symbol could potentially clash with other objects that also define one. To avoid this, compile multiple Swift files together or use the `-parse-as-library` flag.
+> Note: Passing only a single `.swift` file to swiftc results in the generation of a `_main` (Mach-O targets) or `main` (ELF) symbol. During linking, this symbol could potentially clash with other objects that also define one. To avoid this, compile multiple Swift files together or use the `-parse-as-library` flag.
 
 Additionally, you probably want to specify additional Clang and/or LLVM flags to get the compiler to produce code for the exact ISA and ABI you need for your target.
 
