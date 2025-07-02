@@ -120,13 +120,15 @@ struct Main {
         // interrupt handler.   Once we get our VBI, we can tell
         // LVGL that we're good to go to switch again.
         Lcd.setFrameBuffer(bufferToShow!)
-        lcdInterruptVerticalSyncHandler = {
-          lv_display_flush_ready(disp)
-          lcdInterruptVerticalSyncHandler = nil
-        }
+        lcdInterruptVerticalSyncEnabled = true
         Lcd.reloadConfiguration()
         // the lv_display_flush_ready() will happen in the LCD frame interrupt.
       })
+
+    lcdInterruptVerticalSyncHandler = {
+      lv_display_flush_ready(disp)
+      lcdInterruptVerticalSyncEnabled = false
+    }
 
     let touch = lv_indev_create()
     lv_indev_set_type(touch, LV_INDEV_TYPE_POINTER)
@@ -152,7 +154,7 @@ struct Main {
 
     while true {
       // If we're pending a render, wait.
-      while lcdInterruptVerticalSyncHandler != nil { /* busy wait */ nop() }
+      while lcdInterruptVerticalSyncEnabled { /* busy wait */ nop() }
 
       lv_timer_handler()
 

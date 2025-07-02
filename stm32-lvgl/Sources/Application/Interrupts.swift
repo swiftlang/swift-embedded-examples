@@ -69,13 +69,23 @@ func SystickTimerISR() {
   uptimeInMs += 1
 }
 
+// The following interrupt set up is trickier that it looks on the surface. The
+// ISR Swift code must be "trivial" directly and transitively, and namely it
+// must avoid destroying any heap objects (because we could be inside malloc
+// when the interrupt hits). For that, the expectation is that
+// lcdInterruptVerticalSyncHandler is only ever set once, and it not changing
+// after boot. The code inside the lcdInterruptVerticalSyncHandler closure is
+// expected to only perform trivial operations. lcdInterruptVerticalSyncEnabled
+// is allowed to change.
+
 var lcdInterruptVerticalSyncHandler: (() -> Void)? = nil
+var lcdInterruptVerticalSyncEnabled: Bool = false
 
 @_cdecl("LtdcIntHandlerISR")
 func LtdcIntHandlerISR() {
   let sr = ltdc.isr.read()
   ltdc.icr.write { $0.storage = sr.storage }
   if sr.raw.rrif != 0 {
-    lcdInterruptVerticalSyncHandler?()
+    if lcdInterruptVerticalSyncEnabled { lcdInterruptVerticalSyncHandler?() }
   }
 }

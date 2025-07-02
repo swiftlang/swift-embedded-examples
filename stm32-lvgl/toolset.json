@@ -38,7 +38,8 @@
       "-llvgl", "-llvgl_demos",
       "-static",
       "-e", "_start_elf",
-      "--orphan-handling=error"
+      "--orphan-handling=error",
+      "-Map", ".build/armv7em-none-none-eabi/release/Application.map"
     ]
   }
 }
