@@ -1,4 +1,4 @@
-name: STM32
+name: STM32 Macho
 
 on:
   push:
@@ -10,20 +10,16 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-24.04
+    runs-on: [self-hosted, macos, sequoia, ARM64]
 
     strategy:
       fail-fast: false
       matrix:
-        example: [stm32-blink, stm32-lvgl]
+        example: [stm32-blink] #, stm32-lcd-logo, stm32-neopixel, stm32-uart-echo]
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-
-      - name: Fixup for running locally in act
-        if: ${{ env.ACT }}
-        run: echo /opt/acttoolcache/node/18.20.8/x64/bin >> $GITHUB_PATH
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -36,21 +32,6 @@ jobs:
       - name: Install Swift
         uses: ./.github/actions/install-swift
 
-      - name: Set environment variables
-        run: |
-          echo "STM_BOARD=STM32F746G_DISCOVERY" >> $GITHUB_ENV
-
       - name: Build ${{ matrix.example }}
         working-directory: ${{ matrix.example }}
-        run: |
-          if [[ -f ./fetch-dependencies.sh ]]; then
-            ./fetch-dependencies.sh
-          fi
-
-          if [[ -f ./build-elf.sh ]]; then
-            ./build-elf.sh
-          fi
-
-          if [[ -f Makefile ]]; then
-            make
-          fi
+        run: make
