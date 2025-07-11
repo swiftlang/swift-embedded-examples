@@ -1,0 +1,46 @@
+name: Build Arduino ESP Examples
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  schedule:
+    # Build on Mondays at 9am PST every week
+    - cron: '0 17 * * 1'
+
+jobs:
+  build-arduino-esp:
+    runs-on: ubuntu-24.04
+    container: espressif/idf:v5.4
+    strategy:
+      fail-fast: false
+      matrix:
+        example: [arduino-esp32-led-blink-sdk, arduino-esp32-wifi-scan-sdk]
+        swift: [swift-DEVELOPMENT-SNAPSHOT-2025-03-17-a]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install apt dependencies
+        run: |
+          apt-get -qq update
+          apt-get -qq -y install pkg-config libstdc++6
+
+      - name: Install ${{ matrix.swift }}
+        run: |
+          wget -q https://download.swift.org/development/ubuntu2404/${{ matrix.swift }}/${{ matrix.swift }}-ubuntu24.04.tar.gz
+          tar xzf ${{ matrix.swift }}-ubuntu24.04.tar.gz
+          export PATH="`pwd`/${{ matrix.swift }}-ubuntu24.04/usr/bin/:$PATH"
+          echo "PATH=$PATH" >> $GITHUB_ENV
+          swiftc --version
+
+      - name: Build ${{ matrix.example }}
+        run: |
+          cd $IDF_PATH
+          . ./export.sh
+          cd -
+          cd ${{ matrix.example }}
+          idf.py set-target esp32c6
+          idf.py build

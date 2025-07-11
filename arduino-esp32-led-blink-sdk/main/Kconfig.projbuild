@@ -1,0 +1,8 @@
+# put here your custom config value
+menu "Example Configuration"
+config LED_BLINK_INTERVAL_MS
+    int "LED blinking interval / ms"
+    default 500
+    help
+	Interval in milliseconds between turning the LED on/off
+endmenu
