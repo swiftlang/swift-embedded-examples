@@ -12,7 +12,7 @@ This repository is a set of demonstration projects of **Embedded Swift**. Embedd
 
 Each example in this repository contains build and deployment instructions, however there are a couple common steps needed for many of the examples included below:
 
-1. Install [`swift`](https://swift.org) using the [instructions here](https://swiftpackageindex.com/swiftlang/swift-embedded-examples/main/documentation/embeddedswift/installembeddedswift).
+1. Install [`swift`](https://swift.org) using the [instructions here](https://docs.swift.org/embedded/documentation/embedded/installembeddedswift).
 
 2. Install [`uv`](https://github.com/astral-sh/uv), "an extremely fast Python package and project manager", using the [instructions here](https://docs.astral.sh/uv/getting-started/installation/).
 
