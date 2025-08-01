@@ -1,9 +1,0 @@
-{
-  "peripherals": [
-    "GPIOA",
-    "GPIOB",
-    "RCC",
-    "USART1"
-  ],
-  "access-level": "public"
-}

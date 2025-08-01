@@ -1,9 +1,0 @@
-{
-  "peripherals": [
-    "PADS_BANK0",
-    "PIO0",
-    "IO_BANK0",
-    "RESETS"
-  ],
-  "access-level": "public"
-}

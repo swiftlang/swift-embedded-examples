@@ -1,6 +1,0 @@
-./harmony/*
-./stm32-lvgl/*
-./stm32-lcd-logo/Sources/STM32F7X6/*
-./stm32-lvgl/Sources/Registers/*
-./stm32-neopixel/Sources/STM32F7X6/*
-./stm32-uart-echo/Sources/STM32F7X6/*
