@@ -21,13 +21,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.11
-
       - name: Install uv
         uses: astral-sh/setup-uv@v5
+        with:
+          python-version: 3.11
 
       - name: Install Swift
         uses: ./.github/actions/install-swift
