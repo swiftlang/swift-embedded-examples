@@ -3,8 +3,8 @@ name: Raspberry Pi Pico SDK
 on:
   push:
     branches: ["main"]
-  # pull_request:
-  #   types: [opened, reopened, synchronize, ready_for_review]
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
   workflow_dispatch:
 
 jobs:

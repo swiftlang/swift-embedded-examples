@@ -3,8 +3,8 @@ name: STM32 ELF
 on:
   push:
     branches: ["main"]
-  # pull_request:
-  #   types: [opened, reopened, synchronize, ready_for_review]
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
   workflow_dispatch:
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        example: [stm32-lvgl]
+        example: [stm32-blink, stm32-lvgl]
 
     steps:
       - name: Checkout repo
