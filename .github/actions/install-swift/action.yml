@@ -4,16 +4,13 @@ description: Installs the Swift specified by a .swift-version file
 runs:
   using: "composite"
   steps:
-    # - name: "Cache: Swift"
-    #   id: cache-swift
-    #   uses: actions/cache@v4
-    #   with:
-    #     path: "$HOME/.local/share/swiftly"
-    #     key: swift-${{ hashFiles('.swift-version') }}
-
     - name: Setup Environment
       shell: bash
       run: |
+        export SWIFTLY_TOOLCHAINS_DIR="$HOME/.local/share/swiftly/toolchains"
+        echo "SWIFTLY_TOOLCHAINS_DIR=$SWIFTLY_TOOLCHAINS_DIR" >> $GITHUB_ENV
+        echo "SWIFTLY_TOOLCHAINS_DIR=$SWIFTLY_TOOLCHAINS_DIR" >> $HOME/.bashrc
+
         export SWIFTLY_HOME_DIR="$HOME/.local/share/swiftly"
         echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> $GITHUB_ENV
         echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> $HOME/.bashrc
