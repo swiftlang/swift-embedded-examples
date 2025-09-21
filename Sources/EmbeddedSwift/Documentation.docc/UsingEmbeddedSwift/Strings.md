@@ -39,8 +39,7 @@ Alternatively in a CMake build try something like the below which will check a S
 
 Update the `COMPILER_TARGET` variable to the architecture desired.
 
-```
-
+```CMake
 set(COMPILER_TARGET "riscv32-none-none-eabi")
 
 find_program(SWIFTLY "swiftly")
@@ -59,6 +58,7 @@ target_link_libraries(${COMPONENT_LIB}
     -Wl,--no-whole-archive
     )
 
+## decomment the below line to torubleshoot path issues if needed.
 # message(" ----------::: ${additional_lib_path} :::---------- ")
 ```
 
