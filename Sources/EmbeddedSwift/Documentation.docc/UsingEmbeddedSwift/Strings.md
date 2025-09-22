@@ -58,7 +58,7 @@ target_link_libraries(${COMPONENT_LIB}
     -Wl,--no-whole-archive
     )
 
-## decomment the below line to torubleshoot path issues if needed.
+## decomment the below line to troubleshoot path issues if needed.
 # message(" ----------::: ${additional_lib_path} :::---------- ")
 ```
 
