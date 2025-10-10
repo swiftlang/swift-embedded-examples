@@ -1,5 +1,8 @@
 name: Raspberry Pi Baremetal
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: ["main"]

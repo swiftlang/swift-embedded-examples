@@ -1,5 +1,8 @@
 name: STM32 ELF
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: ["main"]

@@ -1,5 +1,8 @@
 name: Raspberry Pi Pico SDK
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: ["main"]

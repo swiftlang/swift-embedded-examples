@@ -1,5 +1,8 @@
 name: STM32 Macho
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: ["main"]
