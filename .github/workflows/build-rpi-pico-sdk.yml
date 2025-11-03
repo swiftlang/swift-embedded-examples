@@ -15,6 +15,10 @@ jobs:
     name: Build
     runs-on: ubuntu-24.04
 
+    env:
+      PICO_SDK_VERSION: "2.2.0"
+      PICO_EXTRAS_VERSION: "sdk-2.2.0"
+
     strategy:
       fail-fast: false
       matrix:
@@ -53,17 +57,13 @@ jobs:
 
       - name: Clone Pico SDK
         run: |
-          git clone https://github.com/raspberrypi/pico-sdk.git
-          cd pico-sdk
-          git submodule update --init --recursive
-          cd ..
+          git clone --depth 1 --branch ${{ env.PICO_SDK_VERSION }} https://github.com/raspberrypi/pico-sdk.git
+          git -C pico-sdk submodule update --init --recursive
 
       - name: Clone Pico Extras
         run: |
-          git clone https://github.com/raspberrypi/pico-extras.git
-          cd pico-extras
-          git submodule update --init --recursive
-          cd ..
+          git clone --depth 1 --branch ${{ env.PICO_EXTRAS_VERSION }} https://github.com/raspberrypi/pico-extras.git
+          git -C pico-extras submodule update --init --recursive
 
       - name: Set Pico environment variables
         run: |
