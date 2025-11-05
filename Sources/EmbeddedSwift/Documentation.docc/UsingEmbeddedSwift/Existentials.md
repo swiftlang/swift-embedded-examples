@@ -51,7 +51,7 @@ let concrete = existential as! Derived // ✅, and will trap at runtime if a dif
 
 Class-bound existentials in Embedded Swift do come with some restrictions compared to class-bound existentials in regular Swift:
 
-- You cannot use an existential to call a unbounded generic method from the protocol. This is described in depth in [Embedded Swift -- Non-final generic methods](NonFinalGenericMethods.md). For example:
+- You cannot use an existential to call a unbounded generic method from the protocol. This is described in depth in <doc:NonFinalGenericMethods>. For example:
 ```swift
 protocol ClassBoundProtocol: AnyObject {
   func foo<T>(t: T)

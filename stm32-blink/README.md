@@ -15,29 +15,17 @@ This example shows a simple baremetal firmware for an STM32 board that blinks an
 - Build and upload the program to flash memory of the microcontroller:
 ```console
 $ cd stm32-blink
-$ export STM_BOARD=STM32F746G_DISCOVERY   # or NUCLEO_F103RB
-$ ./build-macho.sh
-$ st-flash --reset write .build/blink.bin 0x08000000
+$ make
+$ st-flash --reset write .build/Application.bin 0x08000000
 ```
-- The green LED next to the RESET button should now be blinking in a pattern.
-
-## Building and running the firmware as ELF (on either macOS or Linux)
-
-- Build and upload the program to flash memory of the microcontroller:
-```console
-$ cd stm32-blink
-$ export STM_BOARD=STM32F746G_DISCOVERY   # or NUCLEO_F103RB
-$ ./build-elf.sh
-$ st-flash --format ihex --reset write .build/blink.hex
-```
-- The green LED next to the RESET button should now be blinking in a pattern.
+- The green LED next to the RESET button should now be blinking.
 
 ## Binary size
 
 The resulting size of the compiled and linked binary is very small (which shouldn't be surprising given that this toy example only blinks an LED), and demonstrates how the Embedded Swift compilation mode doesn't include unnecessary code or data in the resulting program:
 
 ```console
-$ size -m .build/blink
+$ size -m .build/Application
 Segment __TEXT: 656
   Section __text: 142
   total 142
@@ -51,6 +39,6 @@ total 1300
 The binary contains only 142 bytes of code! Additionally, the vector table needed by the CPU is actually dominating the size of the final firmware. Note that the `__LINKEDIT` segment is discarded when forming the final `.bin` file, which is 1168 bytes in size:
 
 ```console
-$ cat .build/blink.bin | wc -c
+$ cat .build/Application.bin | wc -c
     1168
 ```

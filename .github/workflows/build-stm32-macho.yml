@@ -1,4 +1,4 @@
-name: Raspberry Pi Baremetal
+name: STM32 Macho
 
 permissions:
   contents: read
@@ -13,19 +13,21 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-24.04
+    runs-on: [self-hosted, macos, sequoia, ARM64]
 
     strategy:
       fail-fast: false
       matrix:
-        example: [rpi-4b-blink, rpi-5-blink]
+        example: [stm32-blink, stm32-lcd-logo, stm32-neopixel, stm32-uart-echo]
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Install apt dependencies
-        run: sudo apt-get -qq update && sudo apt-get -qq -y install make llvm
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: 3.11
 
       - name: Install Swift
         uses: ./.github/actions/install-swift

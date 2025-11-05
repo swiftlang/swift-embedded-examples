@@ -4,16 +4,15 @@ description: Installs the Swift specified by a .swift-version file
 runs:
   using: "composite"
   steps:
-    # - name: "Cache: Swift"
-    #   id: cache-swift
-    #   uses: actions/cache@v4
-    #   with:
-    #     path: "$HOME/.local/share/swiftly"
-    #     key: swift-${{ hashFiles('.swift-version') }}
-
     - name: Setup Environment
       shell: bash
       run: |
+        mkdir -p "$HOME/.local/share"
+
+        export SWIFTLY_TOOLCHAINS_DIR="$HOME/.local/share/swiftly/toolchains"
+        echo "SWIFTLY_TOOLCHAINS_DIR=$SWIFTLY_TOOLCHAINS_DIR" >> $GITHUB_ENV
+        echo "SWIFTLY_TOOLCHAINS_DIR=$SWIFTLY_TOOLCHAINS_DIR" >> $HOME/.bashrc
+
         export SWIFTLY_HOME_DIR="$HOME/.local/share/swiftly"
         echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> $GITHUB_ENV
         echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> $HOME/.bashrc
@@ -25,15 +24,15 @@ runs:
         echo "PATH=$SWIFTLY_BIN_DIR:$PATH" >> $GITHUB_ENV
         echo "PATH=\$SWIFTLY_BIN_DIR:\$PATH" >> $HOME/.bashrc
 
-    - name: "Restore: Swift"
+    - name: Restore Swift
       uses: actions/cache/restore@v4
       id: cache-swift
       with:
         path: "~/.local/share/swiftly"
-        key: swift-${{ hashFiles('**/.swift-version') }}
+        key: swift-${{ runner.os }}-${{ hashFiles('**/.swift-version', '.github/actions/install-swift/action.yml') }}
 
     - name: Install `apt` Dependencies
-      if: steps.cache-swift.outputs.cache-hit != 'true'
+      if: runner.os == 'Linux' && steps.cache-swift.outputs.cache-hit != 'true'
       shell: bash
       run: |
         SUDO=$(if [[ $EUID -ne 0 ]]; then echo sudo; fi)
@@ -43,13 +42,31 @@ runs:
         DEBIAN_FRONTEND: noninteractive
 
     - name: Install Swiftly
-      if: steps.cache-swift.outputs.cache-hit != 'true'
+      if: runner.os == 'Linux' && steps.cache-swift.outputs.cache-hit != 'true'
       shell: bash
       run: |
+        SWIFTLY_VERSION=1.0.1
         UNAME=$(uname -m)
-        curl -O "https://download.swift.org/swiftly/linux/swiftly-$UNAME.tar.gz"
-        tar zxf "swiftly-$UNAME.tar.gz"
+        SWIFTLY_TGZ=swiftly-$SWIFTLY_VERSION-$UNAME.tar.gz
+        curl -O "https://download.swift.org/swiftly/linux/$SWIFTLY_TGZ"
+        tar zxf "$SWIFTLY_TGZ"
         ./swiftly init \
+          --skip-install \
+          --assume-yes \
+          --quiet-shell-followup \
+          --no-modify-profile
+
+    - name: Install Swiftly
+      if: runner.os == 'macOS' && steps.cache-swift.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        SWIFTLY_VERSION=1.0.1
+        SWIFTLY_PKG=swiftly-$SWIFTLY_VERSION.pkg
+        curl -O "https://download.swift.org/swiftly/darwin/$SWIFTLY_PKG"
+        pkgutil --check-signature $SWIFTLY_PKG
+        pkgutil --verbose --expand $SWIFTLY_PKG $SWIFTLY_HOME_DIR
+        tar -C $SWIFTLY_HOME_DIR -xvf $SWIFTLY_HOME_DIR/swiftly-*/Payload
+        "$SWIFTLY_BIN_DIR/swiftly" init \
           --skip-install \
           --assume-yes \
           --quiet-shell-followup \
@@ -60,12 +77,12 @@ runs:
       shell: bash
       run: swiftly install --post-install-file ./out.sh
 
-    - name: "Save: Swift"
+    - name: Save Swift
       if: steps.cache-swift.outputs.cache-hit != 'true'
       uses: actions/cache/save@v4
       with:
         path: "~/.local/share/swiftly"
-        key: swift-${{ hashFiles('**/.swift-version') }}
+        key: swift-${{ runner.os }}-${{ hashFiles('**/.swift-version', '.github/actions/install-swift/action.yml') }}
 
     - name: Print Swift Version
       shell: bash
