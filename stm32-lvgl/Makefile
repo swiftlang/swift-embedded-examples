@@ -17,11 +17,13 @@ ELF2HEX          := $(TOOLSROOT)/elf2hex.py
 SWIFT_BUILD      := swift build
 NM               := nm
 LLVM_TOOLCHAIN   := $(PWD)/llvm-toolchain
+BUILD_SYSTEM     := native
 
 # Flags
 ARCH             := armv7em
 TARGET           := $(ARCH)-none-none-eabi
 SWIFT_BUILD_ARGS := \
+	--build-system $(BUILD_SYSTEM) \
 	--configuration release \
 	--triple $(TARGET) \
 	--toolset $(TOOLSET) \

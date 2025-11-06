@@ -15,11 +15,13 @@ TOOLSROOT        := $(REPOROOT)/Tools
 TOOLSET          := $(TOOLSROOT)/Toolsets/stm32f74x.json
 MACHO2BIN        := $(TOOLSROOT)/macho2bin.py
 SWIFT_BUILD      := swift build
+BUILD_SYSTEM     := native
 
 # Flags
 ARCH             := armv7em
 TARGET           := $(ARCH)-apple-none-macho
 SWIFT_BUILD_ARGS := \
+	--build-system $(BUILD_SYSTEM) \
 	--configuration release \
 	--triple $(TARGET) \
 	--toolset $(TOOLSET)
