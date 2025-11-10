@@ -59,6 +59,9 @@ jobs:
         run: |
           git clone --depth 1 --branch ${{ env.PICO_SDK_VERSION }} https://github.com/raspberrypi/pico-sdk.git
           git -C pico-sdk submodule update --init --recursive
+          # back-port a fix to be included with 2.2.1 to fix issue with arm-cle built-ins.
+          git -C pico-sdk fetch --depth=1 origin 8fcd44a1718337861214ba5499a8faceea2bfa1d
+          git -C pico-sdk checkout 8fcd44a1718337861214ba5499a8faceea2bfa1d src/rp2_common/hardware_sync/include/hardware/sync.h
 
       - name: Clone Pico Extras
         run: |
