@@ -33,5 +33,12 @@ For (2), external dependencies are also triggered by specific code needing them,
   - dependency (on Mach-O): `__divti3`
   - dependency (on Mach-O): `__modti3`
   - dependency (with EABI): `__aeabi_ldivmod`
+- **dynamic exclusivity checking** (enabled with `-enforce-exclusivity=checked`)
+  - for single-threaded environments, link `swiftExclusivitySingleThreaded` library
+  - for multi-threaded environments that support C++11 thread-local storage, link `swiftExclusivityC11ThreadLocal`
+  - for environments where neither of the above will suffice
+    - dependency: `void * _swift_getExclusivityTLS()`
+    - dependency: void `_swift_setExclusivityTLS(void *newValue)`
 
-The user and/or the platform (via basic libraries like libc or compiler builtins) is expected to provide these well-known APIs.
+
+The user and/or the platform (via basic libraries like libc or compiler builtins) is expected to provide these APIs.
