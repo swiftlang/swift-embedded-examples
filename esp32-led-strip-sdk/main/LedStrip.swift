@@ -18,8 +18,8 @@ struct LedStrip {
     var stripConfig = led_strip_config_t(
       strip_gpio_num: Int32(gpioPin),
       max_leds: UInt32(maxLeds),
-      led_pixel_format: LED_PIXEL_FORMAT_GRB,
       led_model: LED_MODEL_WS2812,
+      color_component_format: led_strip_color_format_rgb(),
       flags: .init(invert_out: 0)
     )
     var spiConfig = led_strip_spi_config_t(

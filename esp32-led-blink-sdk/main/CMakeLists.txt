@@ -11,14 +11,42 @@ if("${arch}" STREQUAL "xtensa")
     message(FATAL_ERROR "Not supported target: ${target}")
 endif()
 
-# Extract the -march flag and remove any vendor-specific extensions (_x*)
-string(REGEX MATCH "-march=[^ ]+" march_flag "${CMAKE_C_FLAGS}")
-string(REGEX REPLACE "_x[^ ]*" "" march_flag "${march_flag}")
+# Extract -march and -mabi flags
+set(march_flag "")
+set(mabi_flag "")
 
-# Extract the -mabi flag or set a default value if not present
-string(REGEX MATCH "-mabi=[^ ]+" mabi_flag "${CMAKE_C_FLAGS}")
-if("${mabi_flag}" STREQUAL "")
+# Method 1: Read from IDF's cflags response file (IDF 6.0+)
+if(DEFINED IDF_TOOLCHAIN_BUILD_DIR AND EXISTS "${IDF_TOOLCHAIN_BUILD_DIR}/cflags")
+    file(STRINGS "${IDF_TOOLCHAIN_BUILD_DIR}/cflags" cflags_lines)
+    foreach(line IN LISTS cflags_lines)
+        if(line MATCHES "^-march=")
+            set(march_flag "${line}")
+        elseif(line MATCHES "^-mabi=")
+            set(mabi_flag "${line}")
+        endif()
+    endforeach()
+endif()
+
+# Method 2: Fallback to parsing CMAKE_C_FLAGS directly (older IDF versions)
+if(NOT march_flag OR NOT mabi_flag)
+    string(REGEX MATCH "-march=[^ ]+" march_flag_fallback "${CMAKE_C_FLAGS}")
+    string(REGEX MATCH "-mabi=[^ ]+" mabi_flag_fallback "${CMAKE_C_FLAGS}")
+    if(NOT march_flag AND march_flag_fallback)
+        set(march_flag "${march_flag_fallback}")
+    endif()
+    if(NOT mabi_flag AND mabi_flag_fallback)
+        set(mabi_flag "${mabi_flag_fallback}")
+    endif()
+endif()
+
+# Default mabi if not found
+if(NOT mabi_flag)
     set(mabi_flag "-mabi=ilp32")
+endif()
+
+# Strip Espressif custom extensions not supported by Swift
+if(march_flag)
+    string(REGEX REPLACE "_x[^ ]*" "" march_flag "${march_flag}")
 endif()
 
 # Clear the default COMPILE_OPTIONS which include a lot of C/C++ specific compiler flags that the Swift compiler will not accept
