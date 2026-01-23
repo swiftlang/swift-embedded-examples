@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        example: [esp32-led-blink-sdk, esp32-led-strip-sdk]
+        example: [esp32-led-blink-sdk, esp32-led-strip-sdk, esp32-uart-echo]
 
     steps:
       - name: Checkout repo
