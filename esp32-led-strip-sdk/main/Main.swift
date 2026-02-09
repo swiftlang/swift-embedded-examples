@@ -13,8 +13,8 @@
 func main() {
   print("Hello from Swift on ESP32-C6!")
 
-  let n = 8
-  let ledStrip = LedStrip(gpioPin: 0, maxLeds: n)
+  let n = 1
+  let ledStrip = LedStrip(gpioPin: 8, maxLeds: n)
   ledStrip.clear()
 
   var colors: [LedStrip.Color] = .init(repeating: .off, count: n)
