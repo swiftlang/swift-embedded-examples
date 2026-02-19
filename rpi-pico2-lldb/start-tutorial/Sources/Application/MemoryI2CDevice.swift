@@ -38,7 +38,6 @@ class MemoryI2CDevice {
 
     private func configBus() {
         // Configure I2C0 as CONTROLLER
-        // First, disable I2C. This is required to set IC_CON.
 
         // Config as peripheral
         i2c1.ic_con.write { w in
