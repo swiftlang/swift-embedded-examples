@@ -22,7 +22,7 @@ Download the starter app project from the [swift-embedded-examples repository](h
 
 After opening `start-tutorial`, build your app:
 ```shell
-$ cd rpi-pico-lldb/start-tutorial; make
+$ cd rpi-pico-lldb/start-tutorial; make BOARD=RP2040 // or BOARD=RP2350
 ```
 
 Build files, including an `Application` Mach-O binary, and the `Application.uf2` will be written to the `.build` directory:
@@ -486,7 +486,7 @@ Then re-build, and follow the same firmware flashing steps.
 ### Finding and fixing the last bug
 If you change the target address, you might be surprised to see the same behavior as before:
 
-```swift
+```shell
 (lldb) thread sel 1
 * thread #1
     frame #0: 0x20001b88 Application`generic specialization <Swift.UnsafeMutablePointer<Swift.UInt32>> of Swift.Optional.unsafelyUnwrapped.getter : τ_0_0 at <compiler-generated>:0
@@ -716,4 +716,4 @@ This must be our problem, since it matches our symptoms! Therefore, we cannot wr
 
 Therefore, we must first call `disableI2C()` before configuring the bus. The host `i2c0` interface already does this in `I2CController.swift`, so that's why it was correctly configured from the beginning.
 
-By applying this last fix, the program should be fully fixed. Hooray! 🥳
+By applying this last fix, the program should be fully fixed. Hooray!
