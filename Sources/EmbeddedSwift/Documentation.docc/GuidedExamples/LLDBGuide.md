@@ -13,7 +13,7 @@ In this guide, we’ll build a sample I2C embedded app for a **Raspberry Pi RP20
 
 To install Swift for embedded development, follow the instructions in <doc:InstallEmbeddedSwift>, which guides you through using swiftly to install the latest development snapshot with Embedded Swift support. The toolchain includes the LLDB Debugger, so you don't need to install it separately.
 
-To install SVD2LLDB, which is an LLDB plugin that enhance firmware debugging by providing semantic access to hardware registers, follow the instructions [in the swift-mmio docs](https://swiftpackageindex.com/apple/swift-mmio/0.1.1/documentation/svd2lldb).
+To install SVD2LLDB, which is an LLDB plugin that enhances firmware debugging by providing semantic access to hardware registers, follow the instructions [in the swift-mmio docs](https://swiftpackageindex.com/apple/swift-mmio/0.1.1/documentation/svd2lldb).
 
 If you're new to LLDB, apart from this guide, we also recommend you check out [the related WWDC sessions](https://developer.apple.com/videos/play/wwdc2022/110370), and the [LLDB docs](https://lldb.llvm.org).
 
@@ -233,7 +233,7 @@ Let's find out where the code stopped by checking the backtrace with `thread bac
 
 It seems that we are dealing with an assertion failure. We are now in an infinite `interrupt()` loop. Frame `#1` is our assertion failure, and frame `#2` seems to be related to Swift MMIO. Meanwhile, from frame `#3` onwards, function calls are related to our Application code itself.
 
-> `interrupt()` serves as a fault handler, since the relveant vector table entries point to it. The vector table is defined in `Support.c`.
+> `interrupt()` serves as a fault handler, since the relevant vector table entries point to it. The vector table is defined in `Support.c`.
 
 Let's see where the code stopped inside Swift MMIO, in frame `#2`:
 ```shell
@@ -338,7 +338,7 @@ Then, simply upload the `UF2` firmware to the new mounted volume.
 
 > Note: There are other ways to upload the binary as well. For example, you can also copy the binary directly over SWD, rather than manually uploading it via the mounted volume.
 
-Right after uploading the firmware, you will reach our entypoint breakpoints:
+Right after uploading the firmware, you will reach our entrypoint breakpoints:
 
 ```shell
 (lldb) continue
@@ -374,7 +374,7 @@ Target 0: (Application) stopped.
 ```
 
 ### Investigating the second bug
-Let's turn our attention to the second bug. If we type `continue`, we will notice that our code deosn't crash, but the LED isn't on, so something is still not right. We suspect our code to be hanging somewhere.
+Let's turn our attention to the second bug. If we type `continue`, we will notice that our code doesn't crash, but the LED isn't on, so something is still not right. We suspect our code to be hanging somewhere.
 
 Let's interrupt the code with Control + C (`^C`) or `process interrupt`:
 
@@ -429,7 +429,7 @@ Loaded SVD file: “rp235x.patched.svd”.
 (lldb)
 ```
 
-> Note: An SVD file (System View Description) is an XML description of a microcontroller’s peripherals and registers. Debugging tools like SVD2LLDB and Swift MMIO use to show named register fields and memory-mapped I/O in a human-friendly way.
+> Note: An SVD file (System View Description) is an XML description of a microcontroller’s peripherals and registers. Debugging tools like SVD2LLDB and Swift MMIO use them to show named register fields and memory-mapped I/O in a human-friendly way.
 
 Let's inspect the configured I2C addresses by looking at the relevant registers (the one to which `i2c0` writes, and the one on which `i2c1` is listening):
 ```shell
@@ -464,7 +464,7 @@ RP2350:
     IC_SAR: 0x0000_0055
 ```
 
-We can definitely see a difference here. Oddly enough, `i2c0`'s target address is `0x43`, while `i2c1` is holding its reset value, `0x55`. Now it's a good idea to check what value `i2c1` is supposed to be listening on, by looking in `MemoryI2CDevice.swift`:
+We can clearly see a difference here. Oddly enough, `i2c0`'s target address is `0x43`, while `i2c1` is holding its reset value, `0x55`. Now it's a good idea to check what value `i2c1` is supposed to be listening on, by looking in `MemoryI2CDevice.swift`:
 
 ```swift
     // Set peripheral address
@@ -473,7 +473,7 @@ We can definitely see a difference here. Oddly enough, `i2c0`'s target address i
     }
 ```
 
-It seems that `i2c1` is supposed to be listening on `0x42`. Therefore, part of the issue may be caused by the mismatch between the `i2c0`'s target address `0x43`, and `i2c1`'s listening addresss, which is supposed to be `0x42`. However, as we previously mentioned, `i2c1` is currently set to `0x55`, so another bug might be present.
+It seems that `i2c1` is supposed to be listening on `0x42`. Therefore, part of the issue may be caused by the mismatch between the `i2c0`'s target address `0x43`, and `i2c1`'s listening address, which is supposed to be `0x42`. However, as we previously mentioned, `i2c1` is currently set to `0x55`, so another bug might be present.
 
 Before moving on to the last bug, change the I2C target address to `0x42` in `Application.swift`:
 ```swift
@@ -604,7 +604,7 @@ I2C1.IC_CON: 0x0000_0065
 
 > Note: You can also read the register manually using LLDB `memory read` commands, and provide its value as an argument. For more info, run `svd decode --help`.
 
-It seems that the `i2c0` interface is correctly initialized, while the `i2c1` register doesn't seem to be configured at all, containing its reset value. This must be the reason why our reading stalls. In order to find out why this is actually happening, we should take a closer look at `MemoryI2CDevice.swift`, and the function responsible for I2C bus configuration:
+It seems that the `i2c0` interface is correctly initialized, while the `i2c1` register doesn't seem to be configured at all, containing its reset value. This is likeyly why the reading operation stalls. In order to find out why this is actually happening, we should take a closer look at `MemoryI2CDevice.swift`, and the function responsible for I2C bus configuration:
 
 ```swift
 class MemoryI2CDevice {
