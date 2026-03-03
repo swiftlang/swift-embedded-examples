@@ -231,7 +231,7 @@ Let's find out where the code stopped by checking the backtrace with `thread bac
     frame #9: 0x000002f4
 ```
 
-It seems that we are dealing with an assertion failure. We are now in an infinite `interrupt()` loop. Frame `#1` is our assertion failure, and frame `#2` seems to be related to Swift MMIO. Meanwhile, from frame `#3` onwards, function calls are related to our Application code itself.
+It looks like we are dealing with an assertion failure. We are now in an infinite `interrupt()` loop. Frame `#1` is our assertion failure, and frame `#2` seems to be related to Swift MMIO. Meanwhile, from frame `#3` onwards, function calls are related to our Application code itself.
 
 > `interrupt()` serves as a fault handler, since the relevant vector table entries point to it. The vector table is defined in `Support.c`.
 
@@ -248,7 +248,7 @@ frame #2: 0x20003c9a Application`generic specialization <RP2350.PADS_BANK0.GPIO,
    177 	    #else
 ```
 
-It seems that we are dealing with an out of bounds issue. Fortunately, Swift MMIO has captured it, resulting in an assertion failure rather than a segmentation fault.
+It appears that we are dealing with an out of bounds issue. Fortunately, Swift MMIO has captured it, resulting in an assertion failure rather than a segmentation fault.
 
 Let's see what triggered this issue by looking at the frames related to our Application code:
 
@@ -604,7 +604,7 @@ I2C1.IC_CON: 0x0000_0065
 
 > Note: You can also read the register manually using LLDB `memory read` commands, and provide its value as an argument. For more info, run `svd decode --help`.
 
-It seems that the `i2c0` interface is correctly initialized, while the `i2c1` register doesn't seem to be configured at all, containing its reset value. This is likeyly why the reading operation stalls. In order to find out why this is actually happening, we should take a closer look at `MemoryI2CDevice.swift`, and the function responsible for I2C bus configuration:
+It seems that the `i2c0` interface is correctly initialized, while the `i2c1` register doesn't seem to be configured at all, containing its reset value. This is likely why the reading operation stalls. In order to find out why this is actually happening, we should take a closer look at `MemoryI2CDevice.swift`, and the function responsible for I2C bus configuration:
 
 ```swift
 class MemoryI2CDevice {
@@ -709,8 +709,14 @@ This must be our problem, since it matches our symptoms! Therefore, we cannot wr
         self.address = address
         configureI2CPin(I2C1_SDA, enableInternalPullUp: enableInternalPullUp)
         configureI2CPin(I2C1_SCL, enableInternalPullUp: enableInternalPullUp)
-        enableI2C()
+        // ❌ Before
+        // enableI2C()
+        // configBus()
+
+        // ✅ After
+        disableI2C()
         configBus()
+        enableI2C()
     }
 ```
 
