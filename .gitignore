@@ -8,4 +8,4 @@ build/
 */sdkconfig.old
 */managed_components
 */dependencies.lock
-
+*/.cache/

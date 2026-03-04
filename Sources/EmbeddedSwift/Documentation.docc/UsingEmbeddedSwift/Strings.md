@@ -2,7 +2,7 @@
 
 How to enable full Unicode-compliant string support in Embedded Swift
 
-Both StaticString and String types are available in Embedded Swift. As is the case in desktop Swift, certain operations on strings require Unicode data tables for strict Unicode compliance. In Embedded Swift these data tables are provided as a separate static library (libUnicodeDataTables.a) that users need to link in manually – if they need to use these string operations. If the library is required, linking will fail due to missing on one or more of the following symbols:
+Both StaticString and String types are available in Embedded Swift. As is the case in desktop Swift, certain operations on strings require Unicode data tables for strict Unicode compliance. In Embedded Swift these data tables are provided as a separate static library (libswiftUnicodeDataTables.a) that users need to link in manually – if they need to use these string operations. If the library is required, linking will fail due to missing on one or more of the following symbols:
 
 ```
 _swift_stdlib_getAge
@@ -33,6 +33,33 @@ To resolve this, link in the `libswiftUnicodeDataTables.a` that's in Swift toolc
 ```bash
 $ swiftc <inputs> -target armv6m-none-none-eabi -enable-experimental-feature Embedded -wmo -c -o output.o
 $ ld ... -o binary output.o $(dirname `which swiftc`)/../lib/swift/embedded/armv6m-none-none-eabi/libswiftUnicodeDataTables.a
+```
+
+Alternatively in a CMake build try something like the below which will check a Swiftly based install.
+
+Update the `COMPILER_TARGET` variable to the architecture desired.
+
+```CMake
+set(COMPILER_TARGET "riscv32-none-none-eabi")
+
+find_program(SWIFTLY "swiftly")
+IF(SWIFTLY)
+  execute_process(COMMAND swiftly use --print-location OUTPUT_VARIABLE toolchain_path OUTPUT_STRIP_TRAILING_WHITESPACE)
+  cmake_path(SET additional_lib_path NORMALIZE "${toolchain_path}/usr/lib/swift/embedded/${COMPILER_TARGET}")
+ELSE()
+  get_filename_component(compiler_bin_dir ${CMAKE_Swift_COMPILER} DIRECTORY)
+  cmake_path(SET additional_lib_path NORMALIZE "${compiler_bin_dir}/../lib/swift/embedded/${COMPILER_TARGET}")
+ENDIF()
+
+target_link_directories(${COMPONENT_LIB} PUBLIC "${additional_lib_path}")
+target_link_libraries(${COMPONENT_LIB}
+    -Wl,--whole-archive
+    swiftUnicodeDataTables
+    -Wl,--no-whole-archive
+    )
+
+## decomment the below line to troubleshoot path issues if needed.
+# message(" ----------::: ${additional_lib_path} :::---------- ")
 ```
 
 **Unicode data tables are required for (list not exhaustive):**

@@ -9,9 +9,18 @@
 //
 //===----------------------------------------------------------------------===//
 
+#ifndef BRIDGING_HEADER_H
+#define BRIDGING_HEADER_H
+
 #include <stdio.h>
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "led_strip.h"
 #include "sdkconfig.h"
+
+static inline led_color_component_format_t led_strip_color_format_rgb(void) {
+    return LED_STRIP_COLOR_COMPONENT_FMT_RGB;
+}
+
+#endif /* BRIDGING_HEADER_H */

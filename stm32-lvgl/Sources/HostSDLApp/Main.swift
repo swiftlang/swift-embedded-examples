@@ -28,20 +28,26 @@ var mouseEvent = SDL_Event()
 struct Main {
   static func main() {
     lv_init()
-    lv_log_register_print_cb({ level, buf in print(String(cString: buf!), terminator: "") })
+    lv_log_register_print_cb({ level, buf in
+      print(String(cString: buf!), terminator: "")
+    })
     lv_tick_set_cb({ UInt32(uptimeInMs) })
 
     let bufSize: UInt32 = UInt32(drawSize.width * drawSize.height * 4)
-    let buf1 = UnsafeMutableRawPointer.allocate(byteCount: Int(bufSize), alignment: 16)
-    let buf2 = UnsafeMutableRawPointer.allocate(byteCount: Int(bufSize), alignment: 16)
+    let buf1 = UnsafeMutableRawPointer.allocate(
+      byteCount: Int(bufSize), alignment: 16)
+    let buf2 = UnsafeMutableRawPointer.allocate(
+      byteCount: Int(bufSize), alignment: 16)
 
     let disp = lv_display_create(Int32(drawSize.width), Int32(drawSize.height))!
     lv_display_set_color_format(disp, LV_COLOR_FORMAT_ARGB8888)
-    lv_display_set_buffers(disp, buf1, buf2, bufSize, LV_DISPLAY_RENDER_MODE_FULL)
+    lv_display_set_buffers(
+      disp, buf1, buf2, bufSize, LV_DISPLAY_RENDER_MODE_FULL)
     lv_display_set_flush_cb(
       disp,
       { disp, _, bufferToShow in
-        _ = SDL_UpdateTexture(texture, nil, bufferToShow, Int32(drawSize.width * 4))
+        _ = SDL_UpdateTexture(
+          texture, nil, bufferToShow, Int32(drawSize.width * 4))
         lv_display_flush_ready(disp)
       })
 
@@ -54,7 +60,9 @@ struct Main {
           data!.pointee.point.x = Int32(mouseEvent.button.x) / windowScale
           data!.pointee.point.y = Int32(mouseEvent.button.y) / windowScale
           data!.pointee.state = LV_INDEV_STATE_PRESSED
-        } else if mouseEvent.type == SDL_MOUSEMOTION.rawValue && mouseEvent.motion.state & 0x1 != 0 {
+        } else if mouseEvent.type == SDL_MOUSEMOTION.rawValue
+          && mouseEvent.motion.state & 0x1 != 0
+        {
           data!.pointee.point.x = Int32(mouseEvent.motion.x) / windowScale
           data!.pointee.point.y = Int32(mouseEvent.motion.y) / windowScale
           data!.pointee.state = LV_INDEV_STATE_PRESSED
@@ -67,26 +75,37 @@ struct Main {
 
     // Initialize SDL video systems
     guard SDL_Init(SDL_INIT_VIDEO) == 0 else {
-      fatalError("SDL could not initialize! SDL_Error: \(String(cString: SDL_GetError()))")
+      fatalError(
+        "SDL could not initialize! SDL_Error: \(String(cString: SDL_GetError()))"
+      )
     }
 
     // Create a window at the center of the screen
     let window = SDL_CreateWindow(
       "SDL Window", Int32(SDL_WINDOWPOS_CENTERED_MASK),
-      Int32(SDL_WINDOWPOS_CENTERED_MASK), drawSize.width * windowScale, drawSize.height * windowScale,
+      Int32(SDL_WINDOWPOS_CENTERED_MASK), drawSize.width * windowScale,
+      drawSize.height * windowScale,
       SDL_WINDOW_SHOWN.rawValue)
 
     // Create renderer
-    guard let renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED.rawValue) else {
-      fatalError("Renderer could not be created! SDL_Error: \(String(cString: SDL_GetError()))")
+    guard
+      let renderer = SDL_CreateRenderer(
+        window, -1, SDL_RENDERER_ACCELERATED.rawValue)
+    else {
+      fatalError(
+        "Renderer could not be created! SDL_Error: \(String(cString: SDL_GetError()))"
+      )
     }
 
     // Create texture
     texture = SDL_CreateTexture(
       renderer, SDL_PIXELFORMAT_ARGB8888.rawValue,
-      Int32(SDL_TEXTUREACCESS_STREAMING.rawValue), drawSize.width, drawSize.height)
+      Int32(SDL_TEXTUREACCESS_STREAMING.rawValue), drawSize.width,
+      drawSize.height)
     guard texture != nil else {
-      fatalError("Texture could not be created! SDL_Error: \(String(cString: SDL_GetError()))")
+      fatalError(
+        "Texture could not be created! SDL_Error: \(String(cString: SDL_GetError()))"
+      )
     }
 
     var event = SDL_Event()

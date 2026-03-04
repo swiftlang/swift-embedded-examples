@@ -12,7 +12,7 @@ This repository is a set of demonstration projects of **Embedded Swift**. Embedd
 
 Each example in this repository contains build and deployment instructions, however there are a couple common steps needed for many of the examples included below:
 
-1. Install [`swift`](https://swift.org) using the [instructions here](https://swiftpackageindex.com/swiftlang/swift-embedded-examples/main/documentation/embeddedswift/installembeddedswift).
+1. Install [`swift`](https://swift.org) using the [instructions here](https://docs.swift.org/embedded/documentation/embedded/installembeddedswift).
 
 2. Install [`uv`](https://github.com/astral-sh/uv), "an extremely fast Python package and project manager", using the [instructions here](https://docs.astral.sh/uv/getting-started/installation/).
 
@@ -22,6 +22,7 @@ Each example in this repository contains build and deployment instructions, howe
 | ---- | -------- | --- | ----------- | ----- |
 | [esp32-led-blink-sdk](./esp32-led-blink-sdk) | ESP32-C6-Bug | ESP-IDF SDK | Blink an LED repeatedly with Swift & the ESP-IDF. | <img width="300" src="esp32-led-blink-sdk/assets/images/ledon.jpg"> |
 | [esp32-led-strip-sdk](./esp32-led-strip-sdk) | ESP32-C6-DevKitC-1 | ESP-IDF SDK | Control NeoPixel LEDs with Swift & the ESP-IDF. | <img width="300" src="https://github.com/swiftlang/swift-embedded-examples/assets/1186214/15f8a3e0-953e-426d-ad2d-3902baf859be"> |
+| [esp32-uart-echo](./esp32-uart-echo) | ESP32-C6 | ESP-IDF SDK | UART echo example using Swift's `print()` and `readLine()`. | |
 | [harmony](./harmony) | Raspberry Pi Pico W | Pico SDK | A bluetooth speaker and ferrofluidic music visualizer. Firmware, Electrical, and Mechanical designs fully available. | <img width="300" src="harmony/assets/hero.jpg"> |
 | [nrfx-blink-sdk](./nrfx-blink-sdk) | nRF52840-DK | Zephyr SDK | Blink an LED repeatedly with Swift & Zephyr. | <img width="300" src="https://github.com/swiftlang/swift-embedded-examples/assets/1186214/ae3ff153-dd33-4460-8a08-4eac442bf7b0"> |
 | [nuttx-riscv-blink](./nuttx-riscv-blink) | QEMU | NuttX | Blink a virualized led in QEMU using the Apache NuttX RTOS | |
@@ -53,11 +54,14 @@ Note that the SDK integration examples (Pico SDK, Zephyr SDK, etc.) are not reco
 | [EmbeddedSwift nRF52 Examples](https://github.com/nelcea/EmbeddedSwift-nRF52-Examples) | nRF52840 (Development Kit) | A collection of examples using Embedded Swift on top of nRF Connect SDK (Zephyr). |
 | [Swatak](https://github.com/nelcea/EmbeddedSwift-nRF52-Swatak) | nRF52840 (Seeed Studio XIAO) | A reaction time game inspired by BATAK© boards, implemented in Embedded Swift using nRF Connect SDK. |
 | [swift-picosystem-example](https://github.com/jerrodputman/swift-picosystem-example) | PicoSystem | An Embedded Swift demo running on the Pimoroni PicoSystem |
+| [pico-swift-sh1106](https://github.com/mkbrwr/pico-swift-sh1106) | Pico 2 | Display Driver for SH1106 |
+| [swift-st7789-lcd](https://github.com/mkbrwr/swift-st7789-lcd) | Pico 2 | Display Driver for ST7789 |
 | [PlaydateKit](https://github.com/finnvoor/PlaydateKit) | Playdate | A full featured framework for building Playdate games using Embedded Swift. |
 | [swift-playdate-examples](https://github.com/swiftlang/swift-playdate-examples) | Playdate | An Embedded Swift game running on Playdate by Panic. |
 | [swift-stm32c011-examples](https://github.com/xtremekforever/swift-stm32c011-examples) | STM32 | Examples of running Embedded Swift on the STM32C011, which is a tiny MCU with only 6KB of SRAM and 32KB of flash. |
 | [flappy-swift](https://github.com/sliemeobn/flappy-swift) | Web | A WebAssembly game written in Swift in ~100 KB. |
 | [swift-for-wasm-examples](https://github.com/swiftlang/swift-for-wasm-examples) | Web | A "Swift Audio Workstation" example built with Swift for WebAssembly running in the browser using Embedded Swift. |
+| [CPicoSDK](https://github.com/gonzalolarralde/CPicoSDK/tree/main/Example) | Pico 2 | SwiftPM package that enables seamless Swift development for the Raspberry Pi Pico SDK |
 
 Please note that the presence of community repositories and devices in this list does not constitute a recommendation or endorsement. If there's a project you'd like to see included here, please [submit an issue](https://github.com/swiftlang/swift-embedded-examples/issues/new) with the details.
 

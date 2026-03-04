@@ -15,11 +15,13 @@ TOOLSROOT        := $(REPOROOT)/Tools
 TOOLSET          := $(TOOLSROOT)/Toolsets/pico2.json
 MACHO2UF2        := $(TOOLSROOT)/macho2uf2.py
 SWIFT_BUILD      := swift build
+BUILD_SYSTEM     := native
 
 # Setup tools and build flags
 ARCH             := armv7em
 TARGET           := $(ARCH)-apple-none-macho
 SWIFT_BUILD_ARGS := \
+	--build-system $(BUILD_SYSTEM) \
 	--configuration release \
 	--triple $(TARGET) \
 	--toolset $(TOOLSET)

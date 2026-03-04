@@ -14,7 +14,8 @@ import Registers
 import Support
 
 let dramBase = UnsafeMutableRawPointer(bitPattern: 0xC000_0000 as UInt)!
-let dramBaseAsUInt32 = UnsafeMutablePointer<UInt32>(bitPattern: 0xC000_0000 as UInt)!
+let dramBaseAsUInt32 = UnsafeMutablePointer<UInt32>(
+  bitPattern: 0xC000_0000 as UInt)!
 let dramSize = 0x0080_0000  // 8 MB
 
 // SDRAM part is a MT48LC4M32B2B5 (Micron)

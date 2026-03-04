@@ -1,0 +1,8 @@
+{
+  "peripherals": [
+    "GPIOA",
+    "GPIOI",
+    "RCC"
+  ],
+  "access-level": "public"
+}

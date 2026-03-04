@@ -67,7 +67,7 @@ Swift MMIO provides strongly-typed access to memory-mapped hardware and can auto
 gpioa.odr.write { $0.odr5 = true } // Set pin 5 high
 ```
 
-See [Swift MMIO](https://github.com/swiftlang/swift-mmio/) for details and <doc:STM32BaremetalGuide> for a guided example of using it.
+See [Swift MMIO](https://github.com/apple/swift-mmio/) for details and <doc:STM32BaremetalGuide> for a guided example of using it.
 
 ## Creating a linker script and data segment relocation
 

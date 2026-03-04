@@ -136,7 +136,6 @@ Create a `toolset.json` file in the project directory to configure the build wit
   "swiftCompiler": {
     "extraCLIOptions": [
       "-enable-experimental-feature", "Embedded",
-      "-Xfrontend", "-mergeable-symbols"
     ]
   }
 }
@@ -179,16 +178,16 @@ SECTIONS
 {
   .text     : { *(.vectors*) ; *(.text*) } > flash
   .rodata   : { *(.rodata*) ; *(.got*) } > flash
-   
-  __flash_data_start = (. + 3) & ~ 3; /* 4-byte aligned end of text is where data is going to be placed (by elf2hex) */ 
+
+  __flash_data_start = (. + 3) & ~ 3; /* 4-byte aligned end of text is where data is going to be placed (by elf2hex) */
 
   .bss      : { *(.bss*) } > sram_data
   .tbss      : { *(.tbss*) } > sram_data
   .data     : { *(.data*) } > sram_data
 
   __flash_data_len   = . - ORIGIN(sram_data);
-  
-  /DISCARD/ : { *(.swift_modhash*) }  
+
+  /DISCARD/ : { *(.swift_modhash*) }
   /* ARM metadata sections */
   /DISCARD/ : { *(.ARM.attributes*) *(.ARM.exidx) }
   /* ELF metadata sections */
@@ -262,7 +261,6 @@ Finally, let's update `toolset.json` to configure the linker settings for our em
   "swiftCompiler": {
     "extraCLIOptions": [
       "-enable-experimental-feature", "Embedded",
-      "-Xfrontend", "-mergeable-symbols",
       "-Xfrontend", "-disable-stack-protector",
       "-Xclang-linker", "-nostdlib",
     ]
@@ -414,7 +412,7 @@ struct STM32BlinkLED {
         while true {
             // Toggle the LED
             let ledState = count % 2 == 0
-            gpioi.bsrr.write { 
+            gpioi.bsrr.write {
                 if ledState {
                     $0.raw.bs1 = 1  // Set pin (LED on)
                 } else {

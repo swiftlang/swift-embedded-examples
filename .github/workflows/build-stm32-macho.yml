@@ -1,0 +1,37 @@
+name: STM32 Macho
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: [self-hosted, macos, tahoe, ARM64]
+
+    strategy:
+      fail-fast: false
+      matrix:
+        example: [stm32-blink, stm32-lcd-logo, stm32-neopixel, stm32-uart-echo]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: 3.11
+
+      - name: Install Swift
+        uses: ./.github/actions/install-swift
+
+      - name: Build ${{ matrix.example }}
+        working-directory: ${{ matrix.example }}
+        run: make

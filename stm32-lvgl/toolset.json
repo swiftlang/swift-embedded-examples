@@ -7,7 +7,6 @@
       "-enable-experimental-feature", "Extern",
       "-Xclang-linker", "-nostdlib",
       "-Xfrontend", "-function-sections",
-      "-Xfrontend", "-mergeable-symbols",
       "-Xfrontend", "-enable-single-module-llvm-emission",
       "-assert-config", "Debug",
       "-Xclang-linker", "-fuse-ld=lld"

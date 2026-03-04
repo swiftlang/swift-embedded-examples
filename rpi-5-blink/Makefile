@@ -15,11 +15,13 @@ TOOLSROOT        := $(REPOROOT)/Tools
 TOOLSET          := $(TOOLSROOT)/Toolsets/rpi-5-elf.json
 LLVM_OBJCOPY     := llvm-objcopy
 SWIFT_BUILD      := swift build
+BUILD_SYSTEM     := native
 
 # Flags
 ARCH             := aarch64
 TARGET           := $(ARCH)-none-none-elf
 SWIFT_BUILD_ARGS := \
+	--build-system $(BUILD_SYSTEM) \
 	--configuration release \
 	--triple $(TARGET) \
 	--toolset $(TOOLSET)
