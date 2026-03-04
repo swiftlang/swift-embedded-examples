@@ -6,8 +6,8 @@ This example demonstrates how to integrate with the ESP-IDF SDK via CMake and ho
 
 ## Requirements
 
-- Set up the [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/) development environment. Follow the steps in the [ESP32-C6 "Get Started" guide](https://docs.espressif.com/projects/esp-idf/en/v5.2/esp32c6/get-started/index.html).
-  - Make sure you specifically set up development for the RISC-V ESP32-C6, and not the Xtensa based products.
+- Set up the [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/) development environment. Follow the steps in the [ESP-IDF "Get Started" guide](https://docs.espressif.com/projects/esp-idf/en/v5.4/esp32c6/get-started/index.html).
+  - Make sure you specifically set up development for RISC-V based Espressif chips, and not the Xtensa based products.
   
 - Before trying to use Swift with the ESP-IDF SDK, make sure your environment works and can build the provided C/C++ sample projects, in particular:
   - Try building and running the "get-started/blink" example from ESP-IDF written in C.
@@ -16,11 +16,11 @@ This example demonstrates how to integrate with the ESP-IDF SDK via CMake and ho
 
 - Make sure you have a recent nightly Swift toolchain that has Embedded Swift support.
 - If needed, run export.sh to get access to the idf.py script from ESP-IDF.
-- Specify and the target board type by using `idf.py set-target`.
+- Specify the target board type by using `idf.py set-target`. Any RISC-V based Espressif chip is supported.
 ``` console
 $ cd esp32-led-strip-sdk
 $ . <path-to-esp-idf>/export.sh
-$ idf.py set-target esp32c6
+$ idf.py set-target esp32c6  # or esp32c3, esp32p4, etc.
 $ idf.py build
 ```
 

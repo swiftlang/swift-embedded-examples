@@ -93,7 +93,9 @@ struct I2C {
     }
 
     // Wait for transfer complete
-    while i2c.isr.read().raw.tc == 0 && i2c.isr.read().raw.tcr == 0 && i2c.isr.read().raw.stopf == 0 {
+    while i2c.isr.read().raw.tc == 0 && i2c.isr.read().raw.tcr == 0
+      && i2c.isr.read().raw.stopf == 0
+    {
       // Check for errors
       if i2c.isr.read().raw.nackf == 1 {
         i2c.icr.write { $0.raw.nackcf = 1 }  // Clear NACK flag
@@ -142,7 +144,8 @@ struct I2C {
     }
 
     // Wait for transfer complete
-    while i2c.isr.read().raw.tc == 0 && i2c.isr.read().raw.stopf == 0 { /* busy wait */  }
+    while i2c.isr.read().raw.tc == 0 && i2c.isr.read().raw.stopf == 0
+    { /* busy wait */  }
 
     // Clear flags
     let isr = i2c.isr.read().raw
