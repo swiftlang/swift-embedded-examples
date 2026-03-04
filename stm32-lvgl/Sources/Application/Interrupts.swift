@@ -69,7 +69,7 @@ func SystickTimerISR() {
   uptimeInMs += 1
 }
 
-// The following interrupt set up is trickier that it looks on the surface. The
+// The following interrupt set up is trickier than it looks on the surface. The
 // ISR Swift code must be "trivial" directly and transitively, and namely it
 // must avoid destroying any heap objects (because we could be inside malloc
 // when the interrupt hits). For that, the expectation is that
