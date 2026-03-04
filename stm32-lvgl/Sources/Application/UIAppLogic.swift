@@ -11,6 +11,8 @@
 
 import CLVGL
 
+@_extern(c) func lv_demo_widgets()
+
 // This is shared code (via a symlink) between the firmware build and the host
 // SDL-based "simulator" app. No platform/firmware specific logic to stay
 // portable.
@@ -127,7 +129,6 @@ enum UIAppLogic {
     // to the original screen.
     widgetDemoScreen = lv_obj_create(nil)
     lv_screen_load(widgetDemoScreen)
-    @_extern(c) func lv_demo_widgets()
     lv_demo_widgets()
     lv_screen_load(screen)
   }
