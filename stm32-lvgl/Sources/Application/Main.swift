@@ -10,6 +10,7 @@
 //===----------------------------------------------------------------------===//
 
 import CLVGL
+import MMIO
 import Registers
 import Support
 

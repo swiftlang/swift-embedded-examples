@@ -48,7 +48,7 @@ build:
 
 	@echo "building LVGL..."
 	cmake --build .build/lvgl
-	
+
 	@echo "building..."
 	$(SWIFT_BUILD) \
 		$(SWIFT_BUILD_ARGS) \
@@ -68,7 +68,7 @@ build:
 flash:
 	@echo "flashing..."
 	st-flash --reset --format ihex write $(BUILDROOT)/Application.hex
-	
+
 simulator:
 	mkdir -p .build
 
@@ -79,13 +79,13 @@ simulator:
 
 	@echo "building LVGL..."
 	cmake --build .build/lvgl-host
-	
+
 	@echo "building..."
 	$(SWIFT_BUILD) \
 	    --configuration release \
 		--product HostSDLApp \
 		--verbose
-	
+
 	@echo "running..."
 	$(PWD)/.build/release/HostSDLApp
 
