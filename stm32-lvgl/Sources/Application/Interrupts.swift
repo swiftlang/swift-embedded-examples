@@ -73,7 +73,7 @@ func SystickTimerISR() {
 // ISR Swift code must be "trivial" directly and transitively, and namely it
 // must avoid destroying any heap objects (because we could be inside malloc
 // when the interrupt hits). For that, the expectation is that
-// lcdInterruptVerticalSyncHandler is only ever set once, and it not changing
+// lcdInterruptVerticalSyncHandler is only ever set once, and it is not changing
 // after boot. The code inside the lcdInterruptVerticalSyncHandler closure is
 // expected to only perform trivial operations. lcdInterruptVerticalSyncEnabled
 // is allowed to change.
