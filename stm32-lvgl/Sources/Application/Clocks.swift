@@ -164,14 +164,17 @@ func setFlashWaitStates(_ hclk: UInt32) {
   _ = flash.acr.read()
 }
 
-public func setPllConfiguration(_ config: (hse: Bool, q: UInt32, p: UInt32, n: UInt32, m: UInt32)) {
+public func setPllConfiguration(
+  _ config: (hse: Bool, q: UInt32, p: UInt32, n: UInt32, m: UInt32)
+) {
   // PLLQ direct mapped 2..15
   // PLLP 2->0, 4->1, 6->2, 8->3
   // PLLN direct mapped 50..432
   // PLLM direct mapped 2..63
 
   // Always assert limits.
-  if (config.q < 2) || (config.q > 15) || (config.p < 2) || (config.p > 8) || ((config.p % 1) != 0) || (config.n < 50)
+  if (config.q < 2) || (config.q > 15) || (config.p < 2) || (config.p > 8)
+    || ((config.p % 1) != 0) || (config.n < 50)
     || (config.n > 432) || (config.m < 2) || (config.m > 63)
   {
     preconditionFailure("PllConfig")
@@ -270,7 +273,7 @@ func setOscillator(_ enable: Bool) {
 
 extension UInt64 {
   func divideRoundingUp(divideBy: UInt64) -> UInt64 {
-    return (self + divideBy - 1) / divideBy
+    (self + divideBy - 1) / divideBy
   }
 }
 
@@ -282,7 +285,9 @@ func log2_exact(_ val: UInt32) -> UInt32 {
 }
 
 extension Main {
-  static func setPrescalers(_ prescalers: (hpre: UInt32, ppre1: UInt32, ppre2: UInt32)) {
+  static func setPrescalers(
+    _ prescalers: (hpre: UInt32, ppre1: UInt32, ppre2: UInt32)
+  ) {
     let log2_ahb: UInt32 = log2_exact(prescalers.hpre)
     let log2_apb1: UInt32 = log2_exact(prescalers.ppre1)
     let log2_apb2: UInt32 = log2_exact(prescalers.ppre2)
@@ -362,7 +367,9 @@ extension Main {
     // sequence will be prevented by hardware from updating
     // configuration bits.
     let cr = rcc.cr.read()
-    if cr.raw.hseon != 0 || cr.raw.csson != 0 || cr.raw.pllon != 0 || cr.raw.plli2son != 0 || cr.raw.pllsaion != 0 {
+    if cr.raw.hseon != 0 || cr.raw.csson != 0 || cr.raw.pllon != 0
+      || cr.raw.plli2son != 0 || cr.raw.pllsaion != 0
+    {
       preconditionFailure("Not quiesced")
     }
   }

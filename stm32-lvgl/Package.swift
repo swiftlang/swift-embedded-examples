@@ -55,5 +55,7 @@ let package = Package(
         "CLVGL",
       ],
       swiftSettings: [.enableExperimentalFeature("Extern")],
-      linkerSettings: [.unsafeFlags(["-L.build/lvgl-host/lib", "-llvgl", "-llvgl_demos"])]),
+      linkerSettings: [
+        .unsafeFlags(["-L.build/lvgl-host/lib", "-llvgl", "-llvgl_demos"])
+      ]),
   ])

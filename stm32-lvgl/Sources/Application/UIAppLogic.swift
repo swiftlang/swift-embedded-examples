@@ -135,6 +135,7 @@ enum UIAppLogic {
 
   static func updateFrame() {
     frameCounter += 1
-    lv_label_set_text(spinnerLabel, "Uptime (ms): \(uptimeInMs)\nFrames: \(frameCounter)")
+    lv_label_set_text(
+      spinnerLabel, "Uptime (ms): \(uptimeInMs)\nFrames: \(frameCounter)")
   }
 }
