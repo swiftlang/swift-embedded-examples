@@ -3,17 +3,22 @@ Try out LLDB hardware debugging features for Swift Embedded on Raspberry Pi Pico
 
 In this guide, we’ll build a sample I2C embedded app for a **Raspberry Pi RP2040 / RP2350 board**, containing a few bugs. Then, we’ll use LLDB to identify and fix them.
 
+To debug the board, you will use a hardware debugger together with software running on your computer. The hardware debugger connects to the board’s debug pins and gives your computer low-level access to the microcontroller while it is running. LLDB connects to your board and lets you pause the program, inspect its state, and step through the code to find problems. For this, you will need software that communicates with the hardware debugger and provides a debug interface that LLDB can use, such as OpenOCD.
+
 ## Prerequisites
 - Install **Swift with Embedded support**, **LLDB**, and **SVD2LLDB** (instructions below)
-- A **RP2350 / RP2040** board with access to SWD (debug) pins, and an LED. On-board LEDs may be used as long as they are connected directly to GPIO; otherwise, you may use an external LED.
-- A **SWD / JTAG debugger**, allowing GDB remote debug protocol connections. If you have another Raspberry Pi Pico or a Raspberry Pi Debug Probe, you can use it for debugging, via OpenOCD.
+- A Raspberry Pi **RP2350 / RP2040**-based board with access to SWD (debug) pins, and an LED. On-board LEDs may be used as long as they are connected directly to GPIO; otherwise, you may use an external LED.
+- A **SWD / JTAG hardware debugger**, allowing GDB remote debug protocol connections via software such as *OpenOCD*.
 
-## Installing Swift, LLDB and SVD2LLDB
+> Note: If you have another RP2350 / RP2040 board or a Raspberry Pi Debug Probe, you can use it for debugging, via OpenOCD.
+
+
+### Installing Swift, LLDB and SVD2LLDB
 > Note: Embedded Swift is experimental. Public releases of Swift do not support Embedded Swift, yet. See <doc:InstallEmbeddedSwift> for details.
 
 To install Swift for embedded development, follow the instructions in <doc:InstallEmbeddedSwift>, which guides you through using swiftly to install the latest development snapshot with Embedded Swift support. The toolchain includes the LLDB Debugger, so you don't need to install it separately.
 
-To install SVD2LLDB, which is an LLDB plugin that enhances firmware debugging by providing semantic access to hardware registers, follow the instructions [in the swift-mmio docs](https://swiftpackageindex.com/apple/swift-mmio/0.1.1/documentation/svd2lldb).
+To install SVD2LLDB, which is an LLDB plugin that enhances firmware debugging by providing semantic access to hardware registers, follow the instructions [in the swift-mmio docs](https://swiftpackageindex.com/apple/swift-mmio/0.1.1/documentation/svd2lldb/buildingsvd2lldb).
 
 If you're new to LLDB, apart from this guide, we also recommend you check out [the related WWDC sessions](https://developer.apple.com/videos/play/wwdc2022/110370), and the [LLDB docs](https://lldb.llvm.org).
 
@@ -92,9 +97,9 @@ An example Fritzing schematic for the Raspberry Pi Pico / Pico 2 is provided bel
 
 If you are using another RP2040 / RP2350 board, or different pins, you may need to [change the I2C pin numbers in the Application.swift source file]().
 
-After you made the connections above, you will need to connect a debugger to the board's SWD pins.
+After you made the connections above, you will need to connect a debugger to the board's SWD pins. Refer to your hardware debugger's documentation for more info.
 
-If you have another Pico or a Raspberry Pi Debug probe, you can use it for debugging. Check out Raspberry Pi's [docs](https://www.raspberrypi.com/documentation/microcontrollers/debug-probe.html) and [picoprobe GitHub repo](https://github.com/raspberrypi/debugprobe) in order to set up the debugger.
+> Note: If you have another Pico or a Raspberry Pi Debug probe, you can use it for debugging. Check out Raspberry Pi's [docs](https://www.raspberrypi.com/documentation/microcontrollers/debug-probe.html) and [picoprobe GitHub repo](https://github.com/raspberrypi/debugprobe) in order to set up the debugger.
 
 ## Uploading the firmware
 It's time to run & debug the application.
@@ -115,13 +120,20 @@ Copy the UF2 file to this volume, either by dragging `Application.uf2` to the ne
 $ cp .build/armv7em-apple-none-macho/debug/Application.uf2 /Volumes/RP2350
 ```
 
-This will make the Pico automatically install the firmware, reboot itself, and run the firmware. The current example firmware is saved in RAM rather than Flash, so if you unplug your board, you will need to reflash it.
+This will make the Pico automatically install the firmware, reboot itself, and run the firmware. The current example firmware is saved in RAM rather than Flash, so if you unplug your board, the RAM will be cleared, and your program will be lost. Thus, you will need to reflash it.
 
 ## Attaching LLDB
 
+In order to use LLDB, we need to connect it to our board. This is done using a hardware SWD debugger and a compatible debug server program, such as OpenOCD.
+
+### Using OpenOCD
+If your hardware SWD debugger is supported, you can use OpenOCD as a bridge between LLDB and your board.
+
+OpenOCD is a program that can connect your hardware debugger, providing an interface (i.e. the GDB remote debug server) that LLDB (the software debugger program running on your machine) can use to connect and control your board.
+
 > Note: OpenOCD had a bug which may have prevented LLDB from connecting to your board. Ensure you are using the latest version available.
 
-Ensure your debugger software is running, having a GDB Remote Debug Protocol port open. For Pico-based debug probes, using Raspberry Pi's OpenOCD port, you may run the following command:
+For Pico-based debug probes, using Raspberry Pi's OpenOCD port, you may run the following command in one terminal:
 
 ```shell
 $ sudo src/openocd -s tcl -f interface/cmsis-dap.cfg -f target/rp2350.cfg -c "adapter speed 5000" -c 'gdb_memory_map disable'
@@ -154,7 +166,10 @@ Info : starting gdb server for rp2350.cm0 on 3333
 Info : Listening on port 3333 for gdb connections
 ```
 
-Then, run lldb with your `Application` Mach-O and connect to OpenOCD.
+You now have a debug server running on your machine. Leave this terminal open, and do not close the program while you use `lldb` in another terminal.
+
+### Connecting LLDB to your debug server
+Run lldb with your `Application` Mach-O and connect to your debug server (here we are connecting to the OpenOCD server's port, `3333`, as seen in the previous section).
 
 ```shell
 $ lldb .build/armv7em-apple-none-macho/debug/Application
@@ -174,7 +189,7 @@ Process 1 stopped
 Target 0: (Application) stopped.
 ```
 
-We are now connected! If you are seeing assembly output rather than Swift / C code, make sure you provided the correct Mach-O path to LLDB. If you did, then it's worth noting that the Raspberry Pi Pico has 2 cores. Just use the `thread sel` command to choose the core on which our app is running:
+We are now connected! If you are seeing assembly output rather than Swift / C code, make sure you provided the correct Mach-O path to LLDB. If you did, then it's worth noting that the Raspberry Pi Pico has 2 cores, exposed to LLDB as 2 threads, and our current example runs on one of them only. The `thread sel` command can be used to select the board's core:
 
 ```shell
 (lldb) thread sel 2
@@ -197,7 +212,9 @@ We are now connected! If you are seeing assembly output rather than Swift / C co
 (lldb)  
 ```
 
-Otherwise, if you're seeing assembly code in both cases, you might be looking at the board's bootloader (i.e. ROM) code, and you may not have reached the Swift code yet. A simple way to check this is by looking at the current instruction's address - on RP2040/RP2350, the Boot ROM is memory-mapped starting at `0x00000000`, so any address in the low `0x0000xxxx` range typically lands inside the bootloader. Type `continue` and check that your board isn't waiting for firmware upload (check that it doesn't show up as a mounted volume in `/Volumes`). Then, type `process-interrupt` or hit Control + C (`^C`) to interrupt the program.
+The core that isn’t used by our code is currently idling in the chip's own bootloader (ROM) code. We do not have symbols for the board's ROM, so LLDB can only display the raw assembly instructions.
+
+Otherwise, if you're seeing assembly code in both cases, you might be looking at the board's bootloader (i.e. ROM) code in both cases, and you may not have reached the Swift code yet. A simple way to check this is by looking at the current instruction's address - on RP2040/RP2350, the Boot ROM is memory-mapped starting at `0x00000000`, so any address in the low `0x0000xxxx` range typically lands inside the bootloader. Type `continue` and check that your board isn't waiting for firmware upload (check that it doesn't show up as a mounted volume in `/Volumes`). Then, type `process-interrupt` or hit Control + C (`^C`) to interrupt the program.
 
 ## Finding bugs with LLDB
 
@@ -235,7 +252,7 @@ It looks like we are dealing with an assertion failure. We are now in an infinit
 
 > `interrupt()` serves as a fault handler, since the relevant vector table entries point to it. The vector table is defined in `Support.c`.
 
-Let's see where the code stopped inside Swift MMIO, in frame `#2`:
+Let's see where the code stopped inside Swift MMIO, in frame `#2`. For this, we can use `frame select <frame_number>`:
 ```shell
 (lldb) frame sel 2
 frame #2: 0x20003c9a Application`generic specialization <RP2350.PADS_BANK0.GPIO, Swift.UInt32> of MMIO.RegisterArray<τ_0_0 where τ_0_0: MMIO.RegisterValue>.subscript.getter : <τ_0_0 where τ_1_0: Swift.BinaryInteger>(τ_1_0) -> MMIO.Register<τ_0_0> at RegisterArray.swift:174:5
@@ -332,9 +349,9 @@ Target 0: (Application) stopped.
 (lldb) continue
 ```
 
-Notice that we have stopped in the board's bootloader code. Type `continue` to let the bootloader run.
+Notice that we have stopped in the board's bootloader code (based on the current instruction's address). Type `continue` to let the bootloader run.
 
-Then, simply upload the `UF2` firmware to the new mounted volume.
+Then, upload the `UF2` firmware to the new mounted volume.
 
 > Note: There are other ways to upload the binary as well. For example, you can also copy the binary directly over SWD, rather than manually uploading it via the mounted volume.
 
@@ -421,7 +438,7 @@ frame #3: 0x200022ec Application`Application.waitForCondition(() -> Swift.Bool) 
 
 It seems that we have stopped in an I2C-related code. Looking at frame 3, we can see that we are waiting for a condition inside `MemoryI2CDevice.swift`. And, by looking at frame `#4`, we can see that our `i2c1` memory peripheral is trying to receive bytes to memory (`Application.MemoryI2CDevice.receiveBytesToMemory()`).
 
-We can conclude that somewhere, the `I2C` transmission (between the host `i2c0` and our emulated memory device `i2c1`) hangs. Now it's a good time to try SVD2LLDB's features. Provided that you installed it, simply load the `SVD` file in the `swift-embedded-examples` repository:
+We can conclude that somewhere, the `I2C` transmission (between the host `i2c0` and our emulated memory device `i2c1`) hangs. Now it's a good time to try SVD2LLDB's features. Provided that you installed it, load the `SVD` file in the `swift-embedded-examples` repository:
 
 ```shell
 (lldb) svd load path/to/swift-embedded-examples/Tools/SVDs/rp235x.patched.svd // or rp2040 equivalent
@@ -464,7 +481,7 @@ RP2350:
     IC_SAR: 0x0000_0055
 ```
 
-We can clearly see a difference here. Oddly enough, `i2c0`'s target address is `0x43`, while `i2c1` is holding its reset value, `0x55`. Now it's a good idea to check what value `i2c1` is supposed to be listening on, by looking in `MemoryI2CDevice.swift`:
+We can clearly see a difference here:  `i2c0`'s target address is `0x43`, while `i2c1` is holding its reset value, `0x55`. Now it's a good idea to check what value `i2c1` is supposed to be listening on, by looking in `MemoryI2CDevice.swift`:
 
 ```swift
     // Set peripheral address
@@ -481,10 +498,12 @@ Before moving on to the last bug, change the I2C target address to `0x42` in `Ap
     controller.configBus(targetPeripheral: 0x42)
 ```
 
+Alternatively, change the `i2c1`'s address to `0x43`, or change both addresses to a value of your choice.
+
 Then re-build, and follow the same firmware flashing steps.
 
 ### Finding and fixing the last bug
-If you change the target address, you might be surprised to see the same behavior as before:
+If you change the target address, the behavior is unchanged:
 
 ```shell
 (lldb) thread sel 1
@@ -515,7 +534,7 @@ RP2350:
     IC_SAR: 0x0000_0055
 ```
 
-As you can recall, we already suspected that we fixed just one part of this issue. It's now time to check out other relevant I2C MMIO registers.
+As you can recall, we already suspected that we fixed only one part of this issue. It's now time to check out other relevant I2C MMIO registers.
 
 At this stage, we recommend opening your board's datasheet ([RP2040 datasheet - section 4.3.17](https://pip-assets.raspberrypi.com/categories/814-rp2040/documents/RP-008371-DS-1-rp2040-datasheet.pdf) / [RP2350 datasheet - section 12.2.17](https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008373-DS-2-rp2350-datasheet.pdf)).
 
@@ -540,7 +559,7 @@ I2C1.IC_CON:
   Fields:      [STOP_DET_IF_MASTER_ACTIVE, RX_FIFO_FULL_HLD_CTRL, TX_EMPTY_CTRL, STOP_DET_IFADDRESSED, IC_SLAVE_DISABLE, IC_RESTART_EN, IC_10BITADDR_MASTER, IC_10BITADDR_SLAVE, SPEED, MASTER_MODE]
 ```
 
-Remember that the reset values for these registers is `0x65`. This is also indicated in the datasheet.
+Remember that the reset value for these registers is 0x65 - this can help you identify whether the register was modified or is at its default value. This value is also indicated in the datasheet.
 
 Since this is a complex register with multiple fields, it is a great candidate for the `decode` SVD2LLDB command. We can read the register and display its value in a beautiful, visual way:
 
@@ -645,7 +664,7 @@ class MemoryI2CDevice {
 }
 ```
 
-We might not notice anything suspicious at first - the I2C bus is enabled, and then configured using `configBus()`. Let's try to set a breakpoint on `configBus` and re-run our app, to see if this write really fails.
+At first glance, this code may look reasonable - the I2C bus is enabled, and then configured using `configBus()`. Let's try to set a breakpoint on `configBus` and re-run our app, to see if this write really fails.
 
 > Note: you can re-run the program by either repeating the flashing sequence, or modifying the core's `pc` (program counter) and `sp` (stack pointer) registers to their reset values set in the Vector Table. You do not necessarily need to flash the application again, since it is already in memory.
 
