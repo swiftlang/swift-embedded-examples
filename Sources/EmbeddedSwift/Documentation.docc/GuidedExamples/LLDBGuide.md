@@ -95,7 +95,7 @@ An example Fritzing schematic for the Raspberry Pi Pico / Pico 2 is provided bel
 
 ![Raspberry Pi Pico connection Fritzing diagram](lldb_tutorial.png)
 
-If you are using another RP2040 / RP2350 board, or different pins, you may need to [change the I2C pin numbers in the Application.swift source file]().
+If you are using another RP2040 / RP2350 board, or different pins, you may need to [change the I2C pin numbers in the Application.swift source file](https://github.com/swiftlang/swift-embedded-examples/blob/main/rpi-pico-lldb/start-tutorial/Sources/Application/Application.swift).
 
 After you made the connections above, connect a debugger to the board's SWD pins. Refer to your hardware debugger's documentation for more info.
 
@@ -282,7 +282,7 @@ frame #2: 0x20003c9a Application`generic specialization <RP2350.PADS_BANK0.GPIO,
 It appears that the code has an out of bounds issue.
 Fortunately, Swift MMIO has captured it, resulting in an assertion failure rather than a segmentation fault.
 
-Find what triggered this issue by looking at the frames related to our Application code:
+Find what triggered this issue by looking at the frames related to the Application code:
 
 ```shell
 (lldb) frame sel 3
@@ -372,7 +372,7 @@ Then, upload the `UF2` firmware to the new mounted volume.
 
 > Note: There are other ways to upload the binary as well. For example, you can also copy the binary directly over SWD, rather than manually uploading it via the mounted volume.
 
-Right after uploading the firmware, you will reach our entrypoint breakpoints:
+Right after uploading the firmware, you will reach your entrypoint breakpoints:
 
 ```shell
 (lldb) continue
@@ -410,7 +410,7 @@ Target 0: (Application) stopped.
 ### Investigating the second bug
 Turn your attention to the second bug. If you type `continue`, you will notice that our code doesn't crash, but the LED isn't on, so something is still not right. The code is likely hanging somewhere.
 
-Let's interrupt the code with Control + C (`^C`) or `process interrupt`:
+Interrupt the code with Control + C (`^C`) or `process interrupt`:
 
 ```shell
 (lldb) continue
@@ -457,7 +457,7 @@ It seems that the debugger stopped in an I2C-related code.
 Looking at frame 3, you can see that it is waiting for a condition inside `MemoryI2CDevice.swift`.
 And, by looking at frame `#4`, you can see that the `i2c1` memory peripheral is trying to receive bytes to memory (`Application.MemoryI2CDevice.receiveBytesToMemory()`).
 
-You can conclude that somewhere, the `I2C` transmission (between the host `i2c0` and our emulated memory device `i2c1`) hangs.
+You can conclude that somewhere, the `I2C` transmission (between the host `i2c0` and the emulated memory device `i2c1`) hangs.
 Now it's a good time to try SVD2LLDB's features.
 Provided that you installed it, load the `SVD` file in the `swift-embedded-examples` repository:
 
@@ -562,7 +562,7 @@ It's now time to check out other relevant I2C MMIO registers.
 At this stage, look at your board's datasheet ([RP2040 datasheet - section 4.3.17](https://pip-assets.raspberrypi.com/categories/814-rp2040/documents/RP-008371-DS-1-rp2040-datasheet.pdf) / [RP2350 datasheet - section 12.2.17](https://pip-assets.raspberrypi.com/categories/1214-rp2350/documents/RP-008373-DS-2-rp2350-datasheet.pdf)).
 
 Find `IC_CON`, the I2C Control Register.
-This is main register responsible for our I2C interface configuration.
+This is main register responsible for the I2C interface configuration.
 It is also the first register in the datasheet's I2C registers list.
 
 ```shell
@@ -693,7 +693,7 @@ class MemoryI2CDevice {
 ```
 
 At first glance, this code may look reasonable - the I2C bus is enabled, and then configured using `configBus()`.
-Set a breakpoint on `configBus` and re-run our app, to see if this write really fails.
+Set a breakpoint on `configBus` and re-run the app, to see if this write really fails.
 
 > Note: you can re-run the program by either repeating the flashing sequence, or modifying the core's `pc` (program counter) and `sp` (stack pointer) registers to their reset values set in the Vector Table. You do not necessarily need to flash the application again, since it is already in memory.
 
@@ -750,7 +750,7 @@ You can see that nothing changes. Therefore, the issue relies on this register w
 > IC_CON Register Description, according to the datasheet:
 > This register can be written only when the DW_apb_i2c is disabled, which corresponds to the IC_ENABLE[0] register being set to 0. Writes at other times have no effect. 
 
-This must be the problem, since it matches our symptoms! Therefore, it can't write to the register, since the `i2c1` interface isn't disabled when you configure it inside `MemoryI2CDevice.swift`:
+This must be the problem, since it matches the symptoms! Therefore, it can’t write to the register, since the `i2c1` interface isn’t disabled when you configure it inside `MemoryI2CDevice.swift`:
 
 ```swift
     init(I2C1_SCL: UInt32, I2C1_SDA: UInt32, address: UInt32, enableInternalPullUp: Bool) {
