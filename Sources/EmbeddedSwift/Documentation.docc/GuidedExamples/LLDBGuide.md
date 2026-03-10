@@ -408,7 +408,7 @@ Target 0: (Application) stopped.
 ```
 
 ### Investigating the second bug
-Turn your attention to the second bug. If you type `continue`, you will notice that our code doesn't crash, but the LED isn't on, so something is still not right. The code is likely hanging somewhere.
+Turn your attention to the second bug. If you type `continue`, you will notice that your code doesn't crash, but the LED isn't on, so something is still not right. The code is likely hanging somewhere.
 
 Interrupt the code with Control + C (`^C`) or `process interrupt`:
 
