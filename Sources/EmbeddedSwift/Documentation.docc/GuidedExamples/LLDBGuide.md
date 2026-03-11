@@ -14,7 +14,6 @@ To debug the board, you will use a hardware debugger together with software runn
 
 
 ### Installing Swift, LLDB and SVD2LLDB
-> Note: Embedded Swift is experimental. Public releases of Swift do not support Embedded Swift, yet. See <doc:InstallEmbeddedSwift> for details.
 
 To install Swift for embedded development, follow the instructions in <doc:InstallEmbeddedSwift>, which guides you through using swiftly to install the latest development snapshot with Embedded Swift support. The toolchain includes the LLDB Debugger, so you don't need to install it separately.
 
