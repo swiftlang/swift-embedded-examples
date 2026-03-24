@@ -50,8 +50,8 @@ Before moving on, feel free to take a look at the source code of this project. I
 struct Application {
   static func main() {
     enableInterfaces()
-    let controller = I2CController(I2C0_SCL: I2C0_SCL, I2C0_SDA: I2C0_SDA)
-    let memory = MemoryI2CDevice(I2C1_SCL: I2C1_SCL, I2C1_SDA: I2C1_SDA)
+    let controller = I2CController(i2c0SclPin: i2c0SclPin, i2c0SdaPin: i2c0SdaPin)
+    let memory = MemoryI2CDevice(i2c1SclPin: i2c1SclPin, i2c1SdaPin: i2c1SdaPin)
 
     // We first save a byte in our I2C memory.
     // Then, we read the saved byte, to check that everything works.
@@ -298,7 +298,7 @@ frame #4: 0x20000968 Application`Application.enableInterfaces() -> () at Applica
    77  	    while resets.reset_done.read().raw.i2c1 == 0 {}
    78  	
    79  	    // LED pin init
--> 80  	    configureLedPinSIO(LED_PIN)
+-> 80  	    configureLedPinSIO(ledPin)
    81  	    ledSet(false)
    82  	
    83  	    // I2C pins config
@@ -308,19 +308,19 @@ frame #5: 0x20000bbc Application`static Application.Application.main() -> () at 
    91  	struct Application {
    92  	  static func main() {
 -> 93  	    enableInterfaces()
-   94  	    let controller = I2CController(I2C0_SCL: I2C0_SCL, I2C0_SDA: I2C0_SDA)
-   95  	    let memory = MemoryI2CDevice(I2C1_SCL: I2C1_SCL, I2C1_SDA: I2C1_SDA)
+   94  	    let controller = I2CController(i2c0SclPin: i2c0SclPin, i2c0SdaPin: i2c0SdaPin)
+   95  	    let memory = MemoryI2CDevice(i2c1SclPin: i2c1SclPin, i2c1SdaPin: i2c1SdaPin)
    96  	
 (lldb)
 ```
 
 Looking at the source code, you can see in frame 5 that we were trying to enable our board's relevant interfaces, such as I2C. Frame 3 and 4 suggest that the incorrect out-of-bounds access takes place when the LED's pin is configured. Specifically, `pads_bank0.gpio[pin]` fails, likely due to an incorrect pin number.
 
-Searching the codebase for `LED_PIN`, you can see that it is initialized with `100`:
+Searching the codebase for `ledPin`, you can see that it is initialized with `100`:
 
 ```swift
 // Board LED
-LED_PIN: UInt32 = 100
+ledPin: UInt32 = 100
 ```
 
 The Raspberry Pi Pico has only 40 physical pins, including 26 GPIO; `100` is an odd, incorrect choice for the LED pin number.
@@ -399,8 +399,8 @@ Process 1 stopped
    91  	struct Application {
    92  	  static func main() {
 -> 93  	    enableInterfaces()
-   94  	    let controller = I2CController(I2C0_SCL: I2C0_SCL, I2C0_SDA: I2C0_SDA)
-   95  	    let memory = MemoryI2CDevice(I2C1_SCL: I2C1_SCL, I2C1_SDA: I2C1_SDA)
+   94  	    let controller = I2CController(i2c0SclPin: i2c0SclPin, i2c0SdaPin: i2c0SdaPin)
+   95  	    let memory = MemoryI2CDevice(i2c1SclPin: i2c1SclPin, i2c1SdaPin: i2c1SdaPin)
    96  	
 Target 0: (Application) stopped.
 (lldb)  
@@ -656,10 +656,10 @@ In order to find out why this is actually happening, take a closer look at `Memo
 class MemoryI2CDevice {
     ...
 
-    init(I2C1_SCL: UInt32, I2C1_SDA: UInt32, address: UInt32, enableInternalPullUp: Bool) {
+    init(i2c1SclPin: UInt32, i2c1SdaPin: UInt32, address: UInt32, enableInternalPullUp: Bool) {
         self.address = address
-        configureI2CPin(I2C1_SDA, enableInternalPullUp: enableInternalPullUp)
-        configureI2CPin(I2C1_SCL, enableInternalPullUp: enableInternalPullUp)
+        configureI2CPin(i2c1SdaPin, enableInternalPullUp: enableInternalPullUp)
+        configureI2CPin(i2c1SclPin, enableInternalPullUp: enableInternalPullUp)
         enableI2C()
         configBus()
     }
@@ -752,10 +752,10 @@ You can see that nothing changes. Therefore, the issue relies on this register w
 This must be the problem, since it matches the symptoms! Therefore, it can’t write to the register, since the `i2c1` interface isn’t disabled when you configure it inside `MemoryI2CDevice.swift`:
 
 ```swift
-    init(I2C1_SCL: UInt32, I2C1_SDA: UInt32, address: UInt32, enableInternalPullUp: Bool) {
+    init(i2c1SclPin: UInt32, i2c1SdaPin: UInt32, address: UInt32, enableInternalPullUp: Bool) {
         self.address = address
-        configureI2CPin(I2C1_SDA, enableInternalPullUp: enableInternalPullUp)
-        configureI2CPin(I2C1_SCL, enableInternalPullUp: enableInternalPullUp)
+        configureI2CPin(i2c1SdaPin, enableInternalPullUp: enableInternalPullUp)
+        configureI2CPin(i2c1SclPin, enableInternalPullUp: enableInternalPullUp)
         // ❌ Before
         // enableI2C()
         // configBus()

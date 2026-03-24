@@ -9,6 +9,9 @@
 //
 //===----------------------------------------------------------------------===//
 
+import MMIO
+import Support
+
 #if RP2040 && RP2350
 #error("Enable only one: RP2040 or RP2350")
 #endif
@@ -21,14 +24,11 @@ import RP2040
 #error("Pick a chip: build with --traits RP2040 or --traits RP2350")
 #endif
 
-import MMIO
-import Support
-
 // I2C pins
-let I2C0_SDA: UInt32 = 16
-let I2C0_SCL: UInt32 = 17
-let I2C1_SDA: UInt32 = 26
-let I2C1_SCL: UInt32 = 27
+let i2c0SdaPin: UInt32 = 16
+let i2c0SclPin: UInt32 = 17
+let i2c1SdaPin: UInt32 = 26
+let i2c1SclPin: UInt32 = 27
 
 @inline(__always)
 private func delay(_ n: UInt32) {
@@ -69,41 +69,42 @@ private func blinkFailForever(_ code: UInt32) -> Never {
 }
 
 private func enableInterfaces() {
-    // Take required peripherals out of reset
-    //
-    // RP2350 datasheet section 7.5 Subsystem resets:
-    //    "When reset, components are held in reset at power-up.
-    //    To use the component, software must deassert the reset."
-    resets.reset.modify { rw in
-      rw.raw.pads_bank0 = 0
-      rw.raw.io_bank0 = 0
-      rw.raw.i2c0 = 0
-      rw.raw.i2c1 = 0
-    }
+  // Take required peripherals out of reset
+  //
+  // RP2350 datasheet section 7.5 Subsystem resets:
+  //    "When reset, components are held in reset at power-up.
+  //    To use the component, software must deassert the reset."
+  resets.reset.modify { rw in
+    rw.raw.pads_bank0 = 0
+    rw.raw.io_bank0 = 0
+    rw.raw.i2c0 = 0
+    rw.raw.i2c1 = 0
+  }
 
-    // Wait until reset_done shows they’re out of reset
-    while resets.reset_done.read().raw.pads_bank0 == 0 {}
-    while resets.reset_done.read().raw.io_bank0 == 0 {}
-    while resets.reset_done.read().raw.i2c0 == 0 {}
-    while resets.reset_done.read().raw.i2c1 == 0 {}
+  // Wait until reset_done shows they’re out of reset
+  while resets.reset_done.read().raw.pads_bank0 == 0 {}
+  while resets.reset_done.read().raw.io_bank0 == 0 {}
+  while resets.reset_done.read().raw.i2c0 == 0 {}
+  while resets.reset_done.read().raw.i2c1 == 0 {}
 
-    // LED pin init
-    configureLedPinSIO(LED_PIN)
-    ledSet(false)
+  // LED pin init
+  configureLedPinSIO(ledPin)
+  ledSet(false)
 
-    // I2C pins config
-    // In this config, we use external pull-ups
-    let useInternalPullUps = false
-    configureI2CPin(I2C0_SDA, enableInternalPullUp: useInternalPullUps)
-    configureI2CPin(I2C0_SCL, enableInternalPullUp: useInternalPullUps)
+  // I2C pins config
+  // In this config, we use external pull-ups
+  let useInternalPullUps = false
+  configureI2CPin(i2c0SdaPin, enableInternalPullUp: useInternalPullUps)
+  configureI2CPin(i2c0SclPin, enableInternalPullUp: useInternalPullUps)
 }
 
 @main
 struct Application {
   static func main() {
     enableInterfaces()
-    let controller = I2CController(I2C0_SCL: I2C0_SCL, I2C0_SDA: I2C0_SDA)
-    let memory = MemoryI2CDevice(I2C1_SCL: I2C1_SCL, I2C1_SDA: I2C1_SDA)
+    let controller = I2CController(
+      i2c0SclPin: i2c0SclPin, i2c0SdaPin: i2c0SdaPin)
+    let memory = MemoryI2CDevice(i2c1SclPin: i2c1SclPin, i2c1SdaPin: i2c1SdaPin)
 
     // We first save a byte in our I2C memory.
     // Then, we read the saved byte, to check that everything works.
@@ -125,10 +126,12 @@ struct Application {
     memory.serveBytesFromMemory()
 
     // Controller receives the byte
-    let readValue = controller.receiveRequestedBytesFromMemory()
+    guard let readValue = controller.receiveRequestedBytesFromMemory() else {
+      blinkFailForever(1)
+    }
 
     // Validate the transmission
-    if readValue != nil && readValue! == txByte + 1 {
+    if readValue != nil && readValue == txByte + 1 {
       ledSuccess()
     } else {
       blinkFailForever(2)

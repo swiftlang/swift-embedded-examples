@@ -9,7 +9,7 @@ let package = Package(
   ],
   traits: [
     "RP2040",
-    "RP2350"
+    "RP2350",
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-mmio.git", branch: "main")
@@ -21,7 +21,7 @@ let package = Package(
         .target(name: "RP2040", condition: .when(traits: ["RP2040"])),
         .target(name: "RP2350", condition: .when(traits: ["RP2350"])),
         .product(name: "MMIO", package: "swift-mmio"),
-        "Support"
+        "Support",
       ]),
     .target(
       name: "RP2350",
@@ -43,7 +43,7 @@ let package = Package(
       name: "Support",
       cSettings: [
         .define("RP2040", .when(traits: ["RP2040"])),
-        .define("RP2350", .when(traits: ["RP2350"]))
-      ])
+        .define("RP2350", .when(traits: ["RP2350"])),
+      ]),
   ],
   swiftLanguageModes: [.v5])

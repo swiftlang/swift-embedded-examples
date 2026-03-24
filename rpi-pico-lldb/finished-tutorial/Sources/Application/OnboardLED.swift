@@ -9,6 +9,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+import MMIO
+
 #if RP2350
 import RP2350
 #elseif RP2040
@@ -17,19 +19,17 @@ import RP2040
 #error("Pick a chip: build with --traits RP2040 or --traits RP2350")
 #endif
 
-import MMIO
-
 // Board LED
-let LED_PIN: UInt32 = 25
+let ledPin: UInt32 = 25
 
 // GPIO config (LED via SIO)
 func configureLedPinSIO(_ pin: UInt32) {
   // Pad electrical properties
   pads_bank0.gpio[pin].modify { rw in
-    rw.raw.od = 0        // outputs enabled
-    rw.raw.ie = 0        // input disabled
-    rw.raw.pue = 0       // no pull-up
-    rw.raw.pde = 0       // no pull-down
+    rw.raw.od = 0  // outputs enabled
+    rw.raw.ie = 0  // input disabled
+    rw.raw.pue = 0  // no pull-up
+    rw.raw.pde = 0  // no pull-down
     rw.raw.schmitt = 1
     rw.raw.slewfast = 0
   }
@@ -39,12 +39,12 @@ func configureLedPinSIO(_ pin: UInt32) {
     rw.raw.funcsel = 0x5
   }
 
-#if RP2350
+  #if RP2350
   // Remove pad isolation
   pads_bank0.gpio[pin].modify { rw in
     rw.raw.iso = 0
   }
-#endif
+  #endif
 
   // Enable output
   sio.gpio_oe_set.write { w in
@@ -55,8 +55,8 @@ func configureLedPinSIO(_ pin: UInt32) {
 @inline(__always)
 func ledSet(_ on: Bool) {
   if on {
-    sio.gpio_out_set.write { w in w.storage = 1 << LED_PIN }
+    sio.gpio_out_set.write { w in w.storage = 1 << ledPin }
   } else {
-    sio.gpio_out_clr.write { w in w.storage = 1 << LED_PIN }
+    sio.gpio_out_clr.write { w in w.storage = 1 << ledPin }
   }
 }

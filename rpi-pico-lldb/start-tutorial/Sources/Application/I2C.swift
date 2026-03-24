@@ -9,6 +9,9 @@
 //
 //===----------------------------------------------------------------------===//
 
+import MMIO
+import Support
+
 #if RP2350
 import RP2350
 #elseif RP2040
@@ -16,9 +19,6 @@ import RP2040
 #elseif !(RP2040 || RP2350)
 #error("Pick a chip: build with --traits RP2040 or --traits RP2350")
 #endif
-
-import Support
-import MMIO
 
 // I2C pin mux + pad config
 func configureI2CPin(_ pin: UInt32, enableInternalPullUp: Bool) {
@@ -36,14 +36,13 @@ func configureI2CPin(_ pin: UInt32, enableInternalPullUp: Bool) {
     rw.raw.funcsel = 0x3
   }
 
-#if RP2350
+  #if RP2350
   // Remove pad isolation
   pads_bank0.gpio[pin].modify { rw in
     rw.raw.iso = 0
   }
-#endif
+  #endif
 }
-
 
 // Wait for a condition to become true (blocking; may block forever)
 @inline(__always)
