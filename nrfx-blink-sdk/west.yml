@@ -9,5 +9,5 @@ manifest:
       revision: v4.2.2
       import:
         name-allowlist:
-          - cmsis  # required by the ARM port
+          - cmsis_6  # required by the ARM port for Cortex-M
           - hal_nordic  # required by the custom_plank board (Nordic based)
