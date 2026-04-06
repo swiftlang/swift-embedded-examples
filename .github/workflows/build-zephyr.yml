@@ -27,14 +27,14 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: 3.11
+          python-version: 3.12
 
       - name: Setup Zephyr project
         uses: zephyrproject-rtos/action-zephyr-setup@v1
         with:
           app-path: ${{ matrix.example }}
           toolchains: arm-zephyr-eabi
-          sdk-version: 0.17.0
+          sdk-version: 0.17.4
 
       - name: Install Swift
         uses: ./.github/actions/install-swift
