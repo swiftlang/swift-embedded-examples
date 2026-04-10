@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install apt dependencies
         run: apt-get -qq update && apt-get -qq -y install pkg-config
