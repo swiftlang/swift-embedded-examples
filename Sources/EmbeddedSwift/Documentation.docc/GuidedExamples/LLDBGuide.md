@@ -132,7 +132,7 @@ If your hardware SWD debugger is supported, you can use OpenOCD as a bridge betw
 
 OpenOCD is a program that connects to your hardware debugger, providing an interface that LLDB uses to connect and control your board.
 
-> Note: OpenOCD had a bug which may have prevented LLDB from connecting to your board. Ensure you are using the latest version available.
+> Note: OpenOCD had a bug which may have prevented LLDB from connecting to your board, which was fixed in commit [22e1e1b](https://review.openocd.org/q/22e1e1b33e844c343eb3f24d24f630e2471d2b27). Ensure the version you are using includes this patch. The Raspberry Pi fork's afferent commit is [acff23f](https://github.com/raspberrypi/openocd/commit/acff23ffd100479d6481a1155123774b79a990b9).
 
 Use two terminals to set up debugging.
 For Pico-based debug probes that use Raspberry Pi's OpenOCD port, run the following command in one of the terminals:
