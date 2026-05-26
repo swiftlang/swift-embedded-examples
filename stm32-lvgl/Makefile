@@ -15,6 +15,7 @@ TOOLSROOT        := $(REPOROOT)/Tools
 TOOLSET          := $(PWD)/toolset.json
 ELF2HEX          := $(TOOLSROOT)/elf2hex.py
 SWIFT_BUILD      := swift build
+BUILD_SYSTEM     := native
 NM               := nm
 LLVM_TOOLCHAIN   := $(PWD)/llvm-toolchain
 BUILD_SYSTEM     := native
@@ -82,6 +83,7 @@ simulator:
 
 	@echo "building..."
 	$(SWIFT_BUILD) \
+	    --build-system $(BUILD_SYSTEM) \
 	    --configuration release \
 		--product HostSDLApp \
 		--verbose
