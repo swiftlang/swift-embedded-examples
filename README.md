@@ -65,7 +65,10 @@ Note that the SDK integration examples (Pico SDK, Zephyr SDK, etc.) are not reco
 | [flappy-swift](https://github.com/sliemeobn/flappy-swift) | Web | A WebAssembly game written in Swift in ~100 KB. |
 | [swift-for-wasm-examples](https://github.com/swiftlang/swift-for-wasm-examples) | Web | A "Swift Audio Workstation" example built with Swift for WebAssembly running in the browser using Embedded Swift. |
 | [swift-embedded-pebble](https://github.com/MillerTechnologyPeru/swift-embedded-pebble) | Pebble | An example Pebble app for the Pebble Time 2, written in Embedded Swift. |
-| [swift-embedded-nds](https://github.com/MillerTechnologyPeru/swift-embedded-nds) | Nintendo DS | Nintendo DS homebrew written in Embedded Swift, ported from the official libnds examples. |
+| [swift-embedded-nds](https://github.com/MillerTechnologyPeru/swift-embedded-nds) | Nintendo DS | Nintendo DS homebrew written in Embedded Swift, ported from the official devkitPro examples. |
+| [swift-embedded-wii](https://github.com/MillerTechnologyPeru/swift-embedded-wii) | Nintendo Wii | Nintendo Wii homebrew written in Embedded Swift, ported from the official devkitPro examples. |
+| [swift-embedded-nintendo-64](https://github.com/MillerTechnologyPeru/swift-embedded-nintendo-64) | Nintendo 64 | Nintendo 64 homebrew written in Embedded Swift, using the original NuSys SDK and the newer and open source libdragon SDK. |
+| [swift-embedded-ps1](https://github.com/MillerTechnologyPeru/swift-embedded-ps1) | Sony Playstation 1 | Playstation homebrew written in Embedded Swift, ported from PSn00bSDK examples. |
 
 Please note that the presence of community repositories and devices in this list does not constitute a recommendation or endorsement. If there's a project you'd like to see included here, please [submit an issue](https://github.com/swiftlang/swift-embedded-examples/issues/new) with the details.
 
