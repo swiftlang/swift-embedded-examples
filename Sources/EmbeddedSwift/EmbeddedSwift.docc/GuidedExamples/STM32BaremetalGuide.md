@@ -89,7 +89,7 @@ let package = Package(
     .executable(name: "STM32BlinkLED", targets: ["STM32BlinkLED"])
   ],
   dependencies: [
-    .package(url: "https://github.com/swiftlang/swift-mmio", branch: "main"),
+    .package(url: "https://github.com/apple/swift-mmio", branch: "main"),
   ],
   targets: [
     .executableTarget(
