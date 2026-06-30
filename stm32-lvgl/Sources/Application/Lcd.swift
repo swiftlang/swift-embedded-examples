@@ -25,7 +25,7 @@ enum Lcd {
   static let LCD_PIXSIZE: UInt32 = 4
   static let SDRAM_BASE: UInt32 = 0xC000_0000
 
-  /// Initialize the LTDC module and get the display panel running.
+  /// Initializes the LTDC module and starts the display panel.
   static func initialize() {
     // Configure the PLL for the display refresh. The LTDC has its own PLL.
     // This code sets the DOTCLK to 8MHz or so.

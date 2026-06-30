@@ -30,7 +30,10 @@ struct Resampler: ~Copyable {
 
   /// Resamples the given samples using the previously set resampling factor.
   ///
-  /// Returns a slice of the temporary buffer that contains the resampled audio.
+  /// - Parameters:
+  ///   - samples: The audio samples to resample.
+  ///   - buffer: A temporary buffer used to store the resampled output.
+  /// - Returns: A slice of the temporary buffer that contains the resampled audio.
   mutating func resample(
     samples: UnsafeBufferPointer<Int16>,
     usingTemporaryBuffer buffer: UnsafeMutableBufferPointer<Int16>
