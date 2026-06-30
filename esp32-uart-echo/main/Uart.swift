@@ -14,13 +14,13 @@ struct Uart {
   let portNum: uart_port_t
   let bufferSize: Int
 
-  /// Initialize a UART port with the specified configuration.
+  /// Creates a UART port with the specified configuration.
   /// - Parameters:
-  ///   - portNum: UART port number (default: 1)
-  ///   - txPin: GPIO pin for TX
-  ///   - rxPin: GPIO pin for RX
-  ///   - baudRate: Baud rate (default: 115200)
-  ///   - bufferSize: RX buffer size in bytes (default: 1024)
+  ///   - portNum: UART port number (default: 1).
+  ///   - txPin: GPIO pin for TX.
+  ///   - rxPin: GPIO pin for RX.
+  ///   - baudRate: Baud rate (default: 115200).
+  ///   - bufferSize: RX buffer size in bytes (default: 1024).
   init(
     portNum: Int = 1,
     txPin: Int,
@@ -68,8 +68,9 @@ struct Uart {
     }
   }
 
-  /// Redirect stdin, stdout, and stderr to this UART port.
-  /// This allows Swift's print() and readLine() to work through this UART
+  /// Redirects stdin, stdout, and stderr to this UART port.
+  ///
+  /// This allows Swift's `print()` and `readLine()` to work through this UART.
   func redirectStdio() {
     // Route stdin/stdout/stderr through UART driver
     uart_vfs_dev_use_driver(Int32(portNum.rawValue))
@@ -93,17 +94,17 @@ struct Uart {
     }
   }
 
-  /// Write raw bytes to UART.
+  /// Writes raw bytes to UART.
   /// - Parameters:
-  ///   - data: Pointer to the data buffer
-  ///   - length: Number of bytes to write
+  ///   - data: Pointer to the data buffer.
+  ///   - length: Number of bytes to write.
   /// - Returns: Number of bytes written, or -1 on error
   func write(_ data: UnsafePointer<UInt8>, length: Int) -> Int {
     Int(uart_write_bytes(portNum, data, length))
   }
 
-  /// Write a string to UART.
-  /// - Parameter string: The string to write
+  /// Writes a string to UART.
+  /// - Parameter string: The string to write.
   /// - Returns: Number of bytes written, or -1 on error
   func write(_ string: String) -> Int {
     string.withCString { cString in
@@ -112,11 +113,11 @@ struct Uart {
     }
   }
 
-  /// Read bytes from UART with timeout.
+  /// Reads bytes from UART with a timeout.
   /// - Parameters:
-  ///   - buffer: Buffer to store received data
-  ///   - maxLength: Maximum number of bytes to read
-  ///   - timeoutMs: Timeout in milliseconds
+  ///   - buffer: Buffer to store received data.
+  ///   - maxLength: Maximum number of bytes to read.
+  ///   - timeoutMs: Timeout in milliseconds.
   /// - Returns: Number of bytes read, or -1 on error
   func read(
     into buffer: UnsafeMutablePointer<UInt8>, maxLength: Int, timeoutMs: UInt32

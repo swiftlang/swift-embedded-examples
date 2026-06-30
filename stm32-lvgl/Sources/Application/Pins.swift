@@ -13,13 +13,13 @@ import MMIO
 import Registers
 import Support
 
-/// GPIO Port enumerations
+/// The available GPIO port identifiers.
 enum GPIOPort: UInt32 {
   case portA = 0
   case portB, portC, portD, portE, portF, portG, portH, portI, portJ, portK
 }
 
-/// GPIO Pin numbers
+/// The available GPIO pin numbers.
 enum GPIOPinNumber: UInt32 {
   case pin0 = 0
   case pin1, pin2, pin3, pin4, pin5, pin6, pin7
@@ -30,7 +30,7 @@ enum GPIOPinNumber: UInt32 {
   case pin40, pin41
 }
 
-/// Alternate Function modes
+/// The available alternate function modes.
 enum AltFunction: UInt8 {
   case altFunc0 = 0
   case altFunc1, altFunc2, altFunc3, altFunc4, altFunc5, altFunc6, altFunc7
@@ -38,14 +38,14 @@ enum AltFunction: UInt8 {
     altFunc14, altFunc15
 }
 
-/// Pull-up/Pull-down configurations
+/// Pull-up and pull-down configuration options.
 enum GPIOPull: UInt32 {
   case none = 0
   case pullUp
   case pullDown
 }
 
-/// GPIO pin speed configurations
+/// The GPIO pin speed options.
 enum GPIOSpeed: UInt8 {
   case low = 0
   case medium
@@ -53,7 +53,7 @@ enum GPIOSpeed: UInt8 {
   case max
 }
 
-/// GPIO pin modes
+/// The available GPIO pin modes.
 enum GPIOMode: UInt32 {
   case input = 0
   case output
@@ -62,13 +62,13 @@ enum GPIOMode: UInt32 {
   case disabled
 }
 
-/// GPIO output modes
+/// The available GPIO output modes.
 enum GPIOOutput: UInt32 {
   case pushPull = 0
   case openDrain
 }
 
-/// GPIO pin definition structure
+/// A structure that defines the configuration of a GPIO pin.
 struct GPIOPin {
   let name: String
   let port: GPIOPort
@@ -84,7 +84,7 @@ struct GPIOPin {
   let isEndOfTable: Bool
 }
 
-/// GPIO direct output control structure
+/// A structure that provides direct output control for a GPIO pin.
 struct GPIOOutputDirect {
   let setRegister: UnsafeMutablePointer<UInt32>
   let setValue: UInt32
@@ -92,13 +92,13 @@ struct GPIOOutputDirect {
   let clearValue: UInt32
 }
 
-/// GPIO direct input control structure
+/// A structure that provides direct input control for a GPIO pin.
 struct GPIOInputDirect {
   let register: UnsafeMutablePointer<UInt32>
   let mask: UInt32
 }
 
-/// GPIO mode control structure
+/// A structure that provides direct mode control for a GPIO pin.
 struct GPIOModeDirect {
   let modeRegister: UnsafeMutablePointer<UInt32>
   let modeMask: UInt32
@@ -106,7 +106,7 @@ struct GPIOModeDirect {
   let outputMode: UInt32
 }
 
-/// Typealias for GPIO identifier
+/// A type alias for a GPIO identifier.
 typealias GPIO = Int
 
 /// Helper functions to create pin configurations
@@ -462,7 +462,7 @@ extension GPIOPin {
   }
 }
 
-/// GPIO pin identifier enum
+/// The GPIO pin identifiers.
 enum GPIOPinID: Int {
   case greenLED, blueButton
   case uart1TX, uart1RX
@@ -492,14 +492,15 @@ enum GPIOPinID: Int {
   case tableEnd
 }
 
-/// Pin table definition
-/// Note: This implementation uses a dictionary-based lookup which requires:
-/// - Memory allocations for the dictionary storage
-/// - Runtime dependencies (e.g. on getentropy for hash randomization)
-/// - Additional overhead for hash table operations
+/// The pin table.
 ///
-/// If these dependencies are unwanted, this code could be optimized to use a
-/// compile-time array or a switch statement instead.
+/// > Note: This implementation uses a dictionary-based lookup which requires:
+/// > - Memory allocations for the dictionary storage
+/// > - Runtime dependencies (for example, on getentropy for hash randomization)
+/// > - Additional overhead for hash table operations
+/// >
+/// > To avoid these dependencies, you can rewrite this code to use a
+/// > compile-time array or a switch statement instead.
 let pinTable: [GPIOPinID: GPIOPin] = [
   // The LED on the eval board
   .greenLED: .gpioOutput(
@@ -823,7 +824,7 @@ let pinTable: [GPIOPinID: GPIOPin] = [
 
 let GPIO_CHANNELS = 11
 
-/// Initialize all GPIO pins
+/// Initializes all GPIO pins.
 func initGpio() {
   for (_, pin) in pinTable {
     if pin.inUse {
@@ -832,10 +833,10 @@ func initGpio() {
   }
 }
 
-/// Track which ports have been enabled
+/// An array that tracks which GPIO ports are enabled.
 var gpioPortEnabled: [Bool] = Array(repeating: false, count: GPIO_CHANNELS)
 
-/// GPIO port base registers indexed by the port enum
+/// The GPIO port base registers, indexed by port.
 let gpioPortBases: [GPIOA] = [
   gpioa,
   gpiob,
@@ -850,7 +851,7 @@ let gpioPortBases: [GPIOA] = [
   gpiok,
 ]
 
-/// Map of GPIO pull values to hardware values
+/// A map of GPIO pull values to hardware register values.
 let gpioPullupMap: [UInt8] = [
   0,  // GPIO_PINPULL_NONE - See 7.4.4 in RM0390
   1,  // GPIO_PINPULL_UP
@@ -942,18 +943,18 @@ private func gpioDisabled(pin: GPIOPin) {
   port.ospeedr.set(index: pinNumber, value: .init(rawValue: pin.speed.rawValue))  // set speed
 }
 
-/// Disable a pin by its GPIO identifier
+/// Disables a pin by its GPIO identifier.
 ///
-/// - Parameter gpio: The GPIO identifier
+/// - Parameter gpio: The GPIO identifier.
 func gpioDisabled(gpio: GPIO) {
   if let pin = pinTable[GPIOPinID(rawValue: gpio) ?? .tableEnd] {
     gpioDisabled(pin: pin)
   }
 }
 
-/// Enable clock for a specific GPIO port
+/// Enables the clock for a specific GPIO port.
 ///
-/// - Parameter port: The port number to enable
+/// - Parameter port: The port number to enable.
 private func enableClockForPort(port: UInt32) {
   // Enable each port at most once, and leave it enabled
   precondition(port < UInt32(GPIO_CHANNELS))
@@ -973,9 +974,9 @@ private func enableClockForPort(port: UInt32) {
   }
 }
 
-/// Initialize a single GPIO pin from its configuration
+/// Initializes a single GPIO pin using the given configuration.
 ///
-/// - Parameter pin: The pin configuration
+/// - Parameter pin: The pin configuration.
 func gpioInitPin(pin: GPIOPin) {
   // Enable clocks to this port, and leave enabled at all times
   enableClockForPort(port: pin.port.rawValue)

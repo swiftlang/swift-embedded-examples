@@ -68,7 +68,9 @@ extension MAX9744 {
 }
 
 extension MAX9744 {
-  /// 6 bit value ranging from 0 (mute) to 63 (+ 9.5 dB)
+  /// Sets the amplifier volume to a raw 6-bit value.
+  ///
+  /// The value ranges from 0 (mute) to 63 (+9.5 dB).
   mutating func set(rawVolume: UInt8) {
     precondition(0 <= rawVolume && rawVolume <= 63)
     self.write(

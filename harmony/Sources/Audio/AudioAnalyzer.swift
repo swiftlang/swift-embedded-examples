@@ -44,7 +44,7 @@ struct AudioAnalyzer: ~Copyable {
     while true {
       guard let buffer = Application.shared.audioEngine.buffers.popFullBuffer() else { continue }
 
-      /// Copy data from buffer to dataBuffer0 (because the fft will modify the data)
+      // Copy data from buffer to dataBuffer0 (because the fft will modify the data)
       precondition(self.dataBuffer0.update(from: buffer.storage).index == self.dataBuffer0.count)
       // Perform the fft using the data in dataBuffer0 and store the result in dataBuffer1
       arm_rfft_q15(&self.fft_instance, self.dataBuffer0.baseAddress, self.dataBuffer1.baseAddress)

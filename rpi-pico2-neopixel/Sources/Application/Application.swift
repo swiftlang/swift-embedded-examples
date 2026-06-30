@@ -37,14 +37,14 @@ func configureOutputPin() {
   }
 }
 
-/// Configures PIO0 SM0 with a small program that drives WS2812 leds.
+/// Configures PIO0 SM0 with a small program that drives WS2812 LEDs.
 ///
-/// This is not a general method to load PIO programs like is provided in the
-/// pico-sdk. We assume no other programs are loaded into the state machine, as
-/// a result we don't need to track program offsets and associated complexity.
+/// This isn't a general method for loading PIO programs like those the
+/// pico-sdk provides. This function assumes no other programs are loaded into the state machine; as
+/// a result, you don't need to track program offsets and associated complexity.
 ///
 /// Additionally, this method doesn't reset any state in the PIO or state
-/// machines. A more complete implementation will want to use `sm_reset` and
+/// machines. A more complete implementation can use `sm_reset` and
 /// `clkdiv_restart` to clear any persisted state.
 func configurePio() {
   // Load the assembled program directly into the PIO's instruction memory.
@@ -112,7 +112,7 @@ func configurePio() {
   }
 }
 
-/// Writes an HSV8Pixel to the PIO TX fifo.
+/// Writes an HSV8 pixel to the transmit buffer.
 func pioWritePixel(_ hsv: HSV8Pixel) {
   let rgb = RGB8Pixel(hsv)
 

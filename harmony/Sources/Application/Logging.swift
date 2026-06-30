@@ -31,7 +31,7 @@ func log(
   SerialPrinter().write(terminator)
 }
 
-/// An implementation of `CharacterPrinter` that calls `putchar` to write to serial.
+/// An implementation of the printer that writes to a serial port.
 struct SerialPrinter: CharacterPrinter {
   func write(rawByte: UInt8) {
     _ = putchar(CInt(rawByte))
@@ -51,10 +51,9 @@ typealias StreamingSerialMessage = StreamingMessage<SerialPrinter>
 /// requiring construction of String types (which are not available in Embedded
 /// Swift).
 
-/// Types that implement `Loggable` are able to be logged using the
-/// `StreamingInterpolation` mechanisms.
+/// A type that supports logging through the streaming interpolation mechanism.
 ///
-/// The `write` function should write a human-readable instance of the object to
+/// The `write` function writes a human-readable representation of the object to
 /// the passed-in `Printer` type:
 ///
 ///     struct MyType: Loggable {
@@ -71,29 +70,28 @@ protocol Loggable: ~Copyable {
 
 /// A type that supports printing individual characters.
 ///
-/// Characters can either be streamed directly out to a log (e.g. stdout), or
-/// buffered any manually written out by the user.
+/// You can stream characters directly to a log (for example, stdout), or
+/// buffer them and write them out manually.
 protocol CharacterPrinter {
-  /// Initialize a new instance.
+  /// Creates a new instance.
   ///
   /// Unfortunately, Swift calls this from within the compiler's generated
   /// code, with a fresh object created each time string interpolation is
   /// used, and no chance to have any instance variables.
   init()
 
-  /// Write a single byte to output.
+  /// Writes a single byte to output.
   func write(rawByte: UInt8)
 
-  /// Write the contents of the given `CharacterPrinter` to this
-  /// `CharacterPrinter`.
+  /// Writes the contents of the given printer to this printer.
   ///
-  /// This method is required to be implemented so that implementors of the
-  /// `Loggable` protocol can themselves use String Interpolation.
+  /// Implement this method so that types conforming to the `Loggable` protocol
+  /// can use string interpolation.
   ///
   /// Implementations of `CharacterPrinter` that don't buffer anything (for
   /// example, if they just forward characters directly to `stdout`) need not
   /// do anything here. However, implementations of `CharacterPrinter` that
-  /// are attempting to buffer the text will need to append the contents of
+  /// are attempting to buffer the text need to append the contents of
   /// the child `CharacterPrinter` into the parent `CharacterPrinter`.
   func write(contentsOf: Self)
 }
@@ -104,29 +102,29 @@ protocol CharacterPrinter {
 // their type as an overload to `StreamingInterpolation.appendInterpolation`
 // directly (for generic types or types requiring additional parameters).
 extension CharacterPrinter {
-  /// Write the given object that implements the `Loggable` interface to the
+  /// Writes the given object that implements the Loggable interface to the
   /// printer.
   func write(_ value: some Loggable) {
     value.write(to: self)
   }
 
-  /// Write an integer to the printer.
+  /// Writes an integer to the printer.
   func write(_ value: some FixedWidthInteger) {
     value.write(to: self)
   }
 
-  /// Write the given buffer to the printer.
+  /// Writes the given buffer to the printer.
   ///
-  /// This function will print the entire buffer, including NUL bytes and
+  /// This function prints the entire buffer, including NUL bytes and
   /// anything following them. To print NUL-terminated strings, see the
   /// overload `write(nulTerminated)`.
   func write(contentsOf buffer: UnsafeBufferPointer<UInt8>) {
     self.write(contentsOf: UnsafeRawBufferPointer(buffer))
   }
 
-  /// Write the given buffer to the printer.
+  /// Writes the given buffer to the printer.
   ///
-  /// This function will print the entire buffer, including NUL bytes and
+  /// This function prints the entire buffer, including NUL bytes and
   /// anything following them. To print NUL-terminated strings, see the
   /// overload `write(nulTerminated)`.
   @inline(never)  // avoid aggressive inlining of non-perf-sensitive code
@@ -136,7 +134,7 @@ extension CharacterPrinter {
     }
   }
 
-  /// Write a NULL-terminated (C style) string to the printer.
+  /// Writes a null-terminated C string to the printer.
   @inline(never)  // avoid aggressive inlining of non-perf-sensitive code
   func write(nullTerminated value: UnsafeBufferPointer<CChar>) {
     for c in value {
