@@ -4,7 +4,8 @@ Run a Swift LED-blink program on a RISC-V ESP32 device using the ESP-IDF SDK.
 
 This example demonstrates how to integrate with the ESP-IDF SDK using CMake along with the standard GPIO library to control an LED from Swift. The target is the ESP32-C6-Bug board, which has a built-in LED on GPIO pin 8. Any RISC-V based Espressif chip works.
 
-![An ESP32-C6 microcontroller and a teal LED mounted on a breadboard.](esp32-led-hero.png)
+![The LED on the ESP32-C6-Bug board, lit up.](esp32-led-on.jpg)
+![The LED on the ESP32-C6-Bug board, unlit.](esp32-led-off.jpg)
 
 The Swift code is structured as a thin `Led` struct that wraps the ESP-IDF GPIO API, and an `app_main` entry point — the standard C entry point for ESP-IDF applications — that toggles the LED in an infinite loop:
 
