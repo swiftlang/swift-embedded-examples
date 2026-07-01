@@ -32,7 +32,7 @@ This status table describes which of the following standard library features can
 | Codable, Encodable, Decodable                         | No, intentionally unsupported long term                      |
 | Collection + related protocols                        | Yes                                                          |
 | Collection algorithms (sort, reverse)                 | Yes                                                          |
-| CustomStringConvertible, CustomDebugStringConvertible | Yes, except those that require reflection (e.g. Array's .description) |
+| CustomStringConvertible, CustomDebugStringConvertible | Yes, except those that require reflection (for example, Array's .description) |
 | Dictionary (dynamic heap-allocated container)         | Yes                                                          |
 | Floating-point conversion to string                   | Yes                                                          |
 | Floating-point parsing                                | Yes                                                          |

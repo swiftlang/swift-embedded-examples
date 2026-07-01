@@ -141,7 +141,7 @@ $ ls -al build/blinky*
 
 If you have a Raspberry Pi Pico, we're now going to upload the built firmware and run it. If you don't have one, skip to the next section and run the exact same firmware file **in an emulator instead**.
 
-Connect the Raspberry Pi Pico board via a USB cable to your Mac, and make sure it's in the USB Mass Storage firmware upload mode. This is normally the case if you have never uploaded any firmware yet – the Pico boots to the firmware upload mode if its memory doesn't contain any valid firmware. Once a valid firmware is uploaded, the device will run that firmware after plugging in. To go back to the firmware upload mode, *hold the BOOTSEL button while plugging in the board*.
+Connect the Raspberry Pi Pico board using a USB cable to your Mac, and make sure it's in the USB Mass Storage firmware upload mode. This is normally the case if you have never uploaded any firmware yet – the Pico boots to the firmware upload mode if its memory doesn't contain any valid firmware. Once a valid firmware is uploaded, the device will run that firmware after plugging in. To go back to the firmware upload mode, *hold the BOOTSEL button while plugging in the board*.
 
 The Pico should then show up as a mounted volume in /Volumes (as RPI-RP2 in this case):
 

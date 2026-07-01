@@ -16,7 +16,7 @@ Since Swift 5.0, the stable ABI mangling scheme uses the `$s` prefix on all Swif
 
 As of today, Embedded Swift has identical calling convention to full Swift. However, this does not need to continue in the future, and there should not be expectations that the ABI of Embedded Swift is compatible with full Swift.
 
-The compiler respects the ABIs and calling conventions of C and C++ when interoperating with code in those languages. Calling C/C++ functions from Embedded Swift code is supported, and similarly exporting Swift code via `@_extern`, `@_cdecl` or `@_expose` will match the right calling conventions that C/C++ expects.
+The compiler respects the ABIs and calling conventions of C and C++ when interoperating with code in those languages. Calling C/C++ functions from Embedded Swift code is supported, and similarly exporting Swift code using `@_extern`, `@_cdecl` or `@_expose` will match the right calling conventions that C/C++ expects.
 
 ## Metadata ABI of Embedded Swift
 
@@ -28,7 +28,7 @@ The layout of Embedded Swift's class metadata is *different* from full Swift:
 
 - The **super pointer** pointing to the class metadata record for the superclass is stored at **offset 0**. If the class is a root class, it is null.
 - The **destructor pointer** is stored at **offset 1**. This function is invoked by Swift's deallocator when the class instance is destroyed.
-- The **ivar destroyer** is stored at **offset 2**. This function is invoked to destroy instance members when creation of the object is cancelled (e.g. in a failable initializer).
+- The **ivar destroyer** is stored at **offset 2**. This function is invoked to destroy instance members when creation of the object is cancelled (for example, in a failable initializer).
 - Lastly, the **vtable** is stored at **offset 3**: For each Swift class in the class's inheritance hierarchy, in order starting
   from the root class and working down to the most derived class, the function pointers to the implementation of every method of the class in declaration order is stored.
 

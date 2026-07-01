@@ -69,7 +69,7 @@ For detailed instructions on integrating with the Raspberry Pi Pico SDK, see <do
 
 ### ESP32
 
-Note that only chips based on RISC-V architecture (e.g. ESP32-C3, ESP32-C6, ESP32-P4) are supported with Embedded Swift. The Xtensa ISA (used in e.g. ESP8266 or ESP32-S2 and ESP32-S3) is not supported.
+Note that only chips based on RISC-V architecture (for example, ESP32-C3, ESP32-C6, ESP32-P4) are supported with Embedded Swift. The Xtensa ISA (used in, for example, ESP8266 or ESP32-S2 and ESP32-S3) is not supported.
 
 For ESP microcontrollers using the ESP-IDF framework, an article will be added to this documentation in the future.
 
@@ -92,7 +92,7 @@ For completely baremetal development without any SDK, see <doc:Baremetal> for gu
 
 - Using `print()` in your Swift code creates a dependency on `putchar`, which must be provided by your platform. Make sure your embedded environment has this C standard library function available if you plan to use Swift's printing functionality.
 
-- For debugging, consider implementing a custom print handler by implementing a C function called `putchar` that redirects output to your debug channel (UART, SWO, RTT, etc.). Many embedded platforms already do that by default.
+- For debugging, consider implementing a custom print handler by implementing a C function called `putchar` that redirects output to your debug channel (UART, SWO, RTT, and so on). Many embedded platforms already do that by default.
 
 - Use the `-g` compiler flag during development to include debug information, making it easier to trace issues with a debugger like GDB or OpenOCD.
 
@@ -101,6 +101,6 @@ For completely baremetal development without any SDK, see <doc:Baremetal> for gu
   - Use `-O` or `-Osize` for release builds to minimize code size and maximize performance
   - Consider `-Osize` specifically for extremely constrained memory environments
 
-- When you cannot use `-Onone` (e.g. because the resulting binary size exceeds the platform limits), but you still want to maximize debuggability, use the `-assert-config=Debug` flag. This enables assertions, and also extra debug prints on failures.
+- When you cannot use `-Onone` (for example, because the resulting binary size exceeds the platform limits), but you still want to maximize debuggability, use the `-assert-config=Debug` flag. This enables assertions, and also extra debug prints on failures.
 
 Remember that Embedded Swift is designed to have minimal impact on the overall system architecture, allowing you to start with small Swift components and gradually expand your Swift codebase as you become more comfortable with the language in embedded contexts.
