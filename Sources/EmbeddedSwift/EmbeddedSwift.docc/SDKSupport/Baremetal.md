@@ -1,6 +1,6 @@
-# Baremetal use of Embedded Swift
+# Using Embedded Swift in baremetal mode
 
-Programming without an SDK for maximum control and minimal size
+Program without an SDK for maximum control and minimal size.
 
 ## Overview
 

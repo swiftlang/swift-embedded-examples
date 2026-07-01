@@ -1,6 +1,6 @@
-# Non-final generic methods
+# Restricting non-final generic methods
 
-Restrictions on unbound generic methods that apply in Embedded Swift
+Learn about restrictions on unbound generic methods that apply in Embedded Swift.
 
 ## Background
 

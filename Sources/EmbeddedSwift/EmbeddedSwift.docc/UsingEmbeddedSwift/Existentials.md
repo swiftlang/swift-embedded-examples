@@ -1,6 +1,6 @@
-# Existentials
+# Working with existentials
 
-Restrictions on existentials ("any" types) that apply in Embedded Swift
+Learn about restrictions on existentials that apply in Embedded Swift.
 
 ## Background
 

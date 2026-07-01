@@ -50,12 +50,12 @@ Note that the SDK integration examples (Pico SDK, Zephyr SDK, etc.) are not reco
 | Name | Platform | Description |
 | ---- | -------- | ----------- |
 | [swift-matter-examples](https://github.com/swiftlang/swift-matter-examples) | ESP32 | An Embedded Swift Matter application running on ESP32-C6. |
-| [m5stack-nano-c6-bare-swift](https://github.com/trickart/m5stack-nano-c6-bare-swift) | ESP32 | A bare-metal Swift project for the M5Stack NanoC6 (ESP32-C6), running without any C, assembly, or ESP-IDF — pure Embedded Swift from bootloader to LED blink |
+| [m5stack-nano-c6-bare-swift](https://github.com/trickart/m5stack-nano-c6-bare-swift) | ESP32 | A baremetal Swift project for the M5Stack NanoC6 (ESP32-C6), running without any C, assembly, or ESP-IDF — pure Embedded Swift from bootloader to LED blink |
 | [swift-flipperzero-hello](https://github.com/Sameesunkaria/swift-flipperzero-hello) | Flipper Zero | A demonstration of running Swift apps on the Flipper Zero. |
 | [EmbeddedSwift nRF52 Examples](https://github.com/nelcea/EmbeddedSwift-nRF52-Examples) | nRF52840 (Development Kit) | A collection of examples using Embedded Swift on top of nRF Connect SDK (Zephyr). |
 | [Swatak](https://github.com/nelcea/EmbeddedSwift-nRF52-Swatak) | nRF52840 (Seeed Studio XIAO) | A reaction time game inspired by BATAK© boards, implemented in Embedded Swift using nRF Connect SDK. |
 | [swift-picosystem-example](https://github.com/jerrodputman/swift-picosystem-example) | PicoSystem | An Embedded Swift demo running on the Pimoroni PicoSystem |
-| [pico-bare-swift](https://github.com/kishikawakatsumi/pico-bare-swift) | Pico | Bare-metal Raspberry Pi Pico examples in Embedded Swift — no Pico SDK required |
+| [pico-bare-swift](https://github.com/kishikawakatsumi/pico-bare-swift) | Pico | Baremetal Raspberry Pi Pico examples in Embedded Swift — no Pico SDK required |
 | [CPicoSDK](https://github.com/gonzalolarralde/CPicoSDK/tree/main/Example) | Pico 2 | SwiftPM package that enables seamless Swift development for the Raspberry Pi Pico SDK |
 | [pico-swift-sh1106](https://github.com/mkbrwr/pico-swift-sh1106) | Pico 2 | Display Driver for SH1106 |
 | [swift-st7789-lcd](https://github.com/mkbrwr/swift-st7789-lcd) | Pico 2 | Display Driver for ST7789 |

@@ -1,6 +1,6 @@
-# Zephyr RTOS SDK
+# Integrating with the Zephyr RTOS SDK
 
-Integrating Swift with Zephyr RTOS for embedded systems development
+Integrate Swift with Zephyr RTOS for embedded systems development.
 
 [Zephyr](https://www.zephyrproject.org/) is an open-source RTOS for embedded systems that is sponsored by the Linux Foundation. Since it depends on CMake primarily for its build system, it can easily be integrated to be used with Embedded Swift.
 

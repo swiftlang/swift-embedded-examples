@@ -1,6 +1,6 @@
 # Integrating with embedded platforms
 
-Understand the common patterns and approaches for integrating Swift with existing embedded systems
+Learn the common patterns and approaches for integrating Swift with existing embedded systems.
 
 ## Overview
 
@@ -78,15 +78,15 @@ For ESP microcontrollers using the ESP-IDF framework, an article will be added t
 STM32 microcontrollers can be programmed with Embedded Swift in two ways:
 
 1. Using the STM32Cube HAL/LL libraries - This requires proper integration with the STM32Cube build system
-2. Bare-metal approach - See <doc:STM32BaremetalGuide> for details
+2. Baremetal approach - See <doc:STM32BaremetalGuide> for details
 
 ### Zephyr
 
 For detailed documentation on how to integrate Embedded Swift with Zephyr, see <doc:IntegrateWithZephyr>.
 
-### Bare-metal Development
+### Baremetal development
 
-For completely bare-metal development without any SDK, see <doc:Baremetal> for guidance on implementing the necessary startup code and hardware initialization.
+For completely baremetal development without any SDK, see <doc:Baremetal> for guidance on implementing the necessary startup code and hardware initialization.
 
 ## Tips & tricks
 
