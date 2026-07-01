@@ -78,11 +78,11 @@ These guides provide a practical introduction to Embedded Swift development with
 
 For a deeper understanding of Embedded Swift concepts and philosophy, check out these resources:
 
-- <doc:LanguageSubset> - Understand which Swift language features are available in Embedded Swift
+- <doc:LanguageSubset> - Review which Swift language features are available in Embedded Swift
 - <doc:InstallEmbeddedSwift> - Detailed instructions for installing the required toolchain
 
 For developers coming from embedded C/C++ backgrounds or those integrating Swift into existing projects:
 
 - <doc:Basics> - Essential knowledge for using Embedded Swift effectively
 - <doc:ConditionalCompilation> - How to share code between Embedded Swift and standard Swift
-- <doc:Libraries> - Understanding how libraries work in Embedded Swift
+- <doc:Libraries> - Learn how libraries and modules work in Embedded Swift
