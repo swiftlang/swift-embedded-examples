@@ -1,6 +1,6 @@
 # Baremetal Setup for STM32 with Embedded Swift
 
-Program a STM32 microcontroller directly with low-level Swift code
+Program a STM32 microcontroller directly with low-level Swift code.
 
 This tutorial will guide you through setting up a baremetal STM32 project with Embedded Swift to create a simple LED blinking application with text output to UART, the "Hello World" of embedded systems. Concretely, we'll be using the STM32F746G-DISCO (discovery) development board, but the setup will work (with only small tweaks) on most other STM32 devices.
 
