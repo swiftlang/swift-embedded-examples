@@ -1,6 +1,6 @@
-# Raspberry Pi Pico Blink with the Pico SDK
+# Blinking an LED on the Raspberry Pi Pico with the Pico SDK
 
-Tutorial for targetting a Raspberry Pi Pico as an embedded device that runs a simple Swift program.
+Target a Raspberry Pi Pico as an embedded device that runs a simple Swift program.
 
 In this guide we'll be targeting a Raspberry Pi Pico as the embedded device that our Swift application will run on. If you don't physically have one, don't worry! You can still run the application in an online emulator.
 

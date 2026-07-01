@@ -1,6 +1,6 @@
-# ABI of Embedded Swift
+# Exploring Embedded Swift's ABI
 
-Understanding the different ABI (Application Binary Interface) for Embedded Swift
+Learn about the different ABI (Application Binary Interface) for Embedded Swift.
 
 ## ABI stability
 

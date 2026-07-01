@@ -1,4 +1,4 @@
-# Baremetal Setup for STM32 with Embedded Swift
+# Setting up a baremetal STM32 project with Embedded Swift
 
 Program a STM32 microcontroller directly with low-level Swift code.
 

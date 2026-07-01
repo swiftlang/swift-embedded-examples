@@ -1,6 +1,6 @@
-# Basics of using Embedded Swift
+# Learning the basics of Embedded Swift
 
-Basic information for using Embedded Swift in typical embedded projects
+Get basic information for using Embedded Swift in typical embedded projects.
 
 ## Using Embedded Swift
 

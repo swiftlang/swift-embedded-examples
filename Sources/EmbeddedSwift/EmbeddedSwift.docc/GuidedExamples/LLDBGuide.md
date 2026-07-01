@@ -1,4 +1,4 @@
-# Try out LLDB debugging on Raspberry Pi Pico
+# Trying out LLDB debugging on Raspberry Pi Pico
 Try out LLDB hardware debugging features for Swift Embedded on Raspberry Pi Pico (RP2040/RP2350) boards.
 
 In this guide, we’ll build a sample I2C embedded app for a **Raspberry Pi RP2040 / RP2350 board**, containing a few bugs. Then, we’ll use LLDB to identify and fix them.

@@ -1,6 +1,6 @@
-# Raspberry Pi Pico SDK
+# Integrating with the Raspberry Pi Pico SDK
 
-Setting up a project that can seamlessly use C APIs from the Pico SDK.
+Set up a project that can seamlessly use C APIs from the Pico SDK.
 
 > Note: Embedded Swift is experimental. Public releases of Swift do not support Embedded Swift, yet. See <doc:InstallEmbeddedSwift> for details.
 
