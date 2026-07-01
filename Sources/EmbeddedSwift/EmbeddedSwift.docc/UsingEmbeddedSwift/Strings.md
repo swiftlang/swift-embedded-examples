@@ -69,7 +69,7 @@ target_link_libraries(${COMPONENT_LIB}
 - Using String's hash values, and in particular using String as dictionary keys
 - Using String's `.count` property
 - Using Unicode-aware string processing APIs (`.split()`, iterating characters, indexing)
-- Using Unicode-aware conversion String APIs (`.uppercased()`, `.lowercased()`, etc.)
+- Using Unicode-aware conversion String APIs (`.uppercased()`, `.lowercased()`, and so on)
 
 **For contrast, unicode data tables are *not required for* (list not exhaustive):**
 

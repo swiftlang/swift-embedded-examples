@@ -8,9 +8,9 @@ To debug the board, you will use a hardware debugger together with software runn
 ## Prerequisites
 - Install **Swift with Embedded support**, **LLDB**, and **SVD2LLDB** (instructions below)
 - A Raspberry Pi **RP2350 / RP2040**-based board with access to SWD (debug) pins, and an LED. On-board LEDs may be used as long as they are connected directly to GPIO; otherwise, you may use an external LED.
-- A **SWD / JTAG hardware debugger**, allowing GDB remote debug protocol connections via software such as *OpenOCD*.
+- A **SWD / JTAG hardware debugger**, allowing GDB remote debug protocol connections using software such as *OpenOCD*.
 
-> Note: If you have another RP2350 / RP2040 board or a Raspberry Pi Debug Probe, you can use it for debugging, via OpenOCD.
+> Note: If you have another RP2350 / RP2040 board or a Raspberry Pi Debug Probe, you can use it for debugging, through OpenOCD.
 
 
 ### Installing Swift, LLDB and SVD2LLDB
@@ -103,7 +103,7 @@ After making the connections above, connect a debugger to the board's SWD pins. 
 ## Uploading the firmware
 It's time to run & debug the application.
 
-Connect the Raspberry Pi Pico board via a USB cable to your Mac, and make sure it's in the USB Mass Storage firmware upload mode. This is done by *holding the BOOTSEL button while plugging in the board*.
+Connect the Raspberry Pi Pico board using a USB cable to your Mac, and make sure it's in the USB Mass Storage firmware upload mode. This is done by *holding the BOOTSEL button while plugging in the board*.
 
 The Pico should then show up as a mounted volume in /Volumes (usually as RPI-RP2 or RP2350):
 
@@ -113,7 +113,7 @@ lrwxr-xr-x   1 root  wheel      1 Jan  9  9:41 Macintosh HD -> /
 drwx------@  1 cmd   staff    16K Jan  9  2007 RP2350
 ```
 
-Copy the UF2 file to this volume, either by dragging `Application.uf2` to the new mounted device in Finder or via terminal:
+Copy the UF2 file to this volume, either by dragging `Application.uf2` to the new mounted device in Finder or through the terminal:
 
 ```shell
 $ cp .build/armv7em-apple-none-macho/debug/Application.uf2 /Volumes/RP2350
@@ -369,7 +369,7 @@ Notice that the application stopped in the board's bootloader code (based on the
 
 Then, upload the `UF2` firmware to the new mounted volume.
 
-> Note: There are other ways to upload the binary as well. For example, you can also copy the binary directly over SWD, rather than manually uploading it via the mounted volume.
+> Note: There are other ways to upload the binary as well. For example, you can also copy the binary directly over SWD, rather than manually uploading it through the mounted volume.
 
 Right after uploading the firmware, you will reach your entrypoint breakpoints:
 

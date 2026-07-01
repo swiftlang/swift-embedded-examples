@@ -11,17 +11,17 @@ Note that there are no behavior changes in Embedded Swift compared to full Swift
 ## Code-level features that are not available
 
 - **Not available**: Runtime reflection (`Mirror` APIs).
-- **Not available**: Values of protocol types ("existentials"), unless the protocol is restricted to be class-bound (derived from AnyObject). E.g. `let a: Hashable = ...` is not allowed. `Any` is also not allowed. See <doc:Existentials> for details and alternatives of existentials.
+- **Not available**: Values of protocol types ("existentials"), unless the protocol is restricted to be class-bound (derived from AnyObject). For example, `let a: Hashable = ...` is not allowed. `Any` is also not allowed. See <doc:Existentials> for details and alternatives of existentials.
 - **Not available**: Throwing errors or `any Error` type (in contrast with "typed throws", which *is* supported in Embedded Swift).
-- **Not available**: Metatypes, e.g. `let t = SomeClass.Type` or `type(of: value)` are not allowed.
+- **Not available**: Metatypes, for example, `let t = SomeClass.Type` or `type(of: value)` are not allowed.
 - **Not available**: Standard library types that rely on the above, for example `Codable` and `KeyPath`, are not allowed.
-- **Not available**: Printing and stringification of arbitrary types (which is achieved via reflection in desktop Swift).
+- **Not available**: Printing and stringification of arbitrary types (which is achieved through reflection in desktop Swift).
 - **Not available**: Using non-final generic class methods. See <doc:NonFinalGenericMethods> for details on this.
 - **Not available**: Weak and unowned references are not allowed (unsafe unowned references *are* available).
 
 ## Compilation facilities that are not available
 
-- **Not available**: Library Evolution (stable ABI), and facilities that requires Library Evolution (e.g. internal module imports)
+- **Not available**: Library Evolution (stable ABI), and facilities that requires Library Evolution (for example, internal module imports)
 - **Not available**: Objective-C interoperability
 - **Not available**: Builds without WMO (whole module optimization)
 

@@ -14,7 +14,7 @@ func sayHello() {
 }
 ```
 
-Additionally, you can also use an attribute (also experimental, and not source stable) to make entire functions, types and other declarations unavailable in Embedded Swift. This can be particularly useful to explicitly mark your own code (and also entire types and conformances) that relies on features unavailable in Embedded Swift, e.g. the Any type or Codable -- it is explicitly allowed to use those in unavailable contexts:
+Additionally, you can also use an attribute (also experimental, and not source stable) to make entire functions, types and other declarations unavailable in Embedded Swift. This can be particularly useful to explicitly mark your own code (and also entire types and conformances) that relies on features unavailable in Embedded Swift, for example, the Any type or Codable -- it is explicitly allowed to use those in unavailable contexts:
 
 ```swift
 @_unavailableInEmbedded

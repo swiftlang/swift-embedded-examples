@@ -56,8 +56,8 @@ Let's work on getting this print to actually work and produce text into UART.
 We're going to use the [Arm Toolchain for Embedded](https://github.com/arm/arm-toolchain/tree/arm-software/arm-software/embedded) (formerly called "LLVM Toolchain for ARM") to provide us with basic C-level helper code, concretely memset, memcpy, and an allocator (malloc, free).
 
 Go to [https://github.com/arm/arm-toolchain/releases](https://github.com/arm/arm-toolchain/releases) and download the latest released version of "ATfe" for your host OS:
-- On macOS, download e.g. `ATfE-20.1.0-Darwin-universal.dmg`.
-- On x86_64 Linux, download e.g. `ATfE-20.1.0-Linux-x86_64.tar.xz`.
+- On macOS, download, for example, `ATfE-20.1.0-Darwin-universal.dmg`.
+- On x86_64 Linux, download, for example, `ATfE-20.1.0-Linux-x86_64.tar.xz`.
 
 Expand and copy out the contents of the toolchain into a subdirectory `llvm-toolchain` of our project. We should end up with a structure of:
 ```shell

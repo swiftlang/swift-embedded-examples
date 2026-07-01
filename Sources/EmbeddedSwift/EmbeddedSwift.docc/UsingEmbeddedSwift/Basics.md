@@ -11,11 +11,11 @@ A typical setup and build and run cycle for an embedded development board involv
 3. Linking all the libraries, C object files, and Swift object files.
 4. Post-processing the linked firmware into a flashable format (UF2, BIN, HEX, or bespoke formats)
 5. Uploading the flashable binary to the board over a USB cable using some vendor-provided JTAG/SWD tool, by copying it to a fake USB Mass Storage volume presented by the board or a custom platform bootloader.
-6. Restarting the board, observing physical effects of the firmware (LEDs light up) or UART output over USB, or presence on network, etc.
+6. Restarting the board, observing physical effects of the firmware (LEDs light up) or UART output over USB, or presence on network, and so on.
 
 Many of these steps are out of scope for this document, because they are unrelated to Swift, and need to be set up and achieved independently of using Embedded Swift. For that, refer to your hardware vendor provided documentation.
 
-This document only focuses on (2) from the list above, and it's important that you first get familiar with the details of firmware development for your board without Swift in the mix. Even if you want to build a completely pure Swift firmware, you are still going to need the vendor provided tooling for linking, post-processing, uploading, etc.
+This document only focuses on (2) from the list above, and it's important that you first get familiar with the details of firmware development for your board without Swift in the mix. Even if you want to build a completely pure Swift firmware, you are still going to need the vendor provided tooling for linking, post-processing, uploading, and so on.
 
 ## Building code using Embedded Swift
 
@@ -56,7 +56,7 @@ $ swiftc -target armv7-none-none-eabi -enable-experimental-feature Embedded -wmo
 
 Additionally, you probably want to specify additional Clang and/or LLVM flags to get the compiler to produce code for the exact ISA and ABI you need for your target.
 
-For example, a Raspberry Pi Pico / Pico W should target the ARMv6-M architecture via the `armv6m-*` target triple, but the `-mfloat-abi=soft` Clang option should also be used, and if you want to match ABI with libraries built with the GNU toolchain, you might also need `-fshort-enums`. To pass those to Swift, use the `-Xcc` prefix:
+For example, a Raspberry Pi Pico / Pico W should target the ARMv6-M architecture using the `armv6m-*` target triple, but the `-mfloat-abi=soft` Clang option should also be used, and if you want to match ABI with libraries built with the GNU toolchain, you might also need `-fshort-enums`. To pass those to Swift, use the `-Xcc` prefix:
 
 ```bash
 # To build an ELF object file for ARMv6-M with soft float ABI (floating-point arguments passed in integer registers) and "short enums":
