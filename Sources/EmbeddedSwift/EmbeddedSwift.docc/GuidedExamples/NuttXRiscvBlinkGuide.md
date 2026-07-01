@@ -1,4 +1,4 @@
-# Blinking LEDs on NuttX RTOS (RISC-V/QEMU)
+# Blinking LEDs on NuttX RTOS with QEMU
 
 Run a Swift LED-blink program on Apache NuttX RTOS, emulated on a RISC-V QEMU target.
 

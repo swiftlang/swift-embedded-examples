@@ -1,6 +1,6 @@
 # Try out Embedded Swift on macOS
 
-Tutorial for building a simple program for your host OS with Embedded Swift
+Tutorial for building a simple program for your host OS with Embedded Swift.
 
 ## Overview
 

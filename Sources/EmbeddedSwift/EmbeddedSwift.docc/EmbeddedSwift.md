@@ -20,12 +20,22 @@ Embedded Swift is a compilation and language mode that enables development of ba
 - <doc:macOSGuide>
 - <doc:PicoGuide>
 - <doc:STM32BaremetalGuide>
+- <doc:Stm32BlinkGuide>
+- <doc:Stm32UartEchoGuide>
+- <doc:Stm32NeopixelGuide>
+- <doc:Stm32LcdLogoGuide>
+- <doc:Stm32LvglGuide>
 - <doc:ESP32Guide>
 - <doc:ESP32UartEchoGuide>
 - <doc:ESP32LedStripGuide>
 - <doc:NrfxBlinkGuide>
 - <doc:NuttXRiscvBlinkGuide>
 - <doc:Rpi4bBlinkGuide>
+- <doc:Rpi5BlinkGuide>
+- <doc:PicoWBlinkGuide>
+- <doc:RpiPicoBlinkGuide>
+- <doc:RpiPico2NeopixelGuide>
+- <doc:HarmonyGuide>
 - <doc:LLDBGuide>
 
 ### Using Embedded Swift
