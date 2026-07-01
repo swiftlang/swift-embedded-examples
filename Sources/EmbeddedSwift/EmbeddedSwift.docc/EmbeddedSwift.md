@@ -20,6 +20,7 @@ Embedded Swift is a compilation and language mode that enables development of ba
 - <doc:ESP32UartEchoGuide>
 - <doc:ESP32LedStripGuide>
 - <doc:NrfxBlinkGuide>
+- <doc:NuttXRiscvBlinkGuide>
 - <doc:LLDBGuide>
 
 ### Using Embedded Swift
