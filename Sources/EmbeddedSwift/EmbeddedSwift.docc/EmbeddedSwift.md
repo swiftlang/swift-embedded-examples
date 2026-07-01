@@ -1,10 +1,6 @@
-# Embedded Swift
+# ``EmbeddedSwift``
 
 Embedded Swift is a compilation and language mode that enables development of baremetal, embedded and standalone software in Swift
-
-@Metadata {
-  @TechnologyRoot
-}
 
 ## Topics
 
@@ -34,19 +30,20 @@ Embedded Swift is a compilation and language mode that enables development of ba
 - <doc:Existentials>
 - <doc:NonFinalGenericMethods>
 
-### Build System Support
+<!-- ### Build System Support
 
 - <doc:IntegrateWithBazel>
 - <doc:IntegrateWithCMake>
 - <doc:IntegrateWithMake>
 - <doc:IntegrateWithSwiftPM>
 - <doc:IntegrateWithXcode>
+-->
 
 ### SDK Support
 
 - <doc:IntegratingWithPlatforms>
 - <doc:Baremetal>
-- <doc:IntegrateWithESP>
+<!-- - <doc:IntegrateWithESP> -->
 - <doc:IntegrateWithPico>
 - <doc:IntegrateWithZephyr>
 

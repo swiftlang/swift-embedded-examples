@@ -78,7 +78,7 @@ let HSE_VALUE: UInt32 = 25_000_000
 // This is the built-in oscillator.  It always runs at 16MHz
 let HSI_CLOCK: UInt32 = 16_000_000
 
-/// Represents available system clock sources
+/// The available system clock sources.
 public enum SystemClock: UInt32 {
   case hsi = 0  // High-Speed Internal oscillator
   case hse = 1  // High-Speed External oscillator
