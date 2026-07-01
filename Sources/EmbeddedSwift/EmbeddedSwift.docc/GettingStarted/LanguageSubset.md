@@ -1,6 +1,6 @@
 # Reviewing the language subset
 
-Review details of the Embedded Swift language subset compared to full Swift.
+Learn about the Embedded Swift language subset compared to full Swift.
 
 Embedded Swift is a subset of the Swift language, and some features are not available in Embedded Swift. This is necessary in order to achieve small binaries with effective dead-code elimination and minimized system dependencies.
 

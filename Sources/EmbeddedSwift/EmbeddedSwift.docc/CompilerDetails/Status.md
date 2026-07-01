@@ -1,6 +1,6 @@
 # Tracking implementation status
 
-Track the implementation status of compiler and language features in Embedded Swift compared to standard Swift.
+Compare compiler and language feature support in Embedded Swift to standard Swift.
 
 ## Embedded Swift Language Features
 
