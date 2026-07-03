@@ -4,8 +4,6 @@ Run a baremetal Swift MMIO program that blinks the Raspberry Pi 4B's status LED,
 
 This example demonstrates how to build a baremetal Embedded Swift kernel image for the Raspberry Pi 4B using Swift MMIO for type-safe register access, without depending on an SDK. The Swift code toggles the board's green (ACT) status LED, which is wired to GPIO42 through the BCM2711's GPIO controller.
 
-![A Raspberry Pi 4B board.](rpi-4b-hero.jpg)
-
 The GPIO registers are described as Swift MMIO register types, and an `Application` entry point configures the pin as an output and toggles it in an infinite loop:
 
 ```swift

@@ -4,8 +4,6 @@ Run a baremetal Swift program that drives a WS2812 NeoPixel RGB LED from an RP23
 
 This example demonstrates how to program the RP2350's PIO (Programmable I/O) peripheral directly from Swift MMIO register definitions, without depending on the Pico SDK. A small hand-assembled PIO program drives the WS2812 protocol's timing-sensitive single-wire signal, and the CPU feeds pixel data into the PIO's TX FIFO. The example targets a "SparkFun Pro Micro - RP2350" board, but works with other RP2350 boards.
 
-![A SparkFun Pro Micro - RP2350 with its RGB LED glowing red.](rpi-pico2-neopixel-hero.jpg)
-
 The `configurePio` function loads the WS2812 PIO program and configures its clock divider and pin mapping, and `pioWritePixel` feeds a single pixel's color into the state machine's FIFO:
 
 ```swift
