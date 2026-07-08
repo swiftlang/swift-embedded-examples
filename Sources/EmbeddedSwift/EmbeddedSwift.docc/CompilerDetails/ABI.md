@@ -20,7 +20,7 @@ The compiler respects the ABIs and calling conventions of C and C++ when interop
 
 ## Metadata ABI of Embedded Swift
 
-Embedded Swift eliminates almost all metadata compared to full Swift. However, class and existential metadata are still used, because those serve as vtables and witness tables for dynamic dispatch of methods to implement runtime polymorphism with classes and existentials.
+Embedded Swift emits much less metadata than full Swift, only emitting metadata when a language feature that requires the metadata is used. For example, classes contain metadata (to support downcasting and vtable dispatch), and the creation of an existential value will produce type and witness table metadata needed for runtime polymorphism.
 
 ### Class Metadata ABI
 
@@ -34,14 +34,13 @@ The layout of Embedded Swift's class metadata is *different* from full Swift:
 
 ### Witness Tables ABI
 
-The layout of Embedded Swift's witness tables is *different* from full Swift:
+The layout of Embedded Swift's witness tables is *slightly different* from full Swift:
 
-- The first word is always a null pointer (TODO: it can be eliminated)
+- The first word is always a null pointer (in full Swift, this is the conformance descriptor, which is not emitted or used in Embedded Swift)
 - The following words are witness table entries which can be one of the following:
   - A method witness: a pointer to the witness function.
+  - An associated type witness: a pointer to the type metadata for the associated type
   - An associated conformance witness: a pointer to the witness table of the associated conformance
-
-Note that witness tables in Embedded Swift do not contain associated type entries.
 
 Witness functions are always specialized for concrete types. This also means that parameters and return values are passed directly (if possible).
 
