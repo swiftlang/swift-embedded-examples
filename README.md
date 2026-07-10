@@ -69,6 +69,7 @@ Note that the SDK integration examples (Pico SDK, Zephyr SDK, etc.) are not reco
 | [swift-embedded-wii](https://github.com/MillerTechnologyPeru/swift-embedded-wii) | Nintendo Wii | Nintendo Wii homebrew written in Embedded Swift, ported from the official devkitPro examples. |
 | [swift-embedded-nintendo-64](https://github.com/MillerTechnologyPeru/swift-embedded-nintendo-64) | Nintendo 64 | Nintendo 64 homebrew written in Embedded Swift, using the original NuSys SDK and the newer and open source libdragon SDK. |
 | [swift-embedded-ps1](https://github.com/MillerTechnologyPeru/swift-embedded-ps1) | Sony Playstation 1 | Playstation homebrew written in Embedded Swift, ported from PSn00bSDK examples. |
+| [Nanosaur2](https://github.com/colemancda/Nanosaur2) | Nintendo 3DS | Pangea Software's Nanosaur 2 game ported to Nintendo 3DS using Embedded Swift. |
 
 Please note that the presence of community repositories and devices in this list does not constitute a recommendation or endorsement. If there's a project you'd like to see included here, please [submit an issue](https://github.com/swiftlang/swift-embedded-examples/issues/new) with the details.
 
