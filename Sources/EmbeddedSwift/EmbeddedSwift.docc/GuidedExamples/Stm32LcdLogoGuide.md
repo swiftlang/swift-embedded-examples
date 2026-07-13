@@ -40,6 +40,8 @@ struct Application {
 
 > Note: This is a baremetal example — there's no SDK or operating system involved. See <doc:Baremetal> for general guidance on baremetal Embedded Swift development. See <doc:Stm32BlinkGuide> for a simpler baremetal STM32F746G-DISCO example that only toggles a GPIO pin.
 
+[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/stm32-lcd-logo)
+
 ## Install dependencies
 
 Install the [`stlink`](https://github.com/stlink-org/stlink) command line tools, for example with `brew install stlink`.

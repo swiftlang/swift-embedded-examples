@@ -6,6 +6,8 @@ Harmony integrates with the Pico SDK's CMake build system, similar to <doc:PicoW
 
 > Note: This example uses the Pico SDK's CMake build system, not a baremetal setup. See <doc:PicoGuide> for the CMake and Pico SDK integration this example builds on.
 
+[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/harmony)
+
 ## Install Swift
 
 > Note: Embedded Swift is experimental. Public releases of Swift don't support Embedded Swift yet. See <doc:InstallEmbeddedSwift> for details.

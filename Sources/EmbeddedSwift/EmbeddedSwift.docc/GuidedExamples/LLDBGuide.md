@@ -6,6 +6,8 @@ In this guide, we’ll build a sample I2C embedded app for a **Raspberry Pi RP20
 
 To debug the board, you will use a hardware debugger together with software running on your computer. The hardware debugger connects to the board’s debug pins and gives your computer low-level access to the microcontroller while it is running. LLDB connects to your board and lets you pause the program, inspect its state, and step through the code to find problems. For this, you will need software that communicates with the hardware debugger and provides a debug interface that LLDB can use, such as OpenOCD.
 
+[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-pico-lldb)
+
 ## Prerequisites
 - Install **Swift with Embedded support**, **LLDB**, and **SVD2LLDB** (instructions below)
 - A Raspberry Pi **RP2350 / RP2040**-based board with access to SWD (debug) pins, and an LED. On-board LEDs may be used as long as they are connected directly to GPIO; otherwise, you may use an external LED.

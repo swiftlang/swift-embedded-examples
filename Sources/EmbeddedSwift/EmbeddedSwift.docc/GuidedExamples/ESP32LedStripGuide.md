@@ -33,6 +33,8 @@ func main() {
 }
 ```
 
+[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/esp32-led-strip-sdk)
+
 ## Install ESP-IDF
 
 Set up the [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/) development environment by following the [ESP-IDF "Get Started" guide](https://docs.espressif.com/projects/esp-idf/en/v5.4/esp32c6/get-started/index.html).

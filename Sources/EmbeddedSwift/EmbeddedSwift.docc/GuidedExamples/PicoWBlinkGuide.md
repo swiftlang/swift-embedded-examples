@@ -36,6 +36,8 @@ struct Main {
 }
 ```
 
+[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-picow-blink-sdk)
+
 ## Install dependencies
 
 - A Raspberry Pi Pico W or Pico 2 W board. If you have a plain Pico (non-W) instead, see <doc:PicoGuide> or the [rpi-pico-blink-sdk](https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-pico-blink-sdk) example instead.

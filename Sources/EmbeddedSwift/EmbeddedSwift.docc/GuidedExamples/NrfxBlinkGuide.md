@@ -24,6 +24,8 @@ struct Main {
 }
 ```
 
+[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/nrfx-blink-sdk)
+
 ## Install Zephyr
 
 Download and install [Zephyr](https://docs.zephyrproject.org/latest/), and make sure you are set up for development with it by following the [Zephyr Getting Started Guide](https://docs.zephyrproject.org/latest/develop/getting_started/index.html). In particular, you'll need:

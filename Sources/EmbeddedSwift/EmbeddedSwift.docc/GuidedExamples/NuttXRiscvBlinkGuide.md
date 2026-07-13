@@ -28,6 +28,8 @@ public func cMain(
 }
 ```
 
+[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/nuttx-riscv-blink)
+
 ## Install dependencies
 
 Install the following tools:

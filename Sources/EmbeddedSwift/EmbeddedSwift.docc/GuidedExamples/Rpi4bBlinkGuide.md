@@ -35,6 +35,8 @@ struct Application {
 
 > Note: This is a baremetal example — there's no SDK or operating system involved. See <doc:Baremetal> for general guidance on baremetal Embedded Swift development.
 
+[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-4b-blink)
+
 ## Install Swift
 
 > Note: Embedded Swift is experimental. Public releases of Swift don't support Embedded Swift yet. See <doc:InstallEmbeddedSwift> for details.
