@@ -1,4 +1,4 @@
-# Trying out LLDB debugging on Raspberry Pi Pico
+# Debugging with LLDB
 
 Debug Swift Embedded code on Raspberry Pi Pico boards using LLDB hardware debugging features.
 
