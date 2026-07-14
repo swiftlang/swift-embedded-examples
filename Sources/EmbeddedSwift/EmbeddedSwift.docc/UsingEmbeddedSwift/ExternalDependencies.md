@@ -13,6 +13,16 @@ For (1), external dependencies are only used based on actual usage of the progra
   - dependency: `int putchar(int);`
 - using Hashable, Set, Dictionary, or random-number generating APIs
   - dependency: `void arc4random_buf(void *, size_t);`
+- **dynamic exclusivity checking** (enabled with `-enforce-exclusivity=checked`)
+  - for single-threaded environments, link `swiftExclusivitySingleThreaded` library
+  - for multi-threaded environments that support C++11 thread-local storage, link `swiftExclusivityC11ThreadLocal`
+  - for environments where neither of the above will suffice
+    - dependency: `void * _swift_getExclusivityTLS()`
+    - dependency: void `_swift_setExclusivityTLS(void *newValue)`
+- using `Synchronization.Mutex`, one of:
+  - implement the `_swift_mutex_*` functions documented in the [platform abstraction header](https://github.com/swiftlang/swift/blob/main/stdlib/public/EmbeddedPlatform/swift/EmbeddedPlatform.h), or
+  - for single-threaded, link swiftEmbeddedPlatformSingleThreaded
+  - for multi-threaded link swiftEmbeddedPlatformMultiThreadedPOSIX (POSIX libc) or swiftEmbeddedPlatformMultiThreadedDarwin (for Apple platforms)
 
 For (2), external dependencies are also triggered by specific code needing them, but they are somewhat lower-level patterns where it might not be obvious that such patterns should cause external dependencies:
 
@@ -33,12 +43,5 @@ For (2), external dependencies are also triggered by specific code needing them,
   - dependency (on Mach-O): `__divti3`
   - dependency (on Mach-O): `__modti3`
   - dependency (with EABI): `__aeabi_ldivmod`
-- **dynamic exclusivity checking** (enabled with `-enforce-exclusivity=checked`)
-  - for single-threaded environments, link `swiftExclusivitySingleThreaded` library
-  - for multi-threaded environments that support C++11 thread-local storage, link `swiftExclusivityC11ThreadLocal`
-  - for environments where neither of the above will suffice
-    - dependency: `void * _swift_getExclusivityTLS()`
-    - dependency: void `_swift_setExclusivityTLS(void *newValue)`
-
 
 The user and/or the platform (via basic libraries like libc or compiler builtins) is expected to provide these APIs.
