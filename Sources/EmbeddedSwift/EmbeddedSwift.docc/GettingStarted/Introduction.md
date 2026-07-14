@@ -60,7 +60,7 @@ Before diving into Embedded Swift development, you should have:
 - Basic knowledge of the Swift programming language
 - A Swift toolchain installed on your development host
 - A target embedded platform in mind (for example, a Raspberry Pi Pico)
-  - this can also be a simulated hardware platform (for example, in QEMU), or even a full desktop OS environment in case you're not interested in controlling low-level hardware or custom electronic peripherals
+  - This can also be a simulated hardware platform (for example, in QEMU), or even a full desktop OS environment in case you're not interested in controlling low-level hardware or custom electronic peripherals.
 
 To start using Embedded Swift, please see the <doc:InstallEmbeddedSwift> page for installation instructions.
 
@@ -68,9 +68,9 @@ To start using Embedded Swift, please see the <doc:InstallEmbeddedSwift> page fo
 
 To help you get started with Embedded Swift, we've prepared several step-by-step guides that cover different platforms and use cases:
 
-- <doc:macOSGuide> - Try out Embedded Swift on your development machine
-- <doc:PicoGuide> - Build and run Swift code on a Raspberry Pi Pico
-- <doc:STM32BaremetalGuide> - Set up a baremetal Swift project for STM32 microcontrollers
+- <doc:macOSGuide> - Try out Embedded Swift on your development machine.
+- <doc:PicoGuide> - Build and run Swift code on a Raspberry Pi Pico.
+- <doc:STM32BaremetalGuide> - Set up a baremetal Swift project for STM32 microcontrollers.
 
 These guides provide a practical introduction to Embedded Swift development with specific hardware targets, showing you how to build, upload, and run your first Swift programs on embedded systems.
 
@@ -78,11 +78,11 @@ These guides provide a practical introduction to Embedded Swift development with
 
 For a deeper understanding of Embedded Swift concepts and philosophy, check out these resources:
 
-- <doc:LanguageSubset> - Review which Swift language features are available in Embedded Swift
+- <doc:LanguageSubset> - Review which Swift language features are available in Embedded Swift.
 - <doc:InstallEmbeddedSwift> - Detailed instructions for installing the required toolchain
 
 For developers coming from embedded C/C++ backgrounds or those integrating Swift into existing projects:
 
 - <doc:Basics> - Essential knowledge for using Embedded Swift effectively
 - <doc:ConditionalCompilation> - How to share code between Embedded Swift and standard Swift
-- <doc:Libraries> - Learn how libraries and modules work in Embedded Swift
+- <doc:Libraries> - Learn how libraries and modules work in Embedded Swift.
