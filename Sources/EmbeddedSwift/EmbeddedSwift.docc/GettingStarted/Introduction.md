@@ -17,7 +17,7 @@ Regular Swift is not a good fit for small constrained environments like microcon
 - Using compile-time specialization (monomorphization) for generic code
 - Minimizing dependencies on external libraries
 
-It's also a good mental model to think of the Swift compiler in Embedded Swift mode as operating on a way a *traditional C compiler* does — specifically in the sense that the compiler produces an object file that does not call into or depend on symbols that are not explicitly used in the source code. This is achieved even for code that uses generics, protocols, tuples, arrays, and more — all the higher-level language features are "compiled out" (for example, generics are specialized), and standard library code is pulled into the object file as needed (for example, array implementation).
+It's also a good mental model to think of the Swift compiler in Embedded Swift mode as operating on a way a *traditional C compiler* does — specifically in the sense that the compiler produces an object file that does not call into or depend on symbols that are not explicitly used in the source code. This is achieved even for code that uses generics, protocols, tuples, arrays, and more — all the higher-level language features are "compiled out" (for example, generics are specialized), and standard library code is pulled into the object file as needed (such as array implementation).
 
 This results in properties that are a great fit for embedded software development:
 
