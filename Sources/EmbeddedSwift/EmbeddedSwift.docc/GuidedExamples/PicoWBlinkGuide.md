@@ -51,8 +51,6 @@ Before adding Swift, confirm that your setup can build the standard C/C++ sample
 
 ## Install Swift
 
-> Note: Embedded Swift is experimental. Public releases of Swift don't support Embedded Swift yet. See <doc:InstallEmbeddedSwift> for details.
-
 Follow the instructions in <doc:InstallEmbeddedSwift> to install the latest Swift development snapshot with Embedded Swift support. Confirm the installation by running `swift --version` — it reports a "6.2-dev" or newer development snapshot.
 
 ## Build the project

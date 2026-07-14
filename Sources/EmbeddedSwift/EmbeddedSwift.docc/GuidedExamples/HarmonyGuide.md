@@ -10,8 +10,6 @@ Harmony integrates with the Pico SDK's CMake build system, similar to <doc:PicoW
 
 ## Install Swift
 
-> Note: Embedded Swift is experimental. Public releases of Swift don't support Embedded Swift yet. See <doc:InstallEmbeddedSwift> for details.
-
 Follow the instructions in <doc:InstallEmbeddedSwift> to install the latest Swift development snapshot with Embedded Swift support. Confirm the installation by running `swift --version` — it reports a "6.2-dev" or newer development snapshot.
 
 ## Install dependencies

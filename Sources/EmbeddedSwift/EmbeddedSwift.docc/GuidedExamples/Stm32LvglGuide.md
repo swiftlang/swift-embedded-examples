@@ -18,8 +18,6 @@ Install the [`stlink`](https://github.com/stlink-org/stlink) command line tools,
 
 ## Install Swift
 
-> Note: Embedded Swift is experimental. Public releases of Swift don't support Embedded Swift yet. See <doc:InstallEmbeddedSwift> for details.
-
 Install the Swift toolchain version specified in this repository's `.swift-version` file. The recommended way to do this is with [swiftly](https://www.swift.org/swiftly/):
 
 ```shell
