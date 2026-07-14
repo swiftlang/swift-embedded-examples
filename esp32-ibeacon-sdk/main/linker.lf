@@ -1,0 +1,20 @@
+[sections:flash_text_swift]
+entries:
+    .swift_modhash+
+
+[sections:dram0_swift]
+entries:
+    .got+
+    .got.plt+
+
+[scheme:swift_default]
+entries:
+    flash_text_swift -> flash_text
+    dram0_swift -> dram0_data
+
+[mapping:swift_default]
+archive: *
+entries:
+    * (swift_default);
+    flash_text_swift -> flash_text SURROUND (swift_text),
+    dram0_swift -> dram0_data SURROUND (swift_dram0)
