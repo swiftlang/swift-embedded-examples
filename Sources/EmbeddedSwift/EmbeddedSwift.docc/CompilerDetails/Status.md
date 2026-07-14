@@ -15,7 +15,7 @@ Implementation status of compiler and language features in Embedded Swift, compa
 | AnyObject                               | Yes                                                          |
 | Metatypes                               | Yes                                                          |
 | Untyped throwing                        | Yes                                                          |
-| Weak references, unowned references     | No                                                           |
+| Weak references, unowned references     | No, not yet supported                                        |
 | Non-final generic class methods         | No, intentionally unsupported long-term, see <doc:NonFinalGenericMethods> |
 | Parameter packs (variadic generics)     | No, not yet supported                                        |
 
@@ -29,7 +29,7 @@ This status table describes which of the following standard library features can
 | Array slices                                          | Yes                                                          |
 | assert, precondition, fatalError                      | Partial, only StaticStrings can be used as a failure message |
 | Bool, Integer types, Float types                      | Yes                                                          |
-| Codable, Encodable, Decodable                         | No                                                           |
+| Codable, Encodable, Decodable                         | No, intentionally unsupported long term                      |
 | Collection + related protocols                        | Yes                                                          |
 | Collection algorithms (sort, reverse)                 | Yes                                                          |
 | CustomStringConvertible, CustomDebugStringConvertible | Yes, except those that require reflection (e.g. Array's .description) |
@@ -57,7 +57,7 @@ This status table describes which of the following standard library features can
 | String interpolations                                 | Partial (only strings, integers, booleans, and custom types that are CustomStringConvertible can be interpolated) |
 | Unicode                                               | Yes                                                          |
 | Unsafe\[Mutable\]\[Raw\]\[Buffer\]Pointer             | Yes                                                          |
-| VarArgs                                               | No                                                           |
+| VarArgs                                               | Yes                                                          |
 
 ## Non-stdlib Features
 
@@ -65,7 +65,7 @@ This status table describes which of the following Swift features can be used in
 
 | **Swift Feature**      | **Currently Supported In Embedded Swift?**                   |
 | ---------------------- | ------------------------------------------------------------ |
-| Synchronization module | Partial (only Atomic types, no Mutex)                        |
+| Synchronization module | Yes
 | Swift Concurrency      | Partial, experimental (basics of actors and tasks work in single-threaded concurrency mode) |
 | C interop              | Yes                                                          |
 | C++ interop            | Partial, interoperability libraries are not built yet        |
