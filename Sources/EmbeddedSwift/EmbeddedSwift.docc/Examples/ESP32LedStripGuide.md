@@ -6,7 +6,7 @@
 
 Run a Swift program that animates a WS2812 LED strip on a RISC-V ESP32 device using the ESP-IDF SDK.
 
-This example demonstrates how to integrate with the ESP-IDF SDK using CMake along with the existing LED strip library to control WS2812 lights from Swift. The target is the ESP32-C6-DevKitC-1 board, driving the strip's data pin from GPIO pin 0 over SPI. Any RISC-V based Espressif chip works.
+This example demonstrates how to integrate with the ESP-IDF SDK using CMake along with the existing LED strip library to control WS2812 lights from Swift. The target is the ESP32-C6-DevKitC-1 board, driving the strip's data pin from GPIO pin 8 over SPI. Any RISC-V based Espressif chip works.
 
 <img src="https://github.com/swiftlang/swift-embedded-examples/assets/1186214/15f8a3e0-953e-426d-ad2d-3902baf859be">
 
@@ -72,7 +72,7 @@ $ idf.py build
 
 ## Run on a device
 
-Connect the ESP32-C6-DevKitC-1 board to your Mac using USB. Wire up an external WS2812 LED strip and use GPIO pin 0 as the data pin. You might need to use a level shifter.
+Connect the ESP32-C6-DevKitC-1 board to your Mac using USB. Wire up an external WS2812 LED strip and use GPIO pin 8 as the data pin. You might need to use a level shifter.
 
 Flash the firmware:
 

@@ -56,14 +56,14 @@ $ cd rpi-4b-blink
 $ make
 ```
 
-This produces `.build/release/Application.bin`, the raw kernel image extracted from the built ELF executable.
+This produces `.build/aarch64-none-none-elf/release/Application.bin`, the raw kernel image extracted from the built ELF executable.
 
 ## Run on a device
 
 Copy the kernel image to the SD card's boot partition, replacing the existing `kernel8.img`:
 
 ```shell
-$ cp .build/release/Application.bin /Volumes/bootfs/kernel8.img
+$ cp .build/aarch64-none-none-elf/release/Application.bin /Volumes/bootfs/kernel8.img
 ```
 
 If the original OS install isn't 64-bit, set `arm_64bit=1` in `config.txt` on the boot partition.

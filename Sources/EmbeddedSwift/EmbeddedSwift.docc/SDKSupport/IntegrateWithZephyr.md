@@ -10,16 +10,16 @@ The following document outlines how to setup a Swift to Zephyr project for an em
 
 Zephyr [supports quite a few target architectures](https://docs.zephyrproject.org/latest/introduction/index.html), but not all are supported by Embedded Swift. Please refer to the following table for an overview of Zephyr-supported architectures that are supported by Swift, along with the correct target triple to use:
 
-| Architecture | Details             | Swift Triple            |
-|--------------|---------------------|-------------------------|
-| ARMv6-M      | Cortex M0, M0+, M1  | armv6m-none-none-eabi   |
-| ARMv7-M      | Cortex M3           | armv7-none-none-eabi    |
-| ARMv7-EM     | Cortex M4/M4F, M7   | armv7em-none-none-eabi  |
-| ARMv8-M      | Cortex M23-85       | aarch64-none-none-elf   |
-| Intel        | 32-bit (i686)       | i686-unknown-none-elf   |
-| Intel        | 64-bit (x86_64)     | x86_64-unknown-none-elf |
-| RISC-V       | 32-bit              | riscv32-none-none-eabi  |
-| RISC-V       | 64-bit              | riscv64-none-none-eabi  |
+| Architecture | Details             | Swift Triple               |
+|--------------|---------------------|-----------------------------|
+| ARMv6-M      | Cortex M0, M0+, M1  | armv6m-none-none-eabi      |
+| ARMv7-M      | Cortex M3           | armv7-none-none-eabi       |
+| ARMv7-EM     | Cortex M4/M4F, M7   | armv7em-none-none-eabi     |
+| ARMv8-M      | Cortex M23-85       | armv8m.main-none-none-eabi |
+| Intel        | 32-bit (i686)       | i686-unknown-none-elf      |
+| Intel        | 64-bit (x86_64)     | x86_64-unknown-none-elf    |
+| RISC-V       | 32-bit              | riscv32-none-none-eabi     |
+| RISC-V       | 64-bit              | riscv64-none-none-eabi     |
 
 ## Zephyr Setup
 
@@ -299,6 +299,7 @@ manifest:
       import:
         name-allowlist:
           - cmsis  # required by the ARM port
+          - hal_nordic  # required by Nordic-based boards, such as nrf52840dk/nrf52840
 ```
 
 - It is recommended to set the `revision` to a tagged version of Zephyr instead of always getting the main revision, which could have changing APIs.

@@ -73,7 +73,7 @@ $ screen /dev/cu.usbmodem<...> 115200
 Flash the firmware:
 
 ```shell
-$ st-flash --reset write .build/release/Application.bin 0x08000000
+$ st-flash --reset write .build/armv7em-apple-none-macho/release/Application.bin 0x08000000
 ```
 
 The terminal shows a "Hello Swift!" message. Typing into the terminal echoes each character back, since the board replies over the same UART connection.

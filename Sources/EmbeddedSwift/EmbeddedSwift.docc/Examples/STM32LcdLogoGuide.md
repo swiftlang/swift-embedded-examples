@@ -66,7 +66,7 @@ $ make
 Connect the STM32F746G-DISCO board to your Mac using the ST-LINK USB port. Flash the firmware:
 
 ```shell
-$ st-flash --reset write .build/lcd-logo.bin 0x08000000
+$ st-flash --reset write .build/armv7em-apple-none-macho/release/Application.bin 0x08000000
 ```
 
 The LCD display shows a bouncing, animated Swift logo on a fading background, and the user LED blinks.
@@ -76,7 +76,7 @@ The LCD display shows a bouncing, animated Swift logo on a fading background, an
 The compiled and linked binary is around 14 KB, split between roughly 3.5 KB of code and 10 KB of pixel data for the logo:
 
 ```console
-$ size -m .build/lcd-logo
+$ size -m .build/armv7em-apple-none-macho/release/Application
 Segment __TEXT: 14376
   Section __text: 3604
   Section __const: 10000

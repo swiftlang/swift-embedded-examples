@@ -66,7 +66,7 @@ The Makefile drives `swift build` with a custom `armv7em-apple-none-macho` tripl
 Connect the STM32F746G-DISCO board to your Mac using the ST-LINK USB port. Flash the firmware:
 
 ```shell
-$ st-flash --reset write .build/Application.bin 0x08000000
+$ st-flash --reset write .build/armv7em-apple-none-macho/release/Application.bin 0x08000000
 ```
 
 The green LED next to the RESET button blinks in a regular pattern.
@@ -76,7 +76,7 @@ The green LED next to the RESET button blinks in a regular pattern.
 The compiled and linked binary is very small, demonstrating how Embedded Swift avoids including unnecessary code or data in the resulting program:
 
 ```console
-$ size -m .build/Application
+$ size -m .build/armv7em-apple-none-macho/release/Application
 Segment __TEXT: 656
   Section __text: 142
   total 142
@@ -90,6 +90,6 @@ total 1300
 The binary contains only 142 bytes of code. The vector table required by the CPU dominates the size of the final firmware. The `__LINKEDIT` segment is discarded when forming the final `.bin` file, which comes out to 1168 bytes:
 
 ```console
-$ cat .build/Application.bin | wc -c
+$ cat .build/armv7em-apple-none-macho/release/Application.bin | wc -c
     1168
 ```

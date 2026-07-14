@@ -58,7 +58,7 @@ Connect the Pico board to your Mac using USB, and make sure it's in USB Mass Sto
 Copy the UF2 firmware to the mounted volume:
 
 ```shell
-$ cp .build/Application.uf2 /Volumes/RP2040
+$ cp .build/armv6m-apple-none-macho/release/Application.uf2 /Volumes/RP2040
 ```
 
 The onboard LED blinks the message in Morse code repeatedly.

@@ -59,7 +59,7 @@ $ make
 Wire up the level shifter and LED strip according to the schematic above. Connect the STM32F746G-DISCO board to your Mac using the ST-LINK USB port. Flash the firmware:
 
 ```shell
-$ st-flash --reset write .build/release/Application.bin 0x08000000
+$ st-flash --reset write .build/armv7em-apple-none-macho/release/Application.bin 0x08000000
 ```
 
 The LED strip lights up and slowly animates a color gradient.

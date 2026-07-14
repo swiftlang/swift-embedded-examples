@@ -81,7 +81,7 @@ $ picocom -b 115200 /dev/ttyUSB0
 
 Type text and press Enter. The board echoes the text back to you.
 
-## Modfy the configuration
+## Modify the configuration
 
 The default UART configuration in `Main.swift` uses UART1, GPIO20 for TX, GPIO19 for RX, and a baud rate of 115200. To change these settings, modify the `Uart` initialization in `Main.swift`:
 
