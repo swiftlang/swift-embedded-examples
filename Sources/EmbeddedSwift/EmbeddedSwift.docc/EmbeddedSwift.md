@@ -21,13 +21,16 @@ Boards with active community support include the Raspberry Pi Pico, various STM3
 ### Essentials
 
 - <doc:Introduction>
-- <doc:LanguageSubset>
-- <doc:InstallEmbeddedSwift>
 - <doc:Basics>
+
+### Installation and usage
+
+- <doc:InstallEmbeddedSwift>
 - <doc:PlatformExamples>
 
 ### Language features
 
+- <doc:LanguageSubset>
 - <doc:Strings>
 - <doc:ConditionalCompilation>
 - <doc:Libraries>
