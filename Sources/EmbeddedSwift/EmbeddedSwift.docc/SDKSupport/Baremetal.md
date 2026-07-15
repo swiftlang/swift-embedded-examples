@@ -1,6 +1,6 @@
-# Baremetal use of Embedded Swift
+# Using Embedded Swift in baremetal mode
 
-Programming without an SDK for maximum control and minimal size
+Program without an SDK for maximum control and minimal size.
 
 ## Overview
 
@@ -21,7 +21,7 @@ A complete baremetal project typically includes:
 2. **Interrupt vector table** - Maps hardware events to handler functions
 3. **Linker script** - Defines memory layout and sections
 4. **Hardware register definition code** - To interface with peripherals
-5. **Runtime support** - E.g. implementations of functions like `memcpy` and `malloc`
+5. **Runtime support** - For example, implementations of functions like `memcpy` and `malloc`
 6. **Application logic** - Your actual embedded application code
 
 For a full working example of all these components, see <doc:STM32BaremetalGuide>. The rest of this document provides general platform-independent guidance when working in baremetal mode. However, much of the problem space of baremetal development is outside of the scope of this documentation, and requires deeper familiary with your specific setup. This information is typically provided by your board vendor, the spec of the MCU, the ISA spec of the execution core, the C toolchain documentation, ELF file format spec, and other similar sources.
@@ -122,7 +122,7 @@ void ResetISR(void) {
 
 Both these code snippets are not fully functional, they are only demonstrating the complexity of what the linker script and startup code need to do to initialize global variables.
 
-Tip: If this handling is not done correctly, a typical symptom is that global variables "don't work", i.e. reading from them doesn't yield the right value, and writing to them doesn't persist. A good way to double check this is by using a debugger, dumping memory at runtime and checking if it matches the virtual memory layout of the ELF file.
+Tip: If this handling is not done correctly, a typical symptom is that global variables "don't work", that is, reading from them doesn't yield the right value, and writing to them doesn't persist. A good way to double check this is by using a debugger, dumping memory at runtime and checking if it matches the virtual memory layout of the ELF file.
 
 ## Vector table and interrupts
 
@@ -143,7 +143,7 @@ __attribute__((section(".vectors"))) const void *VectorTable[] = {
 };
 ```
 
-If you want to actually handle an interrupt (e.g. a GPIO or UART interrupt) in your Swift code, you can forward declare the function in C, and define it using `@cdecl` in Swift:
+If you want to actually handle an interrupt (for example, a GPIO or UART interrupt) in your Swift code, you can forward declare the function in C, and define it using `@cdecl` in Swift:
 
 ```c
 // In startup.c or header file
@@ -168,7 +168,7 @@ To build an Embedded Swift baremetal project with SwiftPM, you will need a setup
 - Your main application target defined in Package.swift.
 - A helper C code helper target defined in Package.swift - this will contain your C startup code, vector table and possibly an assembly file.
 - Invoke `swift build` with a `--triple` argument that specifies the target CPU architecture and output object file format.
-- Use a `toolset.json` file that defines the common Swift and C compilation flags, and linking flags. This will e.g. enable the Embedded Swift mode when compiling Swift code, and point the linker at the right linker script.
+- Use a `toolset.json` file that defines the common Swift and C compilation flags, and linking flags. This will, for example, enable the Embedded Swift mode when compiling Swift code, and point the linker at the right linker script.
 
 Example file structure:
 

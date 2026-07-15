@@ -1,6 +1,6 @@
-# Language subset
+# Reviewing the language subset
 
-Details of the Embedded Swift language subset compared to full Swift
+Learn about the Embedded Swift language subset compared to full Swift.
 
 Embedded Swift is a subset of the Swift language, and some features are not available in Embedded Swift. This is necessary in order to achieve small binaries with effective dead-code elimination and minimized system dependencies.
 
@@ -13,13 +13,13 @@ Note that there are no behavior changes in Embedded Swift compared to full Swift
 - **Not available**: Runtime reflection (`Mirror` APIs).
 - **Not available**: Calling generic functions on values of protocol type ("existentials"). See <doc:Existentials> for details.
 - **Not available**: Standard library types that rely on the above, for example `Codable`, are not allowed.
-- **Not available**: Printing and stringification of arbitrary types (which is achieved via reflection in desktop Swift).
+- **Not available**: Printing and stringification of arbitrary types (which is achieved through reflection in desktop Swift).
 - **Not available**: Using non-final generic class methods. See <doc:NonFinalGenericMethods> for details on this.
 - **Not available**: Weak and unowned references are not allowed (unsafe unowned references *are* available).
 
 ## Compilation facilities that are not available
 
-- **Not available**: Library Evolution (stable ABI), and facilities that requires Library Evolution (e.g. internal module imports)
+- **Not available**: Library Evolution (stable ABI), and facilities that requires Library Evolution (for example, internal module imports)
 - **Not available**: Objective-C interoperability
 - **Not available**: Builds without WMO (whole module optimization)
 

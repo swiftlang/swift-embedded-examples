@@ -1,6 +1,6 @@
-# Install Embedded Swift
+# Installing Embedded Swift
 
-Get the tools needed to use Embedded Swift
+Get the tools needed to use Embedded Swift.
 
 ## Overview
 

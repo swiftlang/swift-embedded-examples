@@ -1,8 +1,8 @@
-# External dependencies
+# Managing external dependencies
 
-What external system dependencies should you expect from Embedded Swift compilations
+Learn what external system dependencies to expect from Embedded Swift compilations.
 
-Embedded Swift minimizes external dependencies (i.e. functions that need to be available at link-time), but they still exist. There are generally two categories of dependencies: (1) functions that the Swift standard library or Embedded Swift runtime need to call, and (2) functions/symbols that are implicitly added by LLVM and the compiler pipeline.
+Embedded Swift minimizes external dependencies (that is, functions that need to be available at link-time), but they still exist. There are generally two categories of dependencies: (1) functions that the Swift standard library or Embedded Swift runtime need to call, and (2) functions/symbols that are implicitly added by LLVM and the compiler pipeline.
 
 For (1), external dependencies are only used based on actual usage of the program under compilation:
 
@@ -27,7 +27,7 @@ For (1), external dependencies are only used based on actual usage of the progra
 For (2), external dependencies are also triggered by specific code needing them, but they are somewhat lower-level patterns where it might not be obvious that such patterns should cause external dependencies:
 
 - **basic memory copying and zeroing functions**
-  - usage added for a variety of reasons (e.g. using structs on the stack)
+  - usage added for a variety of reasons (for example, using structs on the stack)
   - dependency: `void *memset(void *, int, size_t);`
   - dependency: `void *memcpy(void *, const void *, size_t);`
 - **stack protectors** (aka stack cookies or stack canaries)
@@ -44,4 +44,4 @@ For (2), external dependencies are also triggered by specific code needing them,
   - dependency (on Mach-O): `__modti3`
   - dependency (with EABI): `__aeabi_ldivmod`
 
-The user and/or the platform (via basic libraries like libc or compiler builtins) is expected to provide these APIs.
+The user and/or the platform (through basic libraries like libc or compiler builtins) is expected to provide these APIs.

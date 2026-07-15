@@ -1,12 +1,10 @@
-# Introduction to Embedded Swift
+# Introducing Embedded Swift
 
-Write Swift code for microcontrollers, embedded systems, and bare-metal applications
+Write Swift code for microcontrollers, embedded systems, and baremetal applications.
 
 ## Overview
 
 Embedded Swift is an experimental and rapidly developing feature of the Swift language that enables development of baremetal, embedded and standalone software. It's a subset of the Swift language designed for producing small, efficient binaries with minimal dependencies, making it suitable for resource-constrained environments.
-
-> Note: Embedded Swift is experimental. Public releases of Swift do not support Embedded Swift, yet. See <doc:InstallEmbeddedSwift> for details.
 
 ## How does Embedded Swift differ from regular Swift?
 
@@ -17,7 +15,7 @@ Regular Swift is not a good fit for small constrained environments like microcon
 - Using compile-time specialization (monomorphization) for generic code
 - Minimizing dependencies on external libraries
 
-It's also a good mental model to think of the Swift compiler in Embedded Swift mode as operating on a way a *traditional C compiler* does — specifically in the sense that the compiler produces an object file that does not call into or depend on symbols that are not explicitly used in the source code. This is achieved even for code that uses generics, protocols, tuples, arrays, and more — all the higher-level language features are "compiled out" (e.g. generics are specialized), and standard library code is pulled into the object file as needed (e.g. array implementation).
+It's also a good mental model to think of the Swift compiler in Embedded Swift mode as operating on a way a *traditional C compiler* does — specifically in the sense that the compiler produces an object file that does not call into or depend on symbols that are not explicitly used in the source code. This is achieved even for code that uses generics, protocols, tuples, arrays, and more — all the higher-level language features are "compiled out" (for example, generics are specialized), and standard library code is pulled into the object file as needed (such as array implementation).
 
 This results in properties that are a great fit for embedded software development:
 
@@ -49,14 +47,40 @@ Software projects using Embedded Swift are typically developed in one of the fol
 
 1. Integrating with an existing SDK (typically in C, or C++) that provides either an embedded OS, or OS-like facilities, hardware drivers, and overall functionality that's needed for embedded software.
 
-2. Writing fully "bare-metal" code, without any pre-existing setup or SDK. This is typically done for extremely constrained environments and/or when full control of every piece of code is needed.
+2. Writing fully "baremetal" code, without any pre-existing setup or SDK. This is typically done for extremely constrained environments and/or when full control of every piece of code is needed.
 
-Both the approaches are readily available in Embedded Swift, and the choice of which approach to use depends on your specific project requirements, hardware constraints, and development preferences. For integrating with existing SDKs, Swift's C/C++ interoperability makes it straightforward to call native SDK functions, while the bare-metal approach gives you complete control over every aspect of your code's execution environment.
+Both the approaches are readily available in Embedded Swift, and the choice of which approach to use depends on your specific project requirements, hardware constraints, and development preferences. For integrating with existing SDKs, Swift's C/C++ interoperability makes it straightforward to call native SDK functions, while the baremetal approach gives you complete control over every aspect of your code's execution environment.
 
 ## Getting Started
 
+Before diving into Embedded Swift development, you should have:
+
+- Basic knowledge of the Swift programming language
+- A Swift toolchain installed on your development host
+- A target embedded platform in mind (for example, a Raspberry Pi Pico)
+  - This can also be a simulated hardware platform (for example, in QEMU), or even a full desktop OS environment in case you're not interested in controlling low-level hardware or custom electronic peripherals.
+
 To start using Embedded Swift, please see the <doc:InstallEmbeddedSwift> page for installation instructions.
 
-Once you've set up the toolchain, we recommend exploring the <doc:WaysToGetStarted> page which provides various paths for getting started, including the <doc:macOSGuide> to try Embedded Swift on your development machine, and more advanced guides such as <doc:PicoGuide> for programming an actual embedded device.
+## Guided Tutorials
 
-For details about using Embedded Swift, consult the <doc:Basics> documentation, which explains how to build code with Embedded Swift and shows integration patterns with embedded SDKs and build systems.
+To help you get started with Embedded Swift, we've prepared several step-by-step guides that cover different platforms and use cases:
+
+- <doc:macOSGuide> - Try out Embedded Swift on your development machine.
+- <doc:RPiPicoGuide> - Build and run Swift code on a Raspberry Pi Pico.
+- <doc:STM32BaremetalGuide> - Set up a baremetal Swift project for STM32 microcontrollers.
+
+These guides provide a practical introduction to Embedded Swift development with specific hardware targets, showing you how to build, upload, and run your first Swift programs on embedded systems.
+
+## Other Resources
+
+For a deeper understanding of Embedded Swift concepts and philosophy, check out these resources:
+
+- <doc:LanguageSubset> - Review which Swift language features are available in Embedded Swift.
+- <doc:InstallEmbeddedSwift> - Detailed instructions for installing the required toolchain
+
+For developers coming from embedded C/C++ backgrounds or those integrating Swift into existing projects:
+
+- <doc:Basics> - Essential knowledge for using Embedded Swift effectively
+- <doc:ConditionalCompilation> - How to share code between Embedded Swift and standard Swift
+- <doc:Libraries> - Learn how libraries and modules work in Embedded Swift.

@@ -1,6 +1,6 @@
-# Existentials
+# Working with existentials
 
-Restrictions on existentials ("any" types) that apply in Embedded Swift
+Learn about restrictions on existentials that apply in Embedded Swift.
 
 ## Background
 
@@ -51,7 +51,7 @@ if let p = existential as? any P { ... } // ❌, cannot cast to existential type
 let p = existential as! any P { ... } // ❌, cannot cast to existential type "any P"
 ```
 
-The same restriction applies to casting to an existential metatype, e.g.,
+The same restriction applies to casting to an existential metatype, for example,
 
 ```swift
 let anyType: Any.Type
@@ -78,7 +78,7 @@ ex.genericBar(t: 42) // ❌, genericBar is an unbounded generic
 
 ## Alternatives to existentials
 
-When existentials are not possible, or not desirable (e.g. because the indirection on an existential causes an observation performance or code-size degradation), consider one of the following alternatives (which all have different tradeoffs and code structure implications):
+When existentials are not possible, or not desirable (for example, because the indirection on an existential causes an observation performance or code-size degradation), consider one of the following alternatives (which all have different tradeoffs and code structure implications):
 
 **(1) Avoid using an existential, use generics instead**
 
@@ -92,7 +92,7 @@ func usingProtocolAsGeneric(p: some MyProtocol) {
 }
 ```
 
-**(2) If you only need a different type based on compile-time configuration (e.g. mocking for unit testing), use #if and typealiases:**
+**(2) If you only need a different type based on compile-time configuration (for example, mocking for unit testing), use #if and typealiases:**
 ```swift
 #if UNIT_TESTING
 typealias HWAccess = MMIOBasedHWAccess

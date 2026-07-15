@@ -1,5 +1,5 @@
 # rpi-pico-lldb
-The sample code used in the [Try out LLDB debugging on Raspberry Pi Pico](https://docs.swift.org/embedded/documentation/embedded/lldbguide) Guided Example.
+The sample code used in the [Trying out LLDB debugging on Raspberry Pi Pico](https://docs.swift.org/embedded/documentation/embedded/lldbguide) Guided Example.
 
 ## Prerequisites
 - Install **Swift with Embedded support**, **LLDB**, and **SVD2LLDB**.

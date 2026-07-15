@@ -1,12 +1,10 @@
-# Raspberry Pi Pico Blink (Pico SDK)
+# Blinking an LED on the Raspberry Pi Pico with the Pico SDK
 
-Tutorial for targetting a Raspberry Pi Pico as an embedded device that runs a simple Swift program
+Target a Raspberry Pi Pico as an embedded device that runs a simple Swift program.
 
 In this guide we'll be targeting a Raspberry Pi Pico as the embedded device that our Swift application will run on. If you don't physically have one, don't worry! You can still run the application in an online emulator.
 
 ## Installing Swift
-
-> Note: Embedded Swift is experimental. Public releases of Swift do not support Embedded Swift, yet. See <doc:InstallEmbeddedSwift> for details.
 
 To install Swift for embedded development, follow the instructions in <doc:InstallEmbeddedSwift>, which guides you through using `swiftly` to install the latest development snapshot with Embedded Swift support.
 
@@ -141,7 +139,7 @@ $ ls -al build/blinky*
 
 If you have a Raspberry Pi Pico, we're now going to upload the built firmware and run it. If you don't have one, skip to the next section and run the exact same firmware file **in an emulator instead**.
 
-Connect the Raspberry Pi Pico board via a USB cable to your Mac, and make sure it's in the USB Mass Storage firmware upload mode. This is normally the case if you have never uploaded any firmware yet – the Pico boots to the firmware upload mode if its memory doesn't contain any valid firmware. Once a valid firmware is uploaded, the device will run that firmware after plugging in. To go back to the firmware upload mode, *hold the BOOTSEL button while plugging in the board*.
+Connect the Raspberry Pi Pico board using a USB cable to your Mac, and make sure it's in the USB Mass Storage firmware upload mode. This is normally the case if you have never uploaded any firmware yet – the Pico boots to the firmware upload mode if its memory doesn't contain any valid firmware. Once a valid firmware is uploaded, the device will run that firmware after plugging in. To go back to the firmware upload mode, *hold the BOOTSEL button while plugging in the board*.
 
 The Pico should then show up as a mounted volume in /Volumes (as RPI-RP2 in this case):
 

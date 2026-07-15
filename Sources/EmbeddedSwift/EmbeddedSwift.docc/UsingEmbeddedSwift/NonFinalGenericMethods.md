@@ -1,10 +1,10 @@
-# Non-final generic methods
+# Restricting non-final generic methods
 
-Restrictions on unbound generic methods that apply in Embedded Swift
+Learn why unbound generic methods aren't allowed in Embedded Swift.
 
 ## Background
 
-Embedded Swift relies on monomorphization to achieve its properties like not requiring type metadata. Monomorphization is mandatory specialization of all compiled code -- all function bodies get their concrete types substituted and all generics are "compiled out". This is based on passing type information top-down, i.e. from callers to callees, and specializing callees based on the concrete type provided by the caller.
+Embedded Swift relies on monomorphization to achieve its properties like not requiring type metadata. Monomorphization is mandatory specialization of all compiled code -- all function bodies get their concrete types substituted and all generics are "compiled out". This is based on passing type information top-down, that is, from callers to callees, and specializing callees based on the concrete type provided by the caller.
 
 This type information passing from the caller is crucial. If it cannot happen for some reason, then monomorphization cannot happen. This is why Embedded Swift imposes restrictions on non-final generic methods on classes.
 

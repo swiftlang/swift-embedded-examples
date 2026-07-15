@@ -1,6 +1,6 @@
-# Strings
+# Using strings
 
-How to enable full Unicode-compliant string support in Embedded Swift
+Enable full Unicode-compliant string support in Embedded Swift.
 
 Both StaticString and String types are available in Embedded Swift. As is the case in desktop Swift, certain operations on strings require Unicode data tables for strict Unicode compliance. In Embedded Swift these data tables are provided as a separate static library (libswiftUnicodeDataTables.a) that users need to link in manually – if they need to use these string operations. If the library is required, linking will fail due to missing on one or more of the following symbols:
 
@@ -69,7 +69,7 @@ target_link_libraries(${COMPONENT_LIB}
 - Using String's hash values, and in particular using String as dictionary keys
 - Using String's `.count` property
 - Using Unicode-aware string processing APIs (`.split()`, iterating characters, indexing)
-- Using Unicode-aware conversion String APIs (`.uppercased()`, `.lowercased()`, etc.)
+- Using Unicode-aware conversion String APIs (`.uppercased()`, `.lowercased()`, and so on)
 
 **For contrast, unicode data tables are *not required for* (list not exhaustive):**
 
