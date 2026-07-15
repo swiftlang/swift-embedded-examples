@@ -28,7 +28,7 @@ Boards with active community support include the Raspberry Pi Pico, various STM3
 ### Installation and usage
 
 - <doc:InstallEmbeddedSwift>
-- <doc:PlatformExamples>
+- <doc:Examples>
 
 ### Language features
 

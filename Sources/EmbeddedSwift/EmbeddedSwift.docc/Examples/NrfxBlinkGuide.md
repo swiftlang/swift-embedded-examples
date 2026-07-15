@@ -1,5 +1,9 @@
 # Blinking an LED on Nordic nRF with Zephyr
 
+@Metadata {
+    @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/nrfx-blink-sdk", purpose: download, label: "Open on GitHub")
+}
+
 Run a Swift LED-blink program on an Arm Cortex-M nRF board using the Zephyr RTOS SDK.
 
 This example demonstrates how to integrate with the Zephyr SDK using CMake and West, and how to build a Swift firmware application on top of Zephyr and its libraries. The example was tested on an nRF52840-DK board, but it also works on other Zephyr-supported boards.
@@ -23,8 +27,6 @@ struct Main {
   }
 }
 ```
-
-[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/nrfx-blink-sdk)
 
 ## Install Zephyr
 

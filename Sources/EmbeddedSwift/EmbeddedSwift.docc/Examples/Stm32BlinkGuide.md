@@ -1,5 +1,9 @@
 # Blinking an LED on the STM32F746G-DISCO
 
+@Metadata {
+    @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/stm32-blink", purpose: download, label: "Open on GitHub")
+}
+
 Run a baremetal Swift MMIO program that blinks an LED on the STM32F746G-DISCO board, with no vendor SDKs or external toolchains.
 
 This example demonstrates how to build a baremetal Embedded Swift kernel image for the STM32F746G-DISCO board, generating register definitions with `svd2swift` and driving the GPIO peripheral directly through Swift MMIO. The entire firmware builds from code in the example directory alone. See <doc:STM32BaremetalGuide> for a from-scratch walkthrough of setting up a similar baremetal STM32 project.
@@ -37,8 +41,6 @@ struct Application {
 ```
 
 > Note: This is a baremetal example — there's no SDK or operating system involved. See <doc:Baremetal> for general guidance on baremetal Embedded Swift development.
-
-[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/stm32-blink)
 
 ## Install dependencies
 

@@ -1,12 +1,14 @@
 # Building Harmony, a Bluetooth speaker and ferrofluid visualizer
 
+@Metadata {
+    @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/harmony", purpose: download, label: "Open on GitHub")
+}
+
 Build and flash Harmony, a Raspberry Pi Pico W firmware in Swift that streams Bluetooth audio and drives a ferrofluid visualizer.
 
 Harmony integrates with the Pico SDK's CMake build system, similar to <doc:PicoWBlinkGuide>, but combines several additional subsystems: BTstack for Bluetooth Classic and the A2DP/AVRCP profiles, an SBC audio decoder, a PIO-driven I2S audio pipeline, a quadrature encoder and button input, and a WS2812 LED strip driver, all written in Swift. See `harmony/README.md` for the Bill of Materials and hardware assembly details.
 
 > Note: This example uses the Pico SDK's CMake build system, not a baremetal setup. See <doc:PicoGuide> for the CMake and Pico SDK integration this example builds on.
-
-[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/harmony)
 
 ## Install Swift
 

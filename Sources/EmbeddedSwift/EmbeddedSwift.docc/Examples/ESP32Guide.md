@@ -1,39 +1,27 @@
-# Driving a WS2812 LED strip on the ESP32
+# Blinking an LED on the ESP32
 
-Run a Swift program that animates a WS2812 LED strip on a RISC-V ESP32 device using the ESP-IDF SDK.
+@Metadata {
+    @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/esp32-led-blink-sdk", purpose: download, label: "Open on GitHub")
+}
 
-This example demonstrates how to integrate with the ESP-IDF SDK using CMake along with the existing LED strip library to control WS2812 lights from Swift. The target is the ESP32-C6-DevKitC-1 board, driving the strip's data pin from GPIO pin 0 over SPI. Any RISC-V based Espressif chip works.
+Run a Swift LED-blink program on a RISC-V ESP32 device using the ESP-IDF SDK.
 
-<img src="https://github.com/swiftlang/swift-embedded-examples/assets/1186214/15f8a3e0-953e-426d-ad2d-3902baf859be">
+This example demonstrates how to integrate with the ESP-IDF SDK using CMake along with the standard GPIO library to control an LED from Swift. The target is the ESP32-C6-Bug board, which has a built-in LED on GPIO pin 8. Any RISC-V based Espressif chip works.
 
-The Swift code wraps the ESP-IDF LED strip driver in a `LedStrip` struct, and an `app_main` entry point — the standard C entry point for ESP-IDF applications — animates a single random-colored pixel in an infinite loop:
+The Swift code is structured as a thin `Led` struct that wraps the ESP-IDF GPIO API, and an `app_main` entry point — the standard C entry point for ESP-IDF applications — that toggles the LED in an infinite loop:
 
 ```swift
 @_cdecl("app_main")
 func main() {
-  print("Hello from Swift on ESP32-C6!")
-
-  let n = 1
-  let ledStrip = LedStrip(gpioPin: 8, maxLeds: n)
-  ledStrip.clear()
-
-  var colors: [LedStrip.Color] = .init(repeating: .off, count: n)
-  while true {
-    colors.removeLast()
-    colors.insert(.lightRandom, at: 0)
-
-    for index in 0..<n {
-      ledStrip.setPixel(index: index, color: colors[index])
+    let led = Led(gpioPin: 8)
+    var ledValue = false
+    while true {
+        led.setLed(value: ledValue)
+        ledValue.toggle()
+        vTaskDelay(500 / (1000 / UInt32(configTICK_RATE_HZ)))
     }
-    ledStrip.refresh()
-
-    let blinkDelayMs: UInt32 = 500
-    vTaskDelay(blinkDelayMs / (1000 / UInt32(configTICK_RATE_HZ)))
-  }
 }
 ```
-
-[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/esp32-led-strip-sdk)
 
 ## Install ESP-IDF
 
@@ -58,7 +46,7 @@ $ . <path-to-esp-idf>/export.sh
 Navigate to the example directory and set your target board. Any RISC-V based Espressif chip is supported:
 
 ```shell
-$ cd esp32-led-strip-sdk
+$ cd esp32-led-blink-sdk
 $ idf.py set-target esp32c6  # or esp32c3, esp32p4, etc.
 ```
 
@@ -70,7 +58,7 @@ $ idf.py build
 
 ## Run on a device
 
-Connect the ESP32-C6-DevKitC-1 board to your Mac using USB. Wire up an external WS2812 LED strip and use GPIO pin 0 as the data pin. You might need to use a level shifter.
+Connect your ESP32 board to your Mac using USB. If you need serial output, connect the RX pin of a USB-UART converter to the TX0 pin on your board, and connect the GND pins together.
 
 Flash the firmware:
 
@@ -78,7 +66,7 @@ Flash the firmware:
 $ idf.py flash
 ```
 
-The LED strip animates a sequence of random colors moving in one direction.
+The LED on GPIO pin 8 blinks repeatedly, toggling every 500 milliseconds. If your board doesn't have a built-in LED on pin 8, connect an external LED to that pin.
 
 ## Simulate with Wokwi
 

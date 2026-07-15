@@ -1,5 +1,9 @@
 # Blinking an LED in Morse code on the Raspberry Pi Pico W with the Pico SDK
 
+@Metadata {
+    @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-picow-blink-sdk", purpose: download, label: "Open on GitHub")
+}
+
 Run a Swift program on a Raspberry Pi Pico W or Pico 2 W that signals "SOS" in Morse code using the Pico SDK's Wi-Fi chip driver.
 
 This example demonstrates how to integrate with the Pico SDK's CMake build system on a Wi-Fi-enabled Pico board. Unlike the plain Raspberry Pi Pico, the Pico W and Pico 2 W don't wire their LED directly to a GPIO pin — it's attached to the onboard CYW43439 wireless chip instead, so the LED is controlled through the `cyw43_arch` driver rather than the regular GPIO API. See <doc:PicoGuide> for the CMake and Pico SDK integration this example builds on for the non-Wi-Fi Pico.
@@ -35,8 +39,6 @@ struct Main {
   }
 }
 ```
-
-[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-picow-blink-sdk)
 
 ## Install dependencies
 

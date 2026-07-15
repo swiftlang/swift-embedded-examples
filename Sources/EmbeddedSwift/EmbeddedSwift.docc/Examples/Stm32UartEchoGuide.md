@@ -1,5 +1,9 @@
 # Echoing UART input on the STM32F746G-DISCO
 
+@Metadata {
+    @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/stm32-uart-echo", purpose: download, label: "Open on GitHub")
+}
+
 Run a baremetal Swift program that echoes UART1 input on the STM32F746G-DISCO board, with no vendor SDKs or external toolchains.
 
 This example demonstrates how to drive the STM32F7's USART peripheral directly through Swift MMIO, without depending on an SDK. The Swift code configures UART1 on pins A9 (TX) and B7 (RX), redirects `print()` and the C `putchar` entry point to that port, and echoes every received byte back over the wire.
@@ -40,8 +44,6 @@ public func putchar(_ value: CInt) -> CInt {
 ```
 
 > Note: This is a baremetal example — there's no SDK or operating system involved. See <doc:Baremetal> for general guidance on baremetal Embedded Swift development. See <doc:Stm32BlinkGuide> for a simpler baremetal STM32F746G-DISCO example that only toggles a GPIO pin.
-
-[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/stm32-uart-echo)
 
 ## Install dependencies
 

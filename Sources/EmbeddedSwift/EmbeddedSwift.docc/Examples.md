@@ -1,17 +1,17 @@
-# Platform examples
+# Examples
 
 Explore complete, step-by-step projects for popular embedded platforms.
 
 ## Overview
 
-These guided examples walk through complete projects for popular embedded boards, covering everything from basic LED blinking to UART communication, NeoPixel control, and display output. Each example includes the full Swift source code and build instructions, and includes wiring diagrams or schematics where applicable.
+These examples walk through complete projects for popular embedded boards, covering everything from basic LED blinking to UART communication, NeoPixel control, and display output. Each example includes the full Swift source code and build instructions, and includes wiring diagrams or schematics where applicable.
 
 ## Topics
 
 ### Essentials
 
 - <doc:macOSGuide>
-- <doc:LLDBGuide>
+- <doc:SVD2LLDBGuide>
 - <doc:PicoGuide>
 - <doc:STM32BaremetalGuide>
 

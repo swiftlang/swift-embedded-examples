@@ -1,5 +1,9 @@
 # Blinking LEDs on NuttX RTOS with QEMU
 
+@Metadata {
+    @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/nuttx-riscv-blink", purpose: download, label: "Open on GitHub")
+}
+
 Run a Swift LED-blink program on Apache NuttX RTOS, emulated on a RISC-V QEMU target.
 
 This example demonstrates how to build a NuttX application in Swift using CMake to drive the NuttX and NuttX-apps Makefile-based build system. The Swift code implements the `leds_swift` NuttX example app, which spawns a background task that cycles the emulated board's user LEDs. The example targets the `rv-virt` QEMU board, so no physical hardware is required.
@@ -27,8 +31,6 @@ public func cMain(
   return 0
 }
 ```
-
-[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/nuttx-riscv-blink)
 
 ## Install dependencies
 

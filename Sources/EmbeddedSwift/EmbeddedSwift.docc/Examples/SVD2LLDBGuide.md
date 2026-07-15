@@ -1,12 +1,14 @@
-# Debugging with LLDB
+# Debugging with SVD2LLDB
+
+@Metadata {
+    @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-pico-lldb", purpose: download, label: "Open on GitHub")
+}
 
 Debug Swift Embedded code on Raspberry Pi Pico boards using LLDB hardware debugging features.
 
 In this guide, we’ll build a sample I2C embedded app for a **Raspberry Pi RP2040 / RP2350 board**, containing a few bugs. Then, we’ll use LLDB to identify and fix them.
 
 To debug the board, you will use a hardware debugger together with software running on your computer. The hardware debugger connects to the board’s debug pins and gives your computer low-level access to the microcontroller while it is running. LLDB connects to your board and lets you pause the program, inspect its state, and step through the code to find problems. For this, you will need software that communicates with the hardware debugger and provides a debug interface that LLDB can use, such as OpenOCD.
-
-[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-pico-lldb)
 
 ## Prerequisites
 - Install **Swift with Embedded support**, **LLDB**, and **SVD2LLDB** (instructions below)

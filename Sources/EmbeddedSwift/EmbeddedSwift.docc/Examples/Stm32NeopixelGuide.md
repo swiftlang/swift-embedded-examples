@@ -1,5 +1,9 @@
 # Driving a NeoPixel LED strip on the STM32F746G-DISCO
 
+@Metadata {
+    @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/stm32-neopixel", purpose: download, label: "Open on GitHub")
+}
+
 Run a baremetal Swift program that drives a NeoPixel WS2812 LED strip from the STM32F746G-DISCO board's SPI peripheral, using DMA.
 
 This example demonstrates how to reconfigure the STM32F7's PLL for a SPI clock rate that matches the WS2812 protocol's bit timing, then use the SPI2 peripheral together with DMA to shift out pixel data without blocking the CPU. It requires additional hardware beyond the discovery board: a 3.3V-to-5V level shifter (such as the TI TXB0104), a NeoPixel WS2812 or compatible LED strip, a breadboard, and a 5V power supply.
@@ -32,8 +36,6 @@ public struct Application {
 ```
 
 > Note: This is a baremetal example — there's no SDK or operating system involved. See <doc:Baremetal> for general guidance on baremetal Embedded Swift development. See <doc:Stm32BlinkGuide> for a simpler baremetal STM32F746G-DISCO example that only toggles a GPIO pin.
-
-[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/stm32-neopixel)
 
 ## Install dependencies
 

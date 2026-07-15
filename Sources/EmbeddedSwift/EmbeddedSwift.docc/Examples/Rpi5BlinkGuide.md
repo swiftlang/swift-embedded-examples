@@ -1,5 +1,9 @@
 # Blinking an LED on the Raspberry Pi 5
 
+@Metadata {
+    @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-5-blink", purpose: download, label: "Open on GitHub")
+}
+
 Run a baremetal Swift MMIO program that blinks the Raspberry Pi 5's status LED, with no SDK or operating system.
 
 This example demonstrates how to build a baremetal Embedded Swift kernel image for the Raspberry Pi 5 using Swift MMIO for type-safe register access, without depending on an SDK. The Swift code toggles the board's green (ACT) status LED, which is wired through the RP1 southbridge chip's GPIO controller. See <doc:Rpi4bBlinkGuide> for the closely related Raspberry Pi 4B example — the two differ mainly in their GPIO register offsets and base address, since the Pi 5 drives its LED through the RP1 chip instead of the SoC's own GPIO controller.
@@ -32,8 +36,6 @@ struct Application {
 ```
 
 > Note: This is a baremetal example — there's no SDK or operating system involved. See <doc:Baremetal> for general guidance on baremetal Embedded Swift development.
-
-[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-5-blink)
 
 ## Install Swift
 

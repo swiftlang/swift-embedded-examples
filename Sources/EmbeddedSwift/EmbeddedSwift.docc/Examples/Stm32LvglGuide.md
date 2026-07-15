@@ -1,5 +1,9 @@
 # Running LVGL on the STM32F746G-DISCO
 
+@Metadata {
+    @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/stm32-lvgl", purpose: download, label: "Open on GitHub")
+}
+
 Run a full graphical Swift firmware on the STM32F746G-DISCO board, driving an LVGL user interface on the onboard LCD with touch input.
 
 This example demonstrates a complete baremetal graphical application: it links an ELF binary using `lld` and a custom linker script instead of the Mach-O toolchain the other STM32 examples use, so it builds identically on macOS and Linux hosts. It uses the LLVM Embedded Toolchain for Arm, the LVGL graphics library for UI rendering, and configures the STM32F746G's DRAM, LCD, touch panel, GPIO pins, and interrupts entirely from Swift and C startup code, with no other SDK or library dependencies.
@@ -9,8 +13,6 @@ This example demonstrates a complete baremetal graphical application: it links a
 The same "business logic" code that drives the LVGL UI on the board also runs in a host OS "simulator" that renders the UI through SDL, so UI code can be developed and iterated on without hardware.
 
 > Note: This is a baremetal example — there's no SDK or operating system involved. See <doc:Baremetal> for general guidance on baremetal Embedded Swift development. See <doc:Stm32BlinkGuide> for a much simpler baremetal STM32F746G-DISCO example that only toggles a GPIO pin.
-
-[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/stm32-lvgl)
 
 ## Install dependencies
 

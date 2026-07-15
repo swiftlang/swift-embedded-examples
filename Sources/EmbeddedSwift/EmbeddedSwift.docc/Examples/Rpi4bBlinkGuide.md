@@ -1,5 +1,9 @@
 # Blinking an LED on the Raspberry Pi 4B
 
+@Metadata {
+    @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-4b-blink", purpose: download, label: "Open on GitHub")
+}
+
 Run a baremetal Swift MMIO program that blinks the Raspberry Pi 4B's status LED, with no SDK or operating system.
 
 This example demonstrates how to build a baremetal Embedded Swift kernel image for the Raspberry Pi 4B using Swift MMIO for type-safe register access, without depending on an SDK. The Swift code toggles the board's green (ACT) status LED, which is wired to GPIO42 through the BCM2711's GPIO controller.
@@ -34,8 +38,6 @@ struct Application {
 ```
 
 > Note: This is a baremetal example — there's no SDK or operating system involved. See <doc:Baremetal> for general guidance on baremetal Embedded Swift development.
-
-[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-4b-blink)
 
 ## Install Swift
 

@@ -1,5 +1,9 @@
 # Animating a Swift logo on the STM32F746G-DISCO's LCD
 
+@Metadata {
+    @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/stm32-lcd-logo", purpose: download, label: "Open on GitHub")
+}
+
 Run a baremetal Swift program that drives the STM32F746G-DISCO's onboard LCD panel, animating a bouncing Swift logo on a fading background.
 
 This example demonstrates how to configure the STM32F7's LTDC (LCD-TFT Display Controller) peripheral directly through Swift MMIO, without depending on an SDK. It sets up a background layer with a color that fades in and out, and a foreground layer containing pixel data for a Swift logo that bounces around the screen.
@@ -39,8 +43,6 @@ struct Application {
 ```
 
 > Note: This is a baremetal example — there's no SDK or operating system involved. See <doc:Baremetal> for general guidance on baremetal Embedded Swift development. See <doc:Stm32BlinkGuide> for a simpler baremetal STM32F746G-DISCO example that only toggles a GPIO pin.
-
-[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/stm32-lcd-logo)
 
 ## Install dependencies
 

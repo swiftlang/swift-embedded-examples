@@ -1,5 +1,9 @@
 # Echoing UART input on the ESP32
 
+@Metadata {
+    @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/esp32-uart-echo", purpose: download, label: "Open on GitHub")
+}
+
 Run a Swift UART echo program on a RISC-V ESP32 device using the ESP-IDF SDK.
 
 This example demonstrates how to use the ESP-IDF UART driver from Swift to build a simple echo application. It wraps the ESP-IDF UART APIs in a Swift-friendly `Uart` struct and redirects Swift's standard I/O (`print()` and `readLine()`) to a custom UART port, so ordinary Swift console code communicates over a serial connection. The target is the ESP32-C6, but any RISC-V based Espressif chip works.
@@ -21,8 +25,6 @@ func main() {
   }
 }
 ```
-
-[View the example source on GitHub.](https://github.com/swiftlang/swift-embedded-examples/tree/main/esp32-uart-echo)
 
 ## Install ESP-IDF
 
