@@ -12,7 +12,7 @@ This example demonstrates a complete baremetal graphical application: it links a
 
 The same "business logic" code that drives the LVGL UI on the board also runs in a host OS "simulator" that renders the UI through SDL, so UI code can be developed and iterated on without hardware.
 
-> Note: This is a baremetal example — there's no SDK or operating system involved. See <doc:Baremetal> for general guidance on baremetal Embedded Swift development. See <doc:Stm32BlinkGuide> for a much simpler baremetal STM32F746G-DISCO example that only toggles a GPIO pin.
+> Note: This is a baremetal example — there's no SDK or operating system involved. See <doc:Baremetal> for general guidance on baremetal Embedded Swift development. See <doc:STM32BlinkGuide> for a much simpler baremetal STM32F746G-DISCO example that only toggles a GPIO pin.
 
 ## Install dependencies
 

@@ -6,7 +6,7 @@
 
 Run a Swift program on a Raspberry Pi Pico W or Pico 2 W that signals "SOS" in Morse code using the Pico SDK's Wi-Fi chip driver.
 
-This example demonstrates how to integrate with the Pico SDK's CMake build system on a Wi-Fi-enabled Pico board. Unlike the plain Raspberry Pi Pico, the Pico W and Pico 2 W don't wire their LED directly to a GPIO pin — it's attached to the onboard CYW43439 wireless chip instead, so the LED is controlled through the `cyw43_arch` driver rather than the regular GPIO API. See <doc:PicoGuide> for the CMake and Pico SDK integration this example builds on for the non-Wi-Fi Pico.
+This example demonstrates how to integrate with the Pico SDK's CMake build system on a Wi-Fi-enabled Pico board. Unlike the plain Raspberry Pi Pico, the Pico W and Pico 2 W don't wire their LED directly to a GPIO pin — it's attached to the onboard CYW43439 wireless chip instead, so the LED is controlled through the `cyw43_arch` driver rather than the regular GPIO API. See <doc:RPiPicoGuide> for the CMake and Pico SDK integration this example builds on for the non-Wi-Fi Pico.
 
 The Swift code initializes the Wi-Fi chip driver, then toggles its LED in a loop that spells "SOS" using dots and dashes:
 
@@ -42,7 +42,7 @@ struct Main {
 
 ## Install dependencies
 
-- A Raspberry Pi Pico W or Pico 2 W board. If you have a plain Pico (non-W) instead, see <doc:PicoGuide> or the [rpi-pico-blink-sdk](https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-pico-blink-sdk) example instead.
+- A Raspberry Pi Pico W or Pico 2 W board. If you have a plain Pico (non-W) instead, see <doc:RPiPicoGuide> or the [rpi-pico-blink-sdk](https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-pico-blink-sdk) example instead.
 - Follow the setup steps in the [Pico "Getting Started" guide](https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf). In particular, you'll need:
   - A checkout of the [pico-sdk](https://github.com/raspberrypi/pico-sdk.git), with git submodules checked out.
   - A checkout of the [pico-examples](https://github.com/raspberrypi/pico-examples.git).

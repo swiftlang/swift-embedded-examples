@@ -97,7 +97,7 @@ For this tutorial you will have to connect the `i2c0` and `i2c1` interfaces' `SD
 
 An example Fritzing schematic for the Raspberry Pi Pico / Pico 2 is provided below:
 
-![Raspberry Pi Pico connection Fritzing diagram](lldb_tutorial.png)
+![Raspberry Pi Pico connection Fritzing diagram](SVD2LLDBGuide-schematic.png)
 
 If you are using another RP2040 / RP2350 board, or different pins, you may need to [change the I2C pin numbers in the Application.swift source file](https://github.com/swiftlang/swift-embedded-examples/blob/main/rpi-pico-lldb/start-tutorial/Sources/Application/Application.swift).
 

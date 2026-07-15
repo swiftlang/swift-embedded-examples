@@ -6,7 +6,7 @@
 
 Run a baremetal Swift program on a Raspberry Pi Pico that spells "Hello Swift!" in Morse code on the onboard LED, with no SDK or operating system.
 
-This example demonstrates how to build a baremetal Embedded Swift kernel image for the Raspberry Pi Pico's RP2040 chip from scratch, without depending on the Pico SDK. The package provides its own `RP2040` hardware abstraction layer that wraps the chip's memory-mapped registers (GPIO, clocks, resets, the SIO block, and more), a `crt0.S` startup file, and a `Package.swift` built with a custom Mach-O toolset that gets converted to the UF2 firmware format. See <doc:PicoGuide> for the CMake-based Pico SDK approach to this same board.
+This example demonstrates how to build a baremetal Embedded Swift kernel image for the Raspberry Pi Pico's RP2040 chip from scratch, without depending on the Pico SDK. The package provides its own `RP2040` hardware abstraction layer that wraps the chip's memory-mapped registers (GPIO, clocks, resets, the SIO block, and more), a `crt0.S` startup file, and a `Package.swift` built with a custom Mach-O toolset that gets converted to the UF2 firmware format. See <doc:RPiPicoGuide> for the CMake-based Pico SDK approach to this same board.
 
 The `Application` entry point configures the LED pin as an output, then loops forever, blinking out the message using dots and dashes:
 

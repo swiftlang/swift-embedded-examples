@@ -42,7 +42,7 @@ struct Application {
 }
 ```
 
-> Note: This is a baremetal example — there's no SDK or operating system involved. See <doc:Baremetal> for general guidance on baremetal Embedded Swift development. See <doc:Stm32BlinkGuide> for a simpler baremetal STM32F746G-DISCO example that only toggles a GPIO pin.
+> Note: This is a baremetal example — there's no SDK or operating system involved. See <doc:Baremetal> for general guidance on baremetal Embedded Swift development. See <doc:STM32BlinkGuide> for a simpler baremetal STM32F746G-DISCO example that only toggles a GPIO pin.
 
 ## Install dependencies
 

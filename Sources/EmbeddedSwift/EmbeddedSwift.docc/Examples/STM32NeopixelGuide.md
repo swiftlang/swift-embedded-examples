@@ -12,7 +12,7 @@ This example demonstrates how to reconfigure the STM32F7's PLL for a SPI clock r
 
 Connect the components as shown in this schematic. A capacitor across the LED strip's power supply is recommended:
 
-![Wiring schematic for the STM32F746G-DISCO, level shifter, and NeoPixel strip.](stm32-neopixel-schematic.png)
+![Wiring schematic for the STM32F746G-DISCO, level shifter, and NeoPixel strip.](STM32NeopixelGuide-schematic.png)
 
 The `Application` entry point reconfigures the PLL, enables the SPI2 and DMA1 peripherals, then drives an animated rainbow pattern across the strip using the `SPINeoPixel` driver:
 
@@ -35,7 +35,7 @@ public struct Application {
 }
 ```
 
-> Note: This is a baremetal example — there's no SDK or operating system involved. See <doc:Baremetal> for general guidance on baremetal Embedded Swift development. See <doc:Stm32BlinkGuide> for a simpler baremetal STM32F746G-DISCO example that only toggles a GPIO pin.
+> Note: This is a baremetal example — there's no SDK or operating system involved. See <doc:Baremetal> for general guidance on baremetal Embedded Swift development. See <doc:STM32BlinkGuide> for a simpler baremetal STM32F746G-DISCO example that only toggles a GPIO pin.
 
 ## Install dependencies
 

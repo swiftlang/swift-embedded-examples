@@ -12,16 +12,16 @@ These examples walk through complete projects for popular embedded boards, cover
 
 - <doc:macOSGuide>
 - <doc:SVD2LLDBGuide>
-- <doc:PicoGuide>
+- <doc:RPiPicoGuide>
 - <doc:STM32BaremetalGuide>
 
 ### STM32 examples
 
-- <doc:Stm32BlinkGuide>
-- <doc:Stm32UartEchoGuide>
-- <doc:Stm32NeopixelGuide>
-- <doc:Stm32LcdLogoGuide>
-- <doc:Stm32LvglGuide>
+- <doc:STM32BlinkGuide>
+- <doc:STM32UartEchoGuide>
+- <doc:STM32NeopixelGuide>
+- <doc:STM32LcdLogoGuide>
+- <doc:STM32LvglGuide>
 
 ### ESP32 examples
 
@@ -31,15 +31,15 @@ These examples walk through complete projects for popular embedded boards, cover
 
 ### Raspberry Pi examples
 
-- <doc:Rpi4bBlinkGuide>
-- <doc:Rpi5BlinkGuide>
-- <doc:PicoWBlinkGuide>
-- <doc:RpiPicoBlinkGuide>
-- <doc:RpiPico2NeopixelGuide>
+- <doc:RPi4bBlinkGuide>
+- <doc:RPi5BlinkGuide>
+- <doc:RPiPicoWBlinkGuide>
+- <doc:RPiPicoBlinkGuide>
+- <doc:RPiPico2NeopixelGuide>
 - <doc:HarmonyGuide>
 
 ### Other platform examples
 
-- <doc:NrfxBlinkGuide>
+- <doc:nRFBlinkGuide>
 - <doc:NuttXRiscvBlinkGuide>
 

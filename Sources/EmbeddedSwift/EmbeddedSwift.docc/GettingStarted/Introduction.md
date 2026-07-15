@@ -67,7 +67,7 @@ To start using Embedded Swift, please see the <doc:InstallEmbeddedSwift> page fo
 To help you get started with Embedded Swift, we've prepared several step-by-step guides that cover different platforms and use cases:
 
 - <doc:macOSGuide> - Try out Embedded Swift on your development machine.
-- <doc:PicoGuide> - Build and run Swift code on a Raspberry Pi Pico.
+- <doc:RPiPicoGuide> - Build and run Swift code on a Raspberry Pi Pico.
 - <doc:STM32BaremetalGuide> - Set up a baremetal Swift project for STM32 microcontrollers.
 
 These guides provide a practical introduction to Embedded Swift development with specific hardware targets, showing you how to build, upload, and run your first Swift programs on embedded systems.
