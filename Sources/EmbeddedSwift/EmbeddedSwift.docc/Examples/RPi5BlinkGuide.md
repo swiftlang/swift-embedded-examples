@@ -54,14 +54,14 @@ $ cd rpi-5-blink
 $ make
 ```
 
-This produces `.build/release/Application.bin`, the raw kernel image extracted from the built ELF executable.
+This produces `.build/aarch64-none-none-elf/release/Application.bin`, the raw kernel image extracted from the built ELF executable.
 
 ## Run on a device
 
 Copy the kernel image to the SD card's boot partition, and remove the existing `kernel_2712.img` so the Raspberry Pi 5's newer boot process picks up the Embedded Swift kernel instead:
 
 ```shell
-$ cp .build/release/Application.bin /Volumes/bootfs/kernel8.img
+$ cp .build/aarch64-none-none-elf/release/Application.bin /Volumes/bootfs/kernel8.img
 $ rm /Volumes/bootfs/kernel_2712.img
 ```
 

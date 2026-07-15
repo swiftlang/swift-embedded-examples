@@ -20,7 +20,7 @@ Embedded Swift allows and supports forming existentials of any kind:
 
 ```swift
 protocol P { // ✅
-    func genericFoo<T>(_ value: T) { }
+    func genericFoo<T>(_ value: T)
 }
 
 extension Int: P { ... }
@@ -48,7 +48,7 @@ Existentials can be formed only from a concrete type. It is not possible to form
 let existential: Any = ...
 
 if let p = existential as? any P { ... } // ❌, cannot cast to existential type "any P"
-let p = existential as! any P { ... } // ❌, cannot cast to existential type "any P"
+let p = existential as! any P // ❌, cannot cast to existential type "any P"
 ```
 
 The same restriction applies to casting to an existential metatype, for example,

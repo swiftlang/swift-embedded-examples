@@ -15,7 +15,7 @@ After installing Swiftly, install the latest main "Development Snapshot" toolcha
 ```shell
 $ swiftly install main-snapshot
 ...
-main-snapshot-2025-04-12 installed successfully!
+main-snapshot-YYYY-MM-DD installed successfully!
 ```
 
 To test that you have Swift installed, run `swift --version` from your shell or terminal app. It should say "6.2-dev", meaning you have a "Development Snapshot" toolchain.

@@ -61,7 +61,7 @@ Connect the Pico 2 board to your Mac using USB, and make sure it's in USB Mass S
 Copy the UF2 firmware to the mounted volume:
 
 ```shell
-$ cp .build/release/Application.uf2 /Volumes/RP2350
+$ cp .build/armv7em-apple-none-macho/release/Application.uf2 /Volumes/RP2350
 ```
 
 The RGB LED animates through the color wheel.
