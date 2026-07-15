@@ -2,6 +2,7 @@
 
 @Metadata {
     @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/stm32-blink", purpose: download, label: "Open on GitHub")
+    @PageImage(purpose: card, source: "STM32BlinkGuide-card", alt: "An STM32F746G-DISCO board with its onboard LED lit.")
 }
 
 Run a baremetal Swift MMIO program that blinks an LED on the STM32F746G-DISCO board, with no vendor SDKs or external toolchains.

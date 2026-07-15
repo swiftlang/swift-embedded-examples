@@ -2,6 +2,7 @@
 
 @Metadata {
     @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/stm32-lcd-logo", purpose: download, label: "Open on GitHub")
+    @PageImage(purpose: card, source: "STM32LcdLogoGuide-card", alt: "A Swift logo rendered on the STM32F746G-DISCO's onboard LCD panel.")
 }
 
 Run a baremetal Swift program that drives the STM32F746G-DISCO's onboard LCD panel, animating a bouncing Swift logo on a fading background.

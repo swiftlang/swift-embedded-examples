@@ -2,6 +2,7 @@
 
 @Metadata {
     @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-4b-blink", purpose: download, label: "Open on GitHub")
+    @PageImage(purpose: card, source: "RPi4bBlinkGuide-card", alt: "A Raspberry Pi 4B board.")
 }
 
 Run a baremetal Swift MMIO program that blinks the Raspberry Pi 4B's status LED, with no SDK or operating system.

@@ -2,6 +2,7 @@
 
 @Metadata {
     @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-pico-blink", purpose: download, label: "Open on GitHub")
+    @PageImage(purpose: card, source: "RPiPicoBlinkGuide-card", alt: "A Raspberry Pi Pico board.")
 }
 
 Run a baremetal Swift program on a Raspberry Pi Pico that spells "Hello Swift!" in Morse code on the onboard LED, with no SDK or operating system.

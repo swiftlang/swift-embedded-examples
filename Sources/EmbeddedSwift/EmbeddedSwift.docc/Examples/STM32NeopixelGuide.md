@@ -2,6 +2,7 @@
 
 @Metadata {
     @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/stm32-neopixel", purpose: download, label: "Open on GitHub")
+    @PageImage(purpose: card, source: "STM32NeopixelGuide-card", alt: "An STM32F746G-DISCO board driving a lit WS2812 NeoPixel LED strip.")
 }
 
 Run a baremetal Swift program that drives a NeoPixel WS2812 LED strip from the STM32F746G-DISCO board's SPI peripheral, using DMA.
