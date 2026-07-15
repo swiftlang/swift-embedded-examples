@@ -194,7 +194,14 @@ Process 1 stopped
 -> 92  	  while (1) {}
    93  	}
    94  	
-   95  	__attribute((section("__DATA,stack"), aligned(32)))
+frame #0: 0x200053fe Application`interrupt at Support.c:97:3
+   94  	}
+   95  	
+   96  	void interrupt(void) {
+-> 97  	  while (1) {}
+   98  	}
+   99  	
+   100  	__attribute((section("__DATA,stack"), aligned(32)))
 Target 0: (Application) stopped.
 ```
 
@@ -220,7 +227,14 @@ The `thread sel` command can be used to select the board's core:
 -> 92  	  while (1) {}
    93  	}
    94  	
-   95  	__attribute((section("__DATA,stack"), aligned(32)))
+frame #0: 0x200053fe Application`interrupt at Support.c:97:3
+   94  	}
+   95  	
+   96  	void interrupt(void) {
+-> 97  	  while (1) {}
+   98  	}
+   99  	
+   100  	__attribute((section("__DATA,stack"), aligned(32)))
 (lldb)  
 ```
 
@@ -243,17 +257,23 @@ Find out where execution stopped by checking the backtrace with `thread backtrac
 
 ```shell
 * thread #1, stop reason = signal SIGINT
-    frame #0: 0x200053fe Application`interrupt at Support.c:92:3
+    frame #0: 0x200053fe Application`interrupt at Support.c:97:3
    89  	}
    90  	
    91  	void interrupt(void) {
 -> 92  	  while (1) {}
-   93  	}
+   94  	}
+   95  	
+   96  	void interrupt(void) {
+-> 97  	  while (1) {}
+   98  	}
+   99  	
+   100  	__attribute((section("__DATA,stack"), aligned(32)))
    94  	
    95  	__attribute((section("__DATA,stack"), aligned(32)))
 (lldb) bt
 * thread #1, stop reason = signal SIGINT
-  * frame #0: 0x200053fe Application`interrupt at Support.c:92:3
+  * frame #0: 0x200053fe Application`interrupt at Support.c:97:3
     frame #1: 0x20000dba Application`Swift._assertionFailure(_: Swift.StaticString, _: Swift.StaticString, file: Swift.StaticString, line: Swift.UInt, flags: Swift.UInt32) -> Swift.Never at <compiler-generated>:0
     frame #2: 0x20003c9a Application`generic specialization <RP2350.PADS_BANK0.GPIO, Swift.UInt32> of MMIO.RegisterArray<τ_0_0 where τ_0_0: MMIO.RegisterValue>.subscript.getter : <τ_0_0 where τ_1_0: Swift.BinaryInteger>(τ_1_0) -> MMIO.Register<τ_0_0> at RegisterArray.swift:174:5
     frame #3: 0x20003b72 Application`Application.configureLedPinSIO(Swift.UInt32) -> () at OnboardLED.swift:28:18
@@ -261,7 +281,7 @@ Find out where execution stopped by checking the backtrace with `thread backtrac
     frame #5: 0x20000bbc Application`static Application.Application.main() -> () at Application.swift:104:5
     frame #6: 0x20000d6c Application`static Application.Application.$main() -> () at <compiler-generated>:0
     frame #7: 0x20000d78 Application`Application_main at Application.swift:0
-    frame #8: 0x200053ee Application`reset at Support.c:87:19
+    frame #8: 0x200053ee Application`reset at Support.c:92:19
     frame #9: 0x000002f4
 ```
 
