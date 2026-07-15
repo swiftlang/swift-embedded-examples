@@ -78,10 +78,12 @@ struct Application {
     memory.serveBytesFromMemory()
 
     // Controller receives the byte
-    let readValue = controller.receiveRequestedBytesFromMemory()
+    guard let readValue = controller.receiveRequestedBytesFromMemory() else {
+      blinkFailForever(1)
+    }
 
     // Validate the transmission
-    if readValue != nil && readValue! == txByte + 1 {
+    if readValue != nil && readValue == txByte + 1 {
       ledSuccess()
     } else {
       blinkFailForever(2)
@@ -180,8 +182,8 @@ Run lldb with your `Application` Mach-O and connect to your debug server (here y
 
 ```shell
 $ lldb .build/armv7em-apple-none-macho/debug/Application
-(lldb) target create "/Users/cmd/swift-embedded-examples/rpi-pico2-lldb/start-tutorial/.build/armv7em-apple-none-macho/debug/Application"
-Current executable set to '/Users/cmd/swift-embedded-examples/rpi-pico2-lldb/start-tutorial/.build/armv7em-apple-none-macho/debug/Application' (armv7em).
+(lldb) target create "/Users/cmd/swift-embedded-examples/rpi-pico-lldb/start-tutorial/.build/armv7em-apple-none-macho/debug/Application"
+Current executable set to '/Users/cmd/swift-embedded-examples/rpi-pico-lldb/start-tutorial/.build/armv7em-apple-none-macho/debug/Application' (armv7em).
 (lldb) gdb-remote 3333
 Process 1 stopped
 * thread #1, stop reason = signal SIGINT
@@ -192,7 +194,14 @@ Process 1 stopped
 -> 92  	  while (1) {}
    93  	}
    94  	
-   95  	__attribute((section("__DATA,stack"), aligned(32)))
+frame #0: 0x200053fe Application`interrupt at Support.c:97:3
+   94  	}
+   95  	
+   96  	void interrupt(void) {
+-> 97  	  while (1) {}
+   98  	}
+   99  	
+   100  	__attribute((section("__DATA,stack"), aligned(32)))
 Target 0: (Application) stopped.
 ```
 
@@ -218,7 +227,14 @@ The `thread sel` command can be used to select the board's core:
 -> 92  	  while (1) {}
    93  	}
    94  	
-   95  	__attribute((section("__DATA,stack"), aligned(32)))
+frame #0: 0x200053fe Application`interrupt at Support.c:97:3
+   94  	}
+   95  	
+   96  	void interrupt(void) {
+-> 97  	  while (1) {}
+   98  	}
+   99  	
+   100  	__attribute((section("__DATA,stack"), aligned(32)))
 (lldb)  
 ```
 
@@ -241,25 +257,31 @@ Find out where execution stopped by checking the backtrace with `thread backtrac
 
 ```shell
 * thread #1, stop reason = signal SIGINT
-    frame #0: 0x200053fe Application`interrupt at Support.c:92:3
+    frame #0: 0x200053fe Application`interrupt at Support.c:97:3
    89  	}
    90  	
    91  	void interrupt(void) {
 -> 92  	  while (1) {}
-   93  	}
+   94  	}
+   95  	
+   96  	void interrupt(void) {
+-> 97  	  while (1) {}
+   98  	}
+   99  	
+   100  	__attribute((section("__DATA,stack"), aligned(32)))
    94  	
    95  	__attribute((section("__DATA,stack"), aligned(32)))
 (lldb) bt
 * thread #1, stop reason = signal SIGINT
-  * frame #0: 0x200053fe Application`interrupt at Support.c:92:3
+  * frame #0: 0x200053fe Application`interrupt at Support.c:97:3
     frame #1: 0x20000dba Application`Swift._assertionFailure(_: Swift.StaticString, _: Swift.StaticString, file: Swift.StaticString, line: Swift.UInt, flags: Swift.UInt32) -> Swift.Never at <compiler-generated>:0
     frame #2: 0x20003c9a Application`generic specialization <RP2350.PADS_BANK0.GPIO, Swift.UInt32> of MMIO.RegisterArray<τ_0_0 where τ_0_0: MMIO.RegisterValue>.subscript.getter : <τ_0_0 where τ_1_0: Swift.BinaryInteger>(τ_1_0) -> MMIO.Register<τ_0_0> at RegisterArray.swift:174:5
-    frame #3: 0x20003b72 Application`Application.configureLedPinSIO(Swift.UInt32) -> () at OnboardLED.swift:21:18
-    frame #4: 0x20000968 Application`Application.enableInterfaces() -> () at Application.swift:80:5
-    frame #5: 0x20000bbc Application`static Application.Application.main() -> () at Application.swift:93:5
+    frame #3: 0x20003b72 Application`Application.configureLedPinSIO(Swift.UInt32) -> () at OnboardLED.swift:28:18
+    frame #4: 0x20000968 Application`Application.enableInterfaces() -> () at Application.swift:91:5
+    frame #5: 0x20000bbc Application`static Application.Application.main() -> () at Application.swift:104:5
     frame #6: 0x20000d6c Application`static Application.Application.$main() -> () at <compiler-generated>:0
     frame #7: 0x20000d78 Application`Application_main at Application.swift:0
-    frame #8: 0x200053ee Application`reset at Support.c:87:19
+    frame #8: 0x200053ee Application`reset at Support.c:92:19
     frame #9: 0x000002f4
 ```
 
@@ -290,32 +312,32 @@ Find what triggered this issue by looking at the frames related to the Applicati
 
 ```shell
 (lldb) frame sel 3
-frame #3: 0x20003b72 Application`Application.configureLedPinSIO(Swift.UInt32) -> () at OnboardLED.swift:21:18
-   18  	// GPIO config (LED via SIO)
-   19  	func configureLedPinSIO(_ pin: UInt32) {
-   20  	  // Pad electrical properties
--> 21  	  pads_bank0.gpio[pin].modify { rw in
-   22  	    rw.raw.od = 0        // outputs enabled
-   23  	    rw.raw.ie = 0        // input disabled
-   24  	    rw.raw.pue = 0       // no pull-up
+frame #3: 0x20003b72 Application`Application.configureLedPinSIO(Swift.UInt32) -> () at OnboardLED.swift:28:18
+   25  	// GPIO config (LED via SIO)
+   26  	func configureLedPinSIO(_ pin: UInt32) {
+   27  	  // Pad electrical properties
+-> 28  	  pads_bank0.gpio[pin].modify { rw in
+   29  	    rw.raw.od = 0        // outputs enabled
+   30  	    rw.raw.ie = 0        // input disabled
+   31  	    rw.raw.pue = 0       // no pull-up
 (lldb) frame sel 4
-frame #4: 0x20000968 Application`Application.enableInterfaces() -> () at Application.swift:80:5
-   77  	    while resets.reset_done.read().raw.i2c1 == 0 {}
-   78  	
-   79  	    // LED pin init
--> 80  	    configureLedPinSIO(ledPin)
-   81  	    ledSet(false)
-   82  	
-   83  	    // I2C pins config
+frame #4: 0x20000968 Application`Application.enableInterfaces() -> () at Application.swift:91:5
+   88  	    while resets.reset_done.read().raw.i2c1 == 0 {}
+   89  	
+   90  	    // LED pin init
+-> 91  	    configureLedPinSIO(ledPin)
+   92  	    ledSet(false)
+   93  	
+   94  	    // I2C pins config
 (lldb) frame sel 5
-frame #5: 0x20000bbc Application`static Application.Application.main() -> () at Application.swift:93:5
-   90  	@main
-   91  	struct Application {
-   92  	  static func main() {
--> 93  	    enableInterfaces()
-   94  	    let controller = I2CController(i2c0SclPin: i2c0SclPin, i2c0SdaPin: i2c0SdaPin)
-   95  	    let memory = MemoryI2CDevice(i2c1SclPin: i2c1SclPin, i2c1SdaPin: i2c1SdaPin)
-   96  	
+frame #5: 0x20000bbc Application`static Application.Application.main() -> () at Application.swift:104:5
+   101 	@main
+   102 	struct Application {
+   103 	  static func main() {
+-> 104 	    enableInterfaces()
+   105 	    let controller = I2CController(i2c0SclPin: i2c0SclPin, i2c0SdaPin: i2c0SdaPin)
+   106 	    let memory = MemoryI2CDevice(i2c1SclPin: i2c1SclPin, i2c1SdaPin: i2c1SdaPin)
+   107 	
 (lldb)
 ```
 
@@ -325,7 +347,7 @@ Searching the codebase for `ledPin`, you can see that it is initialized with `10
 
 ```swift
 // Board LED
-ledPin: UInt32 = 100
+let ledPin: UInt32 = 100
 ```
 
 The Raspberry Pi Pico has only 40 physical pins, including 26 GPIO; `100` is an odd, incorrect choice for the LED pin number.
@@ -343,14 +365,14 @@ Re-connect the board to the computer, while holding `BOOTSEL`, and attach the Op
 
 ```shell
 $ lldb .build/armv7em-apple-none-macho/debug/Application
-(lldb) target create "/Users/cmd/swift-embedded-examples/rpi-pico2-lldb/start-tutorial/.build/armv7em-apple-none-macho/debug/Application"
-Current executable set to '/Users/cmd/swift-embedded-examples/rpi-pico2-lldb/start-tutorial/.build/armv7em-apple-none-macho/debug/Application' (armv7em)
+(lldb) target create "/Users/cmd/swift-embedded-examples/rpi-pico-lldb/start-tutorial/.build/armv7em-apple-none-macho/debug/Application"
+Current executable set to '/Users/cmd/swift-embedded-examples/rpi-pico-lldb/start-tutorial/.build/armv7em-apple-none-macho/debug/Application' (armv7em)
 (lldb) breakpoint set --hardware -n main 
 Breakpoint 1: 2 locations.
 (lldb) br list
 Current breakpoints:
 1: name = 'main', locations = 2, resolved = 2, hit count = 0
-  1.1: where = Application`static Application.main() + 24 at Application.swift:93:5, address = 0x20000bb8, resolved, hardware, hit count = 0 
+  1.1: where = Application`static Application.main() + 24 at Application.swift:104:5, address = 0x20000bb8, resolved, hardware, hit count = 0 
   1.2: where = Application`Application_main at Application.swift, address = 0x20000d70, resolved, hardware, hit count = 0 
 
 (lldb)
@@ -399,14 +421,14 @@ Target 0: (Application) stopped.
 Process 1 resuming
 Process 1 stopped
 * thread #1, stop reason = breakpoint 1.1
-    frame #0: 0x20000bb8 Application`static Application.main() at Application.swift:93:5
-   90  	@main
-   91  	struct Application {
-   92  	  static func main() {
--> 93  	    enableInterfaces()
-   94  	    let controller = I2CController(i2c0SclPin: i2c0SclPin, i2c0SdaPin: i2c0SdaPin)
-   95  	    let memory = MemoryI2CDevice(i2c1SclPin: i2c1SclPin, i2c1SdaPin: i2c1SdaPin)
-   96  	
+    frame #0: 0x20000bb8 Application`static Application.main() at Application.swift:104:5
+   101 	@main
+   102 	struct Application {
+   103 	  static func main() {
+-> 104 	    enableInterfaces()
+   105 	    let controller = I2CController(i2c0SclPin: i2c0SclPin, i2c0SdaPin: i2c0SdaPin)
+   106 	    let memory = MemoryI2CDevice(i2c1SclPin: i2c1SclPin, i2c1SdaPin: i2c1SdaPin)
+   107 	
 Target 0: (Application) stopped.
 (lldb)  
 ```
@@ -436,23 +458,23 @@ note: This address is not associated with a specific line of code. This may be d
 * thread #1
   * frame #0: 0x20002dce Application`generic specialization <serialized, RP2350.I2C0.IC_STATUS> of MMIO.Register.init(unsafeAddress: Swift.UInt) -> MMIO.Register<τ_0_0> at <compiler-generated>:0
     frame #1: 0x200048de Application`RP2350.I2C0.ic_status.getter : MMIO.Register<RP2350.I2C0.IC_STATUS> at @__swiftmacro_6RP23504I2C0V9ic_status13RegisterBlockfMa_.swift:6:15
-    frame #2: 0x200031dc Application`closure #1 () -> Swift.Bool in Application.MemoryI2CDevice.receiveBytesToMemory() -> () at MemoryI2CDevice.swift:60:18
-    frame #3: 0x200022ec Application`Application.waitForCondition(() -> Swift.Bool) -> () at I2C.swift:42:8
-    frame #4: 0x20003194 Application`Application.MemoryI2CDevice.receiveBytesToMemory() -> () at MemoryI2CDevice.swift:59:9
-    frame #5: 0x20000c18 Application`static Application.Application.main() -> () at Application.swift:108:12
+    frame #2: 0x200031dc Application`closure #1 () -> Swift.Bool in Application.MemoryI2CDevice.receiveBytesToMemory() -> () at MemoryI2CDevice.swift:71:18
+    frame #3: 0x200022ec Application`Application.waitForCondition(() -> Swift.Bool) -> () at I2C.swift:51:8
+    frame #4: 0x20003194 Application`Application.MemoryI2CDevice.receiveBytesToMemory() -> () at MemoryI2CDevice.swift:70:9
+    frame #5: 0x20000c18 Application`static Application.Application.main() -> () at Application.swift:120:12
     frame #6: 0x20000d6c Application`static Application.Application.$main() -> () at <compiler-generated>:0
     frame #7: 0x20000d78 Application`Application_main at Application.swift:0
-    frame #8: 0x200053f6 Application`reset at Support.c:87:19
+    frame #8: 0x200053f6 Application`reset at Support.c:92:19
     frame #9: 0x000002f4
 (lldb) frame sel 3
-frame #3: 0x200022ec Application`Application.waitForCondition(() -> Swift.Bool) -> () at I2C.swift:42:8
-   39  	@inline(__always)
-   40  	func waitForCondition(_ cond: () -> Bool) {
-   41  	  while true {
--> 42  	    if cond() { return }
-   43  	    nop()
-   44  	  }
-   45  	}
+frame #3: 0x200022ec Application`Application.waitForCondition(() -> Swift.Bool) -> () at I2C.swift:51:8
+   48  	@inline(__always)
+   49  	func waitForCondition(_ cond: () -> Bool) {
+   50  	  while true {
+-> 51  	    if cond() { return }
+   52  	    nop()
+   53  	  }
+   54  	}
 ```
 
 > Note: This time, when interrupting the program, you may end up stopping at a different place, since the board is continuously looping over some instructions. However, from the third frame 3 onwards, everything should look similar.
@@ -541,13 +563,13 @@ note: This address is not associated with a specific line of code. This may be d
   * frame #0: 0x20001b88 Application`generic specialization <Swift.UnsafeMutablePointer<Swift.UInt32>> of Swift.Optional.unsafelyUnwrapped.getter : τ_0_0 at <compiler-generated>:0
     frame #1: 0x200019e2 Application`generic specialization <RP2350.I2C0.IC_STATUS> of MMIO.Register.pointer.getter : Swift.UnsafeMutablePointer<τ_0_0.Raw.Storage> at Register.swift:180:43
     frame #2: 0x20000ae8 Application`generic specialization <RP2350.I2C0.IC_STATUS> of MMIO.Register.read() -> τ_0_0.Read at Register.swift:216:49
-    frame #3: 0x200031e0 Application`closure #1 () -> Swift.Bool in Application.MemoryI2CDevice.receiveBytesToMemory() -> () at MemoryI2CDevice.swift:60:28
-    frame #4: 0x200022ec Application`Application.waitForCondition(() -> Swift.Bool) -> () at I2C.swift:42:8
-    frame #5: 0x20003194 Application`Application.MemoryI2CDevice.receiveBytesToMemory() -> () at MemoryI2CDevice.swift:59:9
-    frame #6: 0x20000c18 Application`static Application.Application.main() -> () at Application.swift:108:12
+    frame #3: 0x200031e0 Application`closure #1 () -> Swift.Bool in Application.MemoryI2CDevice.receiveBytesToMemory() -> () at MemoryI2CDevice.swift:71:28
+    frame #4: 0x200022ec Application`Application.waitForCondition(() -> Swift.Bool) -> () at I2C.swift:51:8
+    frame #5: 0x20003194 Application`Application.MemoryI2CDevice.receiveBytesToMemory() -> () at MemoryI2CDevice.swift:70:9
+    frame #6: 0x20000c18 Application`static Application.Application.main() -> () at Application.swift:120:12
     frame #7: 0x20000d6c Application`static Application.Application.$main() -> () at <compiler-generated>:0
     frame #8: 0x20000d78 Application`Application_main at Application.swift:0
-    frame #9: 0x200053f6 Application`reset at Support.c:87:19
+    frame #9: 0x200053f6 Application`reset at Support.c:92:19
     frame #10: 0x000002f4
 (lldb) svd load /Users/cmd/Downloads/swift-embedded-examples/Tools/SVDs/rp235x.patched.svd
 Loaded SVD file: “rp235x.patched.svd”.
@@ -703,19 +725,19 @@ Set a breakpoint on `configBus` and re-run the app, to see if this write really 
 
 ```
 (lldb) break set --hardware --name MemoryI2CDevice.configBus
-Breakpoint 5: where = Application`MemoryI2CDevice.configBus() + 18 at MemoryI2CDevice.swift:44:14, address = 0x20003062
+Breakpoint 5: where = Application`MemoryI2CDevice.configBus() + 18 at MemoryI2CDevice.swift:56:14, address = 0x20003062
 [rp2350.cm0] external reset detected
 [rp2350.cm1] external reset detected
 Process 1 stopped
 * thread #1, stop reason = breakpoint 5.1
-    frame #0: 0x20003062 Application`Application.MemoryI2CDevice.configBus() -> () at MemoryI2CDevice.swift:43:14
-   40  	        // Configure I2C0 as CONTROLLER
-   41  	
-   42  	        // Config as peripheral
--> 43  	        i2c1.ic_con.write { w in
-   44  	            w.raw.master_mode = 0
-   45  	            w.raw.speed = 1
-   46  	            w.raw.ic_restart_en = 1
+    frame #0: 0x20003062 Application`Application.MemoryI2CDevice.configBus() -> () at MemoryI2CDevice.swift:55:14
+   52  	    // Configure I2C0 as CONTROLLER
+   53  	
+   54  	    // Config as peripheral
+-> 55  	    i2c1.ic_con.write { w in
+   56  	      w.raw.master_mode = 0
+   57  	      w.raw.speed = 1
+   58  	      w.raw.ic_restart_en = 1
 (lldb)
 ```
 
@@ -734,14 +756,14 @@ Step-over the register write and check if the new values were written:
 (lldb) next
 Process 1 stopped
 * thread #1, stop reason = step over
-    frame #0: 0x20003080 Application`Application.MemoryI2CDevice.configBus() -> () at MemoryI2CDevice.swift:52:9
-   48  	        }
-   49  	
-   50  	        // Set peripheral address
--> 51  	        i2c1.ic_sar.write { w in
-   52  	            w.storage = address
-   53  	        }
-   54  	    }
+    frame #0: 0x20003080 Application`Application.MemoryI2CDevice.configBus() -> () at MemoryI2CDevice.swift:63:9
+   60  	    }
+   61  	
+   62  	    // Set peripheral address
+-> 63  	    i2c1.ic_sar.write { w in
+   64  	      w.storage = address
+   65  	    }
+   66  	  }
 Target 0: (Application) stopped.
 (lldb) svd read i2c1.ic_con
 RP2350:
