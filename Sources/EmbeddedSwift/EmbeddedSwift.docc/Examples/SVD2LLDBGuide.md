@@ -569,7 +569,7 @@ note: This address is not associated with a specific line of code. This may be d
     frame #6: 0x20000c18 Application`static Application.Application.main() -> () at Application.swift:120:12
     frame #7: 0x20000d6c Application`static Application.Application.$main() -> () at <compiler-generated>:0
     frame #8: 0x20000d78 Application`Application_main at Application.swift:0
-    frame #9: 0x200053f6 Application`reset at Support.c:87:19
+    frame #9: 0x200053f6 Application`reset at Support.c:92:19
     frame #10: 0x000002f4
 (lldb) svd load /Users/cmd/Downloads/swift-embedded-examples/Tools/SVDs/rp235x.patched.svd
 Loaded SVD file: “rp235x.patched.svd”.
