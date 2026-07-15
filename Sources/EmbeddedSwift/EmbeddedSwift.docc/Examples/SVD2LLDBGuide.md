@@ -725,7 +725,7 @@ Set a breakpoint on `configBus` and re-run the app, to see if this write really 
 
 ```
 (lldb) break set --hardware --name MemoryI2CDevice.configBus
-Breakpoint 5: where = Application`MemoryI2CDevice.configBus() + 18 at MemoryI2CDevice.swift:55:14, address = 0x20003062
+Breakpoint 5: where = Application`MemoryI2CDevice.configBus() + 18 at MemoryI2CDevice.swift:56:14, address = 0x20003062
 [rp2350.cm0] external reset detected
 [rp2350.cm1] external reset detected
 Process 1 stopped
