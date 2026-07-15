@@ -27,7 +27,7 @@ void _swift_deallocate(void *ptr, size_t alignment, size_t size, swift_dealloc_f
 }
 ```
 
-### Provide console output
+## Provide console output
 
 `_swift_writeToStandardOutput(chars:count:)` is only needed if you use `print()` or `debugPrint()`. It receives a buffer of UTF-8 code points (not null-terminated) and should return the number of bytes written.
 
@@ -38,21 +38,21 @@ size_t _swift_writeToStandardOutput(const unsigned char *chars, size_t count) {
 }
 ```
 
-### Provide randomness
+## Provide randomness
 
 `_swift_generateRandom` feeds `SystemRandomNumberGenerator`, the default source used by `shuffle()` and friends. `_swift_generateRandomHashSeed` seeds the hashing used by `Set` and `Dictionary`; it doesn't need to be cryptographically secure, and can even return a fixed value if you want deterministic hashing. Both can typically forward to a hardware RNG or `arc4random_buf` where available.
 
-### Provide mutexes
+## Provide mutexes
 
 `_swift_mutex_init`, `_swift_mutex_destroy`, `_swift_mutex_lock`, `_swift_mutex_unlock`, and `_swift_mutex_tryLock` are only needed if you use `Synchronization.Mutex`. The caller allocates the storage for you — at least `EMBEDDED_SWIFT_MUTEX_NUM_WORDS` pointer-sized words (8 by default; override with `-Xcc -DEMBEDDED_SWIFT_MUTEX_NUM_WORDS=<n>` if your mutex representation needs more) — and hands it to `_swift_mutex_init` along with `.checked` and/or `.recursive` flags to opt into misuse diagnostics and reentrant locking.
 
 If your program is single-threaded and never preempted, you don't need a real lock at all: it's enough to track whether the mutex is currently held and trap on misuse, which is exactly what the standard library's single-threaded shim does. If you do have real concurrency, implement these on top of whatever your platform provides — a hardware spinlock, an RTOS mutex, or `pthread_mutex_t` on a POSIX-like target.
 
-### Proivde exclusivity checking
+## Provide exclusivity checking
 
 `_swift_getExclusivityTLS` and `_swift_setExclusivityTLS` are only needed when the compiler is built with `-enforce-exclusivity=checked`. They store and retrieve a single pointer per thread of execution. On a single-threaded platform this is just a global variable; on a multi-threaded platform it needs real thread-local storage.
 
-### Provide exiting
+## Provide exiting
 
 `_swift_exit(code:)` terminates the program and must not return. On a hosted platform this is a direct call to `exit()`; on baremetal it's usually an infinite loop or a reset.
 
