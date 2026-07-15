@@ -43,6 +43,7 @@ Boards with active community support include the Raspberry Pi Pico, various STM3
 ### SDK support
 
 - <doc:IntegratingWithPlatforms>
+- <doc:PortingToNewPlatforms>
 - <doc:Baremetal>
 <!-- - <doc:IntegrateWithESP> -->
 - <doc:IntegrateWithPico>
