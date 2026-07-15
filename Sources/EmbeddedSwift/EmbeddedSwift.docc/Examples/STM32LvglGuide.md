@@ -2,13 +2,14 @@
 
 @Metadata {
     @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/stm32-lvgl", purpose: download, label: "Open on GitHub")
+    @PageImage(purpose: card, source: "STM32LvglGuide-card", alt: "An LVGL user interface running on the STM32F746G-DISCO's LCD.")
 }
 
 Run a full graphical Swift firmware on the STM32F746G-DISCO board, driving an LVGL user interface on the onboard LCD with touch input.
 
 This example demonstrates a complete baremetal graphical application: it links an ELF binary using `lld` and a custom linker script instead of the Mach-O toolchain the other STM32 examples use, so it builds identically on macOS and Linux hosts. It uses the LLVM Embedded Toolchain for Arm, the LVGL graphics library for UI rendering, and configures the STM32F746G's DRAM, LCD, touch panel, GPIO pins, and interrupts entirely from Swift and C startup code, with no other SDK or library dependencies.
 
-<img src="https://github.com/user-attachments/assets/f29e0a62-2e40-4e02-85f5-573685084088" />
+![An LVGL user interface running on the STM32F746G-DISCO's LCD.](STM32LvglGuide-hero.gif)
 
 The same "business logic" code that drives the LVGL UI on the board also runs in a host OS "simulator" that renders the UI through SDL, so UI code can be developed and iterated on without hardware.
 

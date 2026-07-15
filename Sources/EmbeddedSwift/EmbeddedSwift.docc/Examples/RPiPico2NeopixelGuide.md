@@ -2,6 +2,7 @@
 
 @Metadata {
     @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-pico2-neopixel", purpose: download, label: "Open on GitHub")
+    @PageImage(purpose: card, source: "RPiPico2NeopixelGuide-card", alt: "A SparkFun Pro Micro RP2350 board with its RGB LED glowing red.")
 }
 
 Run a baremetal Swift program that drives a WS2812 NeoPixel RGB LED from an RP2350's PIO block, with no SDK or operating system.

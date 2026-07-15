@@ -2,6 +2,7 @@
 
 @Metadata {
     @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-5-blink", purpose: download, label: "Open on GitHub")
+    @PageImage(purpose: card, source: "RPi5BlinkGuide-card", alt: "A Raspberry Pi 5 board.")
 }
 
 Run a baremetal Swift MMIO program that blinks the Raspberry Pi 5's status LED, with no SDK or operating system.

@@ -2,6 +2,7 @@
 
 @Metadata {
     @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-picow-blink-sdk", purpose: download, label: "Open on GitHub")
+    @PageImage(purpose: card, source: "RPiPicoWBlinkGuide-card", alt: "A Raspberry Pi Pico W board.")
 }
 
 Run a Swift program on a Raspberry Pi Pico W or Pico 2 W that signals "SOS" in Morse code using the Pico SDK's Wi-Fi chip driver.

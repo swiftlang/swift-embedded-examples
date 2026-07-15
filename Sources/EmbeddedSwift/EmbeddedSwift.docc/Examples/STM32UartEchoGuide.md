@@ -2,6 +2,7 @@
 
 @Metadata {
     @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/stm32-uart-echo", purpose: download, label: "Open on GitHub")
+    @PageImage(purpose: card, source: "STM32UartEchoGuide-card", alt: "A terminal echoing UART input from the STM32F746G-DISCO.")
 }
 
 Run a baremetal Swift program that echoes UART1 input on the STM32F746G-DISCO board, with no vendor SDKs or external toolchains.

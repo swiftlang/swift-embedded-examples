@@ -2,6 +2,7 @@
 
 @Metadata {
     @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/esp32-led-blink-sdk", purpose: download, label: "Open on GitHub")
+    @PageImage(purpose: card, source: "ESP32Guide-card", alt: "An ESP32-C6-Bug board with its onboard LED lit.")
 }
 
 Run a Swift LED-blink program on a RISC-V ESP32 device using the ESP-IDF SDK.

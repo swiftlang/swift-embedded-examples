@@ -2,6 +2,7 @@
 
 @Metadata {
     @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/harmony", purpose: download, label: "Open on GitHub")
+    @PageImage(purpose: card, source: "HarmonyGuide-card", alt: "The assembled Harmony Bluetooth speaker and ferrofluid visualizer.")
 }
 
 Build and flash Harmony, a Raspberry Pi Pico W firmware in Swift that streams Bluetooth audio and drives a ferrofluid visualizer.

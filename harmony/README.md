@@ -7,7 +7,7 @@ Harmony is a Bluetooth speaker and Ferrofluidic music visualizer.
 
 See [Building Harmony, a Bluetooth speaker and ferrofluid visualizer](https://docs.swift.org/embedded/documentation/embedded/harmonyguide) for build and flash instructions.
 
-![Harmony device](./assets/hero.jpg)
+![Harmony device](../Sources/EmbeddedSwift/EmbeddedSwift.docc/Examples/Assets/HarmonyGuide-card.jpg)
 
 ## Table of Contents
 

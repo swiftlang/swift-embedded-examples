@@ -2,6 +2,7 @@
 
 @Metadata {
     @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/esp32-led-strip-sdk", purpose: download, label: "Open on GitHub")
+    @PageImage(purpose: card, source: "ESP32LedStripGuide-card", alt: "An ESP32-C6-DevKitC-1 board driving a lit WS2812 LED strip.")
 }
 
 Run a Swift program that animates a WS2812 LED strip on a RISC-V ESP32 device using the ESP-IDF SDK.

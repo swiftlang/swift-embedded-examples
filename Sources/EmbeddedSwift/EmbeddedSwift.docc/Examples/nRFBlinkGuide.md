@@ -2,6 +2,7 @@
 
 @Metadata {
     @CallToAction(url: "https://github.com/swiftlang/swift-embedded-examples/tree/main/nrfx-blink-sdk", purpose: download, label: "Open on GitHub")
+    @PageImage(purpose: card, source: "nRFBlinkGuide-card", alt: "An nRF52840-DK board with its onboard LED lit.")
 }
 
 Run a Swift LED-blink program on an Arm Cortex-M nRF board using the Zephyr RTOS SDK.
