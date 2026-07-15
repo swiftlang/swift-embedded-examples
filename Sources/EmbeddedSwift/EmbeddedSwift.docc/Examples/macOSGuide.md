@@ -6,8 +6,6 @@ Build a simple program for your host OS with Embedded Swift.
 
 While desktop operating systems like macOS and Linux are not the typical targets for Embedded Swift, you **absolutely can** build code for them using the Embedded Swift mode. This is useful for experimentation, trying out Embedded Swift, or to be able to iterate fast on an idea for some code that doesn't really need the physical device to work.
 
-> Note: Embedded Swift is experimental. Public releases of Swift don't support Embedded Swift yet. See <doc:InstallEmbeddedSwift> for details.
-
 The simplest program in Embedded Swift can just be a regular "Hello, World":
 
 ```swift
