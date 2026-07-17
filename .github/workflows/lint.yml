@@ -28,7 +28,7 @@ jobs:
 
   soundness:
     name: Soundness
-    uses: swiftlang/github-workflows/.github/workflows/soundness.yml@0.0.12
+    uses: swiftlang/github-workflows/.github/workflows/soundness.yml@0.0.13
     with:
       docs_check_targets: "EmbeddedSwift"
       api_breakage_check_enabled: false  # this repo doesn't vend any API
