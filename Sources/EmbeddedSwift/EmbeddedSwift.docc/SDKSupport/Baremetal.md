@@ -124,10 +124,9 @@ Both these code snippets are not fully functional, they are only demonstrating t
 
 Tip: If this handling is not done correctly, a typical symptom is that global variables "don't work", i.e. reading from them doesn't yield the right value, and writing to them doesn't persist. A good way to double check this is by using a debugger, dumping memory at runtime and checking if it matches the virtual memory layout of the ELF file.
 
-Also, projects are often created using linker script examples copied from a manufacturers website, sample code, etc.
-Whilst this may often work initially, be particularly careful that .got sections are included correctly, as shown above.
-Swift can produce position independent code (PIC), which may utilise a Global Offset Table (GOT). Ensuring, if such sections are generated, they are included in firmware,
-placed correctly and symbols defined by the linker take account of them, will help avoid subtle, hard to reproduce crashes in some cases.
+Also, projects are often created using linker script examples copied from a manufacturers website, sample code, etc. Whilst this may often work initially, be particularly careful that .got sections are included correctly, as shown above.
+Prior to 6.5, Swift can produce position independent code (PIC) even on embedded bare metal, which may utilise a Global Offset Table (GOT).
+Ensuring, if such sections are generated, they are included in firmware, placed correctly and symbols defined by the linker take account of them, will help avoid subtle, hard to reproduce crashes in some cases.
 
 ## Vector table and interrupts
 
