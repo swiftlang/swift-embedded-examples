@@ -124,6 +124,10 @@ Both these code snippets are not fully functional, they are only demonstrating t
 
 Tip: If this handling is not done correctly, a typical symptom is that global variables "don't work", that is, reading from them doesn't yield the right value, and writing to them doesn't persist. A good way to double check this is by using a debugger, dumping memory at runtime and checking if it matches the virtual memory layout of the ELF file.
 
+Also, projects are often created using linker script examples copied from a manufacturers website, sample code, etc. Whilst this may often work initially, be particularly careful that .got sections are included correctly, as shown above.
+Prior to 6.5, Swift can produce position independent code (PIC) even on embedded bare metal, which may utilise a Global Offset Table (GOT).
+Ensuring, if such sections are generated, they are included in firmware, placed correctly and symbols defined by the linker take account of them, will help avoid subtle, hard to reproduce crashes in some cases.
+
 ## Vector table and interrupts
 
 The vector table is a critical component that maps hardware interrupts and exceptions to specific handler functions in your code. It's typically placed at the beginning of flash memory and contains function pointers that the processor uses when responding to various events.
