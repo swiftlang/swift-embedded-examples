@@ -37,8 +37,7 @@
       "-llvgl", "-llvgl_demos",
       "-static",
       "-e", "_start_elf",
-      "--orphan-handling=error",
-      "-Map", ".build/Application.map"
+      "--orphan-handling=error"
     ]
   }
 }
