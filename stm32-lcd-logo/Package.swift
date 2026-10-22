@@ -2,6 +2,10 @@
 
 import PackageDescription
 
+// The linker map is written by the Application's final link only, to a
+// location which is the same for every build system.
+let linkerMap = Context.packageDirectory + "/.build/Application.mangled.map"
+
 let package = Package(
   name: "stm32-lcd-logo",
   products: [
@@ -17,6 +21,9 @@ let package = Package(
       swiftSettings: [
         .enableExperimentalFeature("InlineArrayTypeSugar"),
         .enableExperimentalFeature("SymbolLinkageMarkers"),
+      ],
+      linkerSettings: [
+        .unsafeFlags(["-Xlinker", "-map", "-Xlinker", linkerMap])
       ]),
     // SVD2Swift \
     // --input Sources/STM32F7X6/stm32f7x6.patched.svd \

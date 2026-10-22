@@ -2,6 +2,10 @@
 
 import PackageDescription
 
+// The linker map is written by the Application's final link only, to a
+// location which is the same for every build system.
+let linkerMap = Context.packageDirectory + "/.build/Application.mangled.map"
+
 let package = Package(
   name: "rpi-pico2-neopixel",
   products: [
@@ -13,7 +17,10 @@ let package = Package(
   targets: [
     .executableTarget(
       name: "Application",
-      dependencies: ["RP2350", "Support"]),
+      dependencies: ["RP2350", "Support"],
+      linkerSettings: [
+        .unsafeFlags(["-Xlinker", "-map", "-Xlinker", linkerMap])
+      ]),
     .target(
       name: "RP2350",
       dependencies: [
