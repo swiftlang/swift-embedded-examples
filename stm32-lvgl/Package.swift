@@ -25,6 +25,10 @@ let package = Package(
         "Registers",
         "Support",
         "CLVGL",
+      ],
+      linkerSettings: [
+        // Only the final link of the Application writes the map, so it cannot collide with any other link.
+        .unsafeFlags(["-Xlinker", "-Map", "-Xlinker", Context.packageDirectory + "/.build/Application.map"])
       ]),
 
     // SVD2Swift \

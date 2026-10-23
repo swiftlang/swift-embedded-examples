@@ -20,6 +20,17 @@ NM               := nm
 LLVM_TOOLCHAIN   := $(PWD)/llvm-toolchain
 BUILD_SYSTEM     := native
 
+# The swiftbuild backend runs compile tasks from outside the package directory, so the relative
+# include path in toolset.json must be absolute. Generate a patched copy for that backend; the
+# native build keeps using toolset.json as is.
+ifeq ($(BUILD_SYSTEM),swiftbuild)
+ifeq ($(origin TOOLSET),file)
+TOOLSET_SRC      := $(TOOLSET)
+TOOLSET          := $(PWD)/.build/toolset.swiftbuild.json
+$(shell mkdir -p $(PWD)/.build && sed -e 's|"-Illvm-toolchain|"-I$(PWD)/llvm-toolchain|' $(TOOLSET_SRC) > $(TOOLSET))
+endif
+endif
+
 # Flags
 ARCH             := armv7em
 TARGET           := $(ARCH)-none-none-eabi
