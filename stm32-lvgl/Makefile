@@ -12,12 +12,12 @@
 # Paths
 REPOROOT         := $(shell git rev-parse --show-toplevel)
 TOOLSROOT        := $(REPOROOT)/Tools
-TOOLSET          := $(PWD)/toolset.json
+TOOLSET          := $(CURDIR)/toolset.json
 ELF2HEX          := $(TOOLSROOT)/elf2hex.py
 SWIFT_BUILD      := swift build
 BUILD_SYSTEM     := native
 NM               := nm
-LLVM_TOOLCHAIN   := $(PWD)/llvm-toolchain
+LLVM_TOOLCHAIN   := $(CURDIR)/llvm-toolchain
 BUILD_SYSTEM     := native
 
 # The swiftbuild backend runs compile tasks from outside the package directory, so the relative
@@ -26,8 +26,8 @@ BUILD_SYSTEM     := native
 ifeq ($(BUILD_SYSTEM),swiftbuild)
 ifeq ($(origin TOOLSET),file)
 TOOLSET_SRC      := $(TOOLSET)
-TOOLSET          := $(PWD)/.build/toolset.swiftbuild.json
-$(shell mkdir -p $(PWD)/.build && sed -e 's|"-Illvm-toolchain|"-I$(PWD)/llvm-toolchain|' $(TOOLSET_SRC) > $(TOOLSET))
+TOOLSET          := $(CURDIR)/.build/toolset.swiftbuild.json
+$(shell mkdir -p $(CURDIR)/.build && sed -e 's|"-Illvm-toolchain|"-I$(CURDIR)/llvm-toolchain|' $(TOOLSET_SRC) > $(TOOLSET))
 endif
 endif
 
@@ -46,8 +46,8 @@ BUILDROOT        := $(shell $(SWIFT_BUILD) $(SWIFT_BUILD_ARGS) --show-bin-path)
 build:
 	@echo "checking dependencies..."
 
-	if [[ ! -d $(PWD)/lvgl ]]; then echo "\n  *** LVGL checkout not found, please run ./fetch-dependencies.sh\n" ; exit 1 ; fi
-	if [[ ! -d $(PWD)/llvm-toolchain ]]; then echo "\n  *** LLVM toolchain checkout not found, please run ./fetch-dependencies.sh\n" ; exit 1 ; fi
+	if [[ ! -d $(CURDIR)/lvgl ]]; then echo "\n  *** LVGL checkout not found, please run ./fetch-dependencies.sh\n" ; exit 1 ; fi
+	if [[ ! -d $(CURDIR)/llvm-toolchain ]]; then echo "\n  *** LLVM toolchain checkout not found, please run ./fetch-dependencies.sh\n" ; exit 1 ; fi
 
 	mkdir -p .build
 
@@ -100,7 +100,7 @@ simulator:
 		--verbose
 
 	@echo "running..."
-	$(PWD)/.build/release/HostSDLApp
+	$(CURDIR)/.build/release/HostSDLApp
 
 .PHONY: clean
 clean:
