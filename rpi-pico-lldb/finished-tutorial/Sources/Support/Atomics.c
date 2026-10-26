@@ -63,6 +63,28 @@ static inline int is_release(int mo) { return mo == 3 || mo == 4 || mo == 5; }
 
 // Atomic fetch and add, fetch and sub, load, and store for 32-bit values.
 
+// Atomic compare and exchange for 32-bit values (used by swift_once).
+// On success *p becomes `desired`; on failure *expected receives the value
+// that was found.
+bool __atomic_compare_exchange_4(volatile uint32_t *p, uint32_t *expected,
+                                 uint32_t desired, int success_memorder,
+                                 int failure_memorder) {
+    if (is_release(success_memorder)) dmb();
+    uint32_t irq = save_and_disable_irqs();
+    spinlock_acquire();
+    uint32_t current = *p;
+    bool exchanged = (current == *expected);
+    if (exchanged) {
+        *p = desired;
+    } else {
+        *expected = current;
+    }
+    spinlock_release();
+    restore_irqs(irq);
+    if (is_acquire(exchanged ? success_memorder : failure_memorder)) dmb();
+    return exchanged;
+}
+
 uint32_t __atomic_fetch_add_4(volatile uint32_t *p, uint32_t v, int memorder) {
     if (is_release(memorder)) dmb();
     uint32_t irq = save_and_disable_irqs();
