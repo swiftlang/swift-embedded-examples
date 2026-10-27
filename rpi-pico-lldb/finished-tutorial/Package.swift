@@ -6,6 +6,15 @@ import PackageDescription
 // location which is the same for every build system.
 let linkerMap = Context.packageDirectory + "/.build/Application.mangled.map"
 
+// SwiftPM's Debug builds enable testability, which makes the linker driver
+// pass -rdynamic and Apple ld treat every global as a dead-strip root. Nothing
+// in a bare-metal image looks symbols up, so unexport them and let
+// -dead_strip remove what the program does not reference.
+let linkerFlags = [
+  "-Xlinker", "-map", "-Xlinker", linkerMap,
+  "-Xlinker", "-unexported_symbol", "-Xlinker", "*",
+]
+
 let package = Package(
   name: "rpi-pico-lldb",
   products: [
@@ -28,7 +37,7 @@ let package = Package(
         "Support",
       ],
       linkerSettings: [
-        .unsafeFlags(["-Xlinker", "-map", "-Xlinker", linkerMap])
+        .unsafeFlags(linkerFlags)
       ]),
     .target(
       name: "RP2350",
