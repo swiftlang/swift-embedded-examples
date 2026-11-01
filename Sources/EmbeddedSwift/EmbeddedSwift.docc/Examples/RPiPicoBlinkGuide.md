@@ -63,3 +63,5 @@ $ cp .build/armv6m-apple-none-macho/release/Application.uf2 /Volumes/RP2040
 ```
 
 The onboard LED blinks the message in Morse code repeatedly.
+
+> Note: This example runs from RAM, not flash. The toolset in `Tools/Toolsets/pico.json` links every segment into SRAM at `0x20000000` and above, and the generated UF2 file targets those addresses, so the bootrom loads the program into RAM and runs it from there. Nothing is written to flash, so the program is lost when the board loses power. The next time it powers up, the board runs whatever firmware is already in flash, or enters USB Mass Storage mode if there is none, and you need to copy the UF2 file again. To build a program that is stored in flash, use the Pico SDK as shown in <doc:RPiPicoGuide>.

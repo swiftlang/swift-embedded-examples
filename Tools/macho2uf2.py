@@ -134,6 +134,14 @@ def main():
         f" bytes, payload size {total_size} (0x{total_size:0x}) bytes"
     )
 
+    # RP2040 and RP2350 map SRAM at 0x20000000. An image loaded there runs from
+    # RAM and is not written to flash, so it is lost when the board loses power.
+    if 0x20000000 <= args.base_address < 0x30000000:
+        print(
+            f"Note: the image targets SRAM (base address 0x{args.base_address:08x})."
+            " It runs from RAM and is lost when the board loses power."
+        )
+
 
 if __name__ == "__main__":
     main()
