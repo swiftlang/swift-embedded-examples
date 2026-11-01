@@ -17,6 +17,11 @@ MACHO2ELF        := $(TOOLSROOT)/macho2elf.py
 SWIFT_BUILD      := swift build
 BUILD_SYSTEM     := native
 
+# Debug builds enable testability, which makes the linker driver pass -rdynamic and keeps every
+# global symbol alive in the image (several times larger with --build-system swiftbuild).
+# Turn it off when this toolchain's `swift build` can; older toolchains just build as before.
+TESTABILITY_FLAG := $(shell $(SWIFT_BUILD) --help 2>/dev/null | grep -q -e '--disable-testability' && echo --disable-testability)
+
 # Board-specific configuration
 ifndef BOARD
   $(error BOARD is required. Use: make BOARD=RP2040 or make BOARD=RP2350)
@@ -43,6 +48,7 @@ TARGET           := $(ARCH)-apple-none-macho
 SWIFT_BUILD_ARGS := \
 	--build-system $(BUILD_SYSTEM) \
 	--configuration debug \
+	$(TESTABILITY_FLAG) \
 	--triple $(TARGET) \
 	--toolset $(TOOLSET) \
 	--traits $(TRAIT)
