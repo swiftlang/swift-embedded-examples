@@ -20,6 +20,7 @@ struct LedStrip {
       max_leds: UInt32(maxLeds),
       led_model: LED_MODEL_WS2812,
       color_component_format: led_strip_color_format_rgb(),
+      timings: .init(),
       flags: .init(invert_out: 0)
     )
     var spiConfig = led_strip_spi_config_t(

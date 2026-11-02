@@ -53,11 +53,10 @@ build:
 	@echo "building..."
 	$(SWIFT_BUILD) \
 		$(SWIFT_BUILD_ARGS) \
-		-Xlinker -map -Xlinker $(BUILDROOT)/Application.mangled.map \
 		--verbose
 
 	@echo "demangling linker map..."
-	cat $(BUILDROOT)/Application.mangled.map \
+	cat $(CURDIR)/.build/Application.mangled.map \
 		| c++filt | swift demangle > $(BUILDROOT)/Application.map
 
 	@echo "disassembling..."

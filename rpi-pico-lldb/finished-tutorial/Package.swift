@@ -2,6 +2,10 @@
 
 import PackageDescription
 
+// The linker map is written by the Application's final link only, to a
+// location which is the same for every build system.
+let linkerMap = Context.packageDirectory + "/.build/Application.mangled.map"
+
 let package = Package(
   name: "rpi-pico-lldb",
   products: [
@@ -22,6 +26,9 @@ let package = Package(
         .target(name: "RP2350", condition: .when(traits: ["RP2350"])),
         .product(name: "MMIO", package: "swift-mmio"),
         "Support",
+      ],
+      linkerSettings: [
+        .unsafeFlags(["-Xlinker", "-map", "-Xlinker", linkerMap])
       ]),
     .target(
       name: "RP2350",
