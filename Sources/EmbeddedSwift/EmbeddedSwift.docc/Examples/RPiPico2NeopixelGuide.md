@@ -67,4 +67,12 @@ $ cp .build/armv7em-apple-none-macho/release/Application.uf2 /Volumes/RP2350
 
 The RGB LED animates through the color wheel.
 
-> Note: This example runs from RAM, not flash. The toolset in `Tools/Toolsets/pico2.json` links every segment into SRAM at `0x20000000` and above, and the generated UF2 file targets those addresses, so the bootrom loads the program into RAM and runs it from there. Nothing is written to flash, so the program is lost when the board loses power. The next time it powers up, the board runs whatever firmware is already in flash, or enters USB Mass Storage mode if there is none, and you need to copy the UF2 file again. To build a program that is stored in flash, use the Pico SDK as shown in the [rpi-pico-blink-sdk](https://github.com/swiftlang/swift-embedded-examples/tree/main/rpi-pico-blink-sdk) example, which supports the Pico 2.
+`Application.uf2` loads the program into RAM and runs it from there. Nothing is written to flash, so the program is lost when the board loses power, and the next time the board powers up it runs whatever firmware is already in flash, or enters USB Mass Storage mode if there is none.
+
+To keep the program on the board across power cycles, copy `Application-flash.uf2` instead:
+
+```shell
+$ cp .build/armv7em-apple-none-macho/release/Application-flash.uf2 /Volumes/RP2350
+```
+
+This file stores the program in flash, together with an image definition block that tells the bootrom to copy it into RAM on every boot. The program still runs from RAM, exactly as it does when loaded with `Application.uf2`.
