@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: Set up Git
         run: |
@@ -38,10 +40,21 @@ jobs:
 
           git fetch
           branch=ci/update-swift-version
-          if git ls-remote --exit-code --heads origin "$branch"; then
-            git checkout -b "$branch" --track "origin/$branch"
+          pr=$(gh pr list --head "$branch" --state open --json number --jq '.[0].number')
+          remote=$(git rev-parse -q --verify "origin/$branch" || true)
+
+          # Rebase an open PR onto main to keep commits pushed to it.
+          # If the rebase conflicts, update the branch without a rebase.
+          # Otherwise start again from main.
+          rebase_failed=
+          if [[ -n "$pr" && -n "$remote" ]]; then
+            git checkout -B "$branch" "origin/$branch"
+            if ! git rebase origin/main; then
+              git rebase --abort
+              rebase_failed=1
+            fi
           else
-            git checkout -b "$branch"
+            git checkout -B "$branch" origin/main
           fi
 
           uname=$(uname -m)
@@ -67,10 +80,23 @@ jobs:
           if [[ -n "$(git status --porcelain "$swift_version")" ]]; then
             git add "$swift_version"
             git commit -m "$title" -m "$body"
-            git push -u origin "$branch"
           fi
 
-          pr=$(gh pr list --head "$branch" --state open --json number --jq '.[0].number')
+          if git diff --quiet origin/main HEAD; then
+            echo "main already uses $latest"
+            exit 0
+          fi
+
+          # The lease stops the push if the branch changed during this run.
+          if [[ "$(git rev-parse HEAD)" != "$remote" ]]; then
+            git push --force-with-lease="$branch:$remote" origin "$branch"
+            if [[ -n "$rebase_failed" ]]; then
+              gh pr comment "$pr" --body "> [!WARNING]
+          > Could not rebase \`$branch\` onto \`main\` because of a conflict. \
+          Updated \`.swift-version\` without a rebase. Rebase this branch manually."
+            fi
+          fi
+
           if [[ -z "$pr" ]]; then
             gh pr create \
               --title "$title" \
@@ -79,7 +105,7 @@ jobs:
               --base "main" \
               --draft
           else
-            gh pr edit \
+            gh pr edit "$pr" \
               --title "$title" \
               --body "$body"
           fi
