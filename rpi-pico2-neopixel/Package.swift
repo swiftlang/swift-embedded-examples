@@ -12,12 +12,21 @@ let package = Package(
     .executable(name: "Application", targets: ["Application"])
   ],
   dependencies: [
-    .package(url: "https://github.com/apple/swift-mmio.git", branch: "main")
+    .package(name: "swift-embedded-examples", path: ".."),
+    .package(url: "https://github.com/apple/swift-mmio.git", branch: "main"),
   ],
   targets: [
     .executableTarget(
       name: "Application",
-      dependencies: ["RP2350", "Support"],
+      dependencies: [
+        "RP2350",
+        "Support",
+        .product(
+          name: "EmbeddedPlatformBareMetal", package: "swift-embedded-examples"),
+        .product(
+          name: "EmbeddedPlatformAllocator",
+          package: "swift-embedded-examples"),
+      ],
       linkerSettings: [
         .unsafeFlags(["-Xlinker", "-map", "-Xlinker", linkerMap])
       ]),

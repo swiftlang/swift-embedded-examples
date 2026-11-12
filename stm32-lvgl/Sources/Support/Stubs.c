@@ -9,19 +9,23 @@
 //
 //===----------------------------------------------------------------------===//
 
+#include <stdlib.h>
 #include <string.h>
-#include <stdint.h>
 
-// This is NOT real entropy. This implementation is a stub that generates
-// predictable, sequential values for testing purposes only. Do not use this
-// in production code where actual cryptographic randomness is required.
-int getentropy(char *buffer, size_t length) {
-    for (size_t i = 0; i < length; i++) {
-        buffer[i] = i % 256;
-    }
-    return 0;
+#include "EmbeddedPlatform.h"
+
+// This example links a C library (picolibc), so Swift allocates from its heap
+// with these definitions. The example does not use EmbeddedPlatformAllocator.
+
+void *_swift_allocate(__swift_size_t alignment, __swift_size_t size,
+                      swift_alloc_flags_t flags) {
+  void *pointer = NULL;
+  if (posix_memalign(&pointer, alignment, size) != 0) return NULL;
+  if (flags & SWIFT_ALLOC_ZERO_MEMORY) memset(pointer, 0, size);
+  return pointer;
 }
 
-void _exit(int status) {
-    __builtin_trap();
+void _swift_deallocate(void *pointer, __swift_size_t alignment,
+                       __swift_size_t size, swift_dealloc_flags_t flags) {
+  free(pointer);
 }
