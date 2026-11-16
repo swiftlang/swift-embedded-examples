@@ -16,6 +16,7 @@ Note that there are no behavior changes in Embedded Swift compared to full Swift
 - **Not available**: Printing and stringification of arbitrary types (which is achieved through reflection in desktop Swift).
 - **Not available**: Using non-final generic class methods. See <doc:NonFinalGenericMethods> for details on this.
 - **Not available**: Weak and unowned references are not allowed (unsafe unowned references *are* available).
+- **Not available**: `MainActor` is unavailable on platforms with `-none` triples (per `#if os(none)` source conditional).
 
 ## Compilation facilities that are not available
 
