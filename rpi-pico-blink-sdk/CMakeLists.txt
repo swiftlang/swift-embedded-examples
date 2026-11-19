@@ -39,6 +39,13 @@ target_link_libraries(swift-blinky
 set_target_properties(pico_standard_link PROPERTIES INTERFACE_COMPILE_OPTIONS "")
 target_compile_options(pico_standard_link INTERFACE "$<$<COMPILE_LANGUAGE:C>:SHELL: -ffunction-sections -fdata-sections>")
 
+# Same treatment for the RP2350-only VFP float library, which adds -fno-math-errno
+# unguarded. The target does not exist on RP2040, hence the if(TARGET) check.
+if(TARGET pico_float_pico_vfp)
+    set_target_properties(pico_float_pico_vfp PROPERTIES INTERFACE_COMPILE_OPTIONS "")
+    target_compile_options(pico_float_pico_vfp INTERFACE "$<$<COMPILE_LANGUAGE:C>:SHELL: -fno-math-errno>")
+endif()
+
 # Gather C compile definitions from all dependencies
 set_property(GLOBAL PROPERTY visited_targets "")
 set_property(GLOBAL PROPERTY compilerdefs_list "")
