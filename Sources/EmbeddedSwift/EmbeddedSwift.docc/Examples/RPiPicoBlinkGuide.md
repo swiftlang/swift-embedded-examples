@@ -63,3 +63,13 @@ $ cp .build/armv6m-apple-none-macho/release/Application.uf2 /Volumes/RP2040
 ```
 
 The onboard LED blinks the message in Morse code repeatedly.
+
+`Application.uf2` loads the program into RAM and runs it from there. Nothing is written to flash, so the program is lost when the board loses power, and the next time the board powers up it runs whatever firmware is already in flash, or enters USB Mass Storage mode if there is none.
+
+To keep the program on the board across power cycles, copy `Application-flash.uf2` instead:
+
+```shell
+$ cp .build/armv6m-apple-none-macho/release/Application-flash.uf2 /Volumes/RP2040
+```
+
+This file stores the program in flash, together with a small second stage bootloader that copies it into RAM on every boot. The program still runs from RAM, exactly as it does when loaded with `Application.uf2`.

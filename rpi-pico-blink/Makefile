@@ -53,6 +53,15 @@ build:
 		--base-address 0x20000000 \
 		--segments '__TEXT,__DATA,__VECTORS,__RESET'
 
+	@echo "extracting flash binary..."
+	$(MACHO2UF2) \
+		--pico-family "$(PICO_FAMILY)" \
+		"$(BUILDROOT)/Application" \
+		"$(BUILDROOT)/Application-flash.uf2" \
+		--base-address 0x20000000 \
+		--segments '__TEXT,__DATA,__VECTORS,__RESET' \
+		--flash
+
 
 .PHONY: clean
 clean:

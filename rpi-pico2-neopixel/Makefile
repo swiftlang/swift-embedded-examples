@@ -52,6 +52,15 @@ build:
 		--base-address 0x20000000 \
 		--segments '__TEXT,__DATA,__VECTORS,__RESET'
 
+	@echo "extracting flash binary..."
+	$(MACHO2UF2) \
+		$(BUILDROOT)/Application \
+		$(BUILDROOT)/Application-flash.uf2 \
+		--pico-family rp2350 \
+		--base-address 0x20000000 \
+		--segments '__TEXT,__DATA,__VECTORS,__RESET' \
+		--flash
+
 .PHONY: clean
 clean:
 	@echo "cleaning..."
