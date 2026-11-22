@@ -496,7 +496,7 @@ enum GPIOPinID: Int {
 ///
 /// > Note: This implementation uses a dictionary-based lookup which requires:
 /// > - Memory allocations for the dictionary storage
-/// > - Runtime dependencies (for example, on getentropy for hash randomization)
+/// > - A hash seed from the platform layer (`_swift_generateRandomHashSeed`)
 /// > - Additional overhead for hash table operations
 /// >
 /// > To avoid these dependencies, you can rewrite this code to use a

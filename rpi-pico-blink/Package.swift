@@ -11,10 +11,20 @@ let package = Package(
   products: [
     .executable(name: "Application", targets: ["Application"])
   ],
+  dependencies: [
+    .package(name: "swift-embedded-examples", path: "..")
+  ],
   targets: [
     .executableTarget(
       name: "Application",
-      dependencies: ["RP2040"],
+      dependencies: [
+        "RP2040",
+        .product(
+          name: "EmbeddedPlatformBareMetal", package: "swift-embedded-examples"),
+        .product(
+          name: "EmbeddedPlatformAllocator",
+          package: "swift-embedded-examples"),
+      ],
       linkerSettings: [
         .unsafeFlags(["-Xlinker", "-map", "-Xlinker", linkerMap])
       ]),

@@ -11,6 +11,7 @@ let package = Package(
     .executable(name: "Application", targets: ["Application"])
   ],
   dependencies: [
+    .package(name: "swift-embedded-examples", path: ".."),
     .package(url: "https://github.com/apple/swift-mmio", branch: "main"),
     .package(url: "https://github.com/ctreffs/SwiftSDL2.git", from: "1.4.0"),
   ],
@@ -44,7 +45,12 @@ let package = Package(
         .product(name: "MMIO", package: "swift-mmio")
       ]),
 
-    .target(name: "Support"),
+    .target(
+      name: "Support",
+      dependencies: [
+        .product(
+          name: "EmbeddedPlatformBareMetal", package: "swift-embedded-examples")
+      ]),
 
     .target(name: "CLVGL"),
 

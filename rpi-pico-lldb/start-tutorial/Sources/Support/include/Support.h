@@ -19,10 +19,6 @@ static inline __attribute((always_inline)) void nop() {
     asm volatile("nop");
 }
 
-void free(void *ptr);
-
-int posix_memalign(void **memptr, size_t alignment, size_t size);
-
 void *memmove(void *dst, const void *src, size_t n);
 
 #ifdef RP2040

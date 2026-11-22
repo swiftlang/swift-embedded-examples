@@ -16,7 +16,8 @@ let package = Package(
     "RP2350",
   ],
   dependencies: [
-    .package(url: "https://github.com/apple/swift-mmio.git", branch: "main")
+    .package(name: "swift-embedded-examples", path: "../.."),
+    .package(url: "https://github.com/apple/swift-mmio.git", branch: "main"),
   ],
   targets: [
     .executableTarget(
@@ -26,6 +27,11 @@ let package = Package(
         .target(name: "RP2350", condition: .when(traits: ["RP2350"])),
         .product(name: "MMIO", package: "swift-mmio"),
         "Support",
+        .product(
+          name: "EmbeddedPlatformBareMetal", package: "swift-embedded-examples"),
+        .product(
+          name: "EmbeddedPlatformAllocator",
+          package: "swift-embedded-examples"),
       ],
       linkerSettings: [
         .unsafeFlags(["-Xlinker", "-map", "-Xlinker", linkerMap])
